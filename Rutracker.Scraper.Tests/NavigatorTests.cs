@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 
 namespace Rutracker.Scraper.Tests
@@ -15,12 +16,12 @@ namespace Rutracker.Scraper.Tests
             var httpProvider = new Mock<HttpProvider>();
             var urlBuilder = new Mock<UrlBuilder>();
             var navigator = new Navigator(httpProvider.Object, urlBuilder.Object);
-            httpProvider.Setup(h => h.GetPage(Url)).Returns(Page);
+            httpProvider.Setup(h => h.GetPageAsync(Url)).Returns(Task.FromResult(Page));
             urlBuilder.Setup(u => u.GetForumPageUrl(Id)).Returns(Url);
 
-            var actual = navigator.GetForumPage(Id);
+            var actual = navigator.GetForumPageAsync(Id).Result;
 
-            httpProvider.Verify(h => h.GetPage(Url), Times.Once());
+            httpProvider.Verify(h => h.GetPageAsync(Url), Times.Once());
             urlBuilder.Verify(u => u.GetForumPageUrl(Id), Times.Once());
             Assert.AreEqual(Page, actual);
         }
@@ -30,12 +31,12 @@ namespace Rutracker.Scraper.Tests
             var httpProvider = new Mock<HttpProvider>();
             var urlBuilder = new Mock<UrlBuilder>();
             var navigator = new Navigator(httpProvider.Object, urlBuilder.Object);
-            httpProvider.Setup(h => h.GetPage(Url)).Returns(Page);
+            httpProvider.Setup(h => h.GetPageAsync(Url)).Returns(Task.FromResult(Page));
             urlBuilder.Setup(u => u.GetTopicPageUrl(Id)).Returns(Url);
 
-            var actual = navigator.GetTopicPage(Id);
+            var actual = navigator.GetTopicPageAsync(Id).Result;
 
-            httpProvider.Verify(h => h.GetPage(Url), Times.Once());
+            httpProvider.Verify(h => h.GetPageAsync(Url), Times.Once());
             urlBuilder.Verify(u => u.GetTopicPageUrl(Id), Times.Once());
             Assert.AreEqual(Page, actual);
         }

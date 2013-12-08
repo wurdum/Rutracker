@@ -16,7 +16,7 @@ namespace Rutracker.Scraper
         public bool IsAuthorized { get; private set; }
         public CookieContainer Cookies { get; private set; }
 
-        public virtual async Task<HttpProvider> Authorize(string loginUrl, string login, string pass, bool throwOnFail = false) {
+        public virtual async Task<HttpProvider> AuthorizeAsync(string loginUrl, string login, string pass, bool throwOnFail = false) {
             var credentials = string.Format("login_username={0}&login_password={1}&login=%C2%F5%EE%E4", login, pass);
             var postBody = Encoding.UTF8.GetBytes(credentials);
             
@@ -28,16 +28,10 @@ namespace Rutracker.Scraper
                 await writer.WriteAsync(postBody, 0, postBody.Length);
 
             var webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
-            var stream = webResponse.GetResponseStream();
-            var encoding = string.IsNullOrWhiteSpace(webResponse.CharacterSet) 
-                ? Encoding.UTF8
-                : Encoding.GetEncoding(webResponse.CharacterSet);
-
-            string content;
-            using (var reader = new StreamReader(stream, encoding))
-                content = await reader.ReadToEndAsync();
-
-            Console.WriteLine(content);
+            if (webResponse.StatusCode == HttpStatusCode.OK) {
+                var content = await GetResponseBodyAsync(webResponse);
+                Console.WriteLine(content);
+            }
 
             IsAuthorized = !webRequest.RequestUri.Equals(webResponse.ResponseUri);
             if (!IsAuthorized && throwOnFail)
@@ -46,12 +40,34 @@ namespace Rutracker.Scraper
             return this;
         }
 
-        public virtual string GetPage(string url) {
-            throw new NotImplementedException();
+        public virtual async Task<string> GetPageAsync(string url) {
+            var request = CreateRequest(url);
+            var response = (HttpWebResponse)await request.GetResponseAsync();
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new WebException("Request to '" + request.RequestUri + "' failed, statur: " + response.StatusCode);
+
+            var content = await GetResponseBodyAsync(response);
+            return content;
+        }
+
+        private static async Task<string> GetResponseBodyAsync(HttpWebResponse webResponse) {
+            var stream = webResponse.GetResponseStream();
+            if (stream == null)
+                throw new NullReferenceException("Response stream from '" + webResponse.ResponseUri + "' is null");
+
+            var encoding = string.IsNullOrWhiteSpace(webResponse.CharacterSet) 
+                ? Encoding.UTF8 
+                : Encoding.GetEncoding(webResponse.CharacterSet);
+
+            string content;
+            using (var reader = new StreamReader(stream, encoding))
+                content = await reader.ReadToEndAsync();
+
+            return content;
         }
 
         private HttpWebRequest CreateRequest(string url, bool isLogin = false) {
-            var webRequest = WebRequest.CreateHttp(url);
+            var webRequest = (HttpWebRequest)WebRequest.Create(url);
             webRequest.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             webRequest.Headers[HttpRequestHeader.AcceptEncoding] = "gzip,deflate,sdch";
             webRequest.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,uk;q=0.2";

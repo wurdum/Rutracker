@@ -2,7 +2,7 @@
 
 namespace Rutracker.Scraper.Tests
 {
-    [TestFixture]
+    [TestFixture(Category = "slow")]
     public class HttpProviderTests
     {
         private const string Login = "###";
@@ -10,10 +10,10 @@ namespace Rutracker.Scraper.Tests
         private const string LoginUrl = "http://login.rutracker.org/forum/login.php";
 
         //[Test]
-        public void AuthorizationTest() {
+        public async void AuthorizationTest() {
             var httpProvider = new HttpProvider();
 
-            var provider = httpProvider.Authorize(LoginUrl, Login, Pass).Result;
+            var provider = await httpProvider.AuthorizeAsync(LoginUrl, Login, Pass);
 
             Assert.True(provider.IsAuthorized);
         }

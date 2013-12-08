@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Rutracker.Scraper
 {
     public class Navigator {
@@ -9,14 +11,16 @@ namespace Rutracker.Scraper
             _urlBuilder = urlBuilder;
         }
 
-        public string GetForumPage(int id) {
+        public async Task<string> GetForumPageAsync(int id) {
             var url = _urlBuilder.GetForumPageUrl(id);
-            return _httpProvider.GetPage(url);
+            var page = await _httpProvider.GetPageAsync(url);
+            return page;
         }
 
-        public string GetTopicPage(int id) {
+        public async Task<string> GetTopicPageAsync(int id) {
             var url = _urlBuilder.GetTopicPageUrl(id);
-            return _httpProvider.GetPage(url);
+            var paage = await _httpProvider.GetPageAsync(url);
+            return paage;
         }
     }
 }
