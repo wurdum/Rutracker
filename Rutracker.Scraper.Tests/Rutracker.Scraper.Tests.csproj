@@ -39,9 +39,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ForumPageParserTests.cs" />
     <Compile Include="HttpProviderTests.cs" />
     <Compile Include="NavigatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.cs" />
     <Compile Include="UrlBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +54,17 @@
       <Project>{C7ABE79E-D3AC-43DF-9F7C-0C5C17E87DF4}</Project>
       <Name>Rutracker.Scraper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Responses\Page1.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Responses\Page2.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Responses\Page3.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

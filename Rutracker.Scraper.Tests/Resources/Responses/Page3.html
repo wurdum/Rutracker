@@ -1,0 +1,1692 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Аниме (HD Video) [стр. 3] :: Кино, Видео и ТВ :: RuTracker.org (ex torrents.ru)</title>
+
+<link rel="stylesheet" href="http://static.rutracker.org/templates/default/css/main.css?v=87" type="text/css">
+
+<link rel="shortcut icon" href="http://static.rutracker.org/favicon.ico" type="image/x-icon">
+
+<link rel="search" type="application/opensearchdescription+xml" title="Поиск на rutracker.org" href="http://static.rutracker.org/opensearch.xml">
+
+<script type="text/javascript" src="http://static.rutracker.org/js/jquery.pack.js?v=41"></script>
+
+<script type="text/javascript">
+window.BB = {};
+window.encURL = encodeURIComponent;
+</script>
+<script type="text/javascript" src="http://static.rutracker.org/js/main.js?v=41"></script>
+
+<script type="text/javascript">
+function log (){};
+</script>
+
+
+<script type="text/javascript">
+/**
+ * Wrapper for HTML5 WebStorage
+ *
+ * BB.localStorage.set('foo', {bar:[1,2]});
+ * BB.sessionStorage.get('foo');
+ * BB.localStorage.rm('foo');
+ */
+$.each(['localStorage', 'sessionStorage'], function(i,type){
+	BB[type] = {
+		supported: !!window[type],
+		get: function(key){
+			if (!this.supported) {
+				return null;
+			}
+			var val_str  = window[type].getItem(key);
+			var val_orig = JSON.parse(val_str);
+			return val_orig;
+		},
+		set: function(key, value){
+			if (this.supported) {
+				try {
+					var val_str = JSON.stringify(value);
+					window[type].setItem(key, val_str);
+				} catch(e) {}
+			}
+		},
+		rm: function(key){
+			if (this.supported) {
+				window[type].removeItem(key);
+			}
+		}
+	};
+});
+</script>
+
+<script type="text/javascript">
+var BB_ROOT       = "./";
+var cookieDomain  = ".rutracker.org";
+var cookiePath    = "/forum/";
+var cookieSecure  = 0;
+var cookiePrefix  = "bb_";
+var LOGGED_IN     = 0;
+var InfoWinParams = 'width=780,height=510,resizable=yes';
+
+var user = {
+	opt_js: {},
+
+	set: function(opt, val, days, reload) {
+		this.opt_js[opt] = val;
+		setCookie('opt_js', $.toJSON(this.opt_js), days);
+		if (reload) {
+			window.location.reload();
+		}
+	}
+}
+
+$(function(){
+	$('a.dl-stub').each(function(){
+		var $a = $(this);
+		var href = $a.attr('href');
+		var t_id = href.slice( href.lastIndexOf('=')+1 );
+		var event = ($.browser.opera) ? 'mouseover' : 'mousedown';
+		$a.bind(event, function(){
+			setCookie('bb_dl', t_id, 'SESSION')
+		});
+		$a.click(function(){
+			$('#dl-form').attr('action', href);
+			$('#dl-form').submit();
+			return false;
+		});
+	});
+			$("div.jumpbox").html('\
+		<span id="jumpbox-container"> \
+		<select id="jumpbox"> \
+			<option id="jumpbox-title" value="-1">&nbsp;&raquo;&raquo; Выберите форум для перехода &nbsp;</option> \
+		</select> \
+		</span> \
+		<input id="jumpbox-submit" type="button" value="Перейти" /> \
+	');
+	$('#jumpbox-container').one('click', function(){
+		$('#jumpbox-title').html('&nbsp;&nbsp; Загружается... &nbsp;');
+		var jumpbox_src = './../html/ajax/' + (0 ? 'jumpbox_user.html' : 'jumpbox_guest.html');
+		$(this).load(jumpbox_src);
+		$('#jumpbox-submit').click(function(){ window.location.href='./viewforum.php?f='+$('#jumpbox').val(); });
+	});
+	});
+
+var ajax = new Ajax("http://rutracker.org/forum/ajax.php", 'POST', 'json');
+
+function getElText (e)
+{
+	var t = '';
+	if (e.textContent !== undefined) {
+		t = e.textContent;
+	}
+	else if (e.innerText !== undefined) {
+		t = e.innerText;
+	}
+	else {
+		t = jQuery(e).text();
+	}
+	return t;
+}
+function escHTML (txt) {
+	return txt.replace(/</g, '&lt;');
+}
+function cfm (txt)
+{
+	return window.confirm(txt);
+}
+function bb_alert (txt, is_error)
+{
+//alert(txt);
+	var html = txt.replace(/\n/g, '<br />');
+	$('#bb-alert-msg').html(html);
+	$('#bb-alert-box').toggleClass('bb-alert-err', is_error == true).modal();
+	return false;
+}
+function post2url (url, params) {
+	params = params || {};
+	params['form_token'] = '';
+	var f = document.createElement('form');
+	f.setAttribute('action', url);
+	f.setAttribute('method', 'post');
+	f.setAttribute('target', params['target'] || '_self');
+	for (var k in params) {
+		var h = document.createElement('input');
+		h.setAttribute('type', 'hidden');
+		h.setAttribute('name', k);
+		h.setAttribute('value', params[k]);
+		f.appendChild(h);
+	}
+	document.body.appendChild(f);
+	f.submit();
+	return false;
+}
+</script>
+
+<!--[if lte IE 6]><script type="text/javascript">
+$(ie6_make_clickable_labels);
+
+$(function(){
+	$('div.menu-sub').prepend('<iframe class="ie-fix-select-overlap"></iframe>'); // iframe for IE select box z-index issue
+	Menu.iframeFix = true;
+});
+</script><![endif]-->
+
+<!--[if gte IE 7]><style type="text/css">
+</style><![endif]-->
+
+<!--[if lte IE 6]><style type="text/css">
+.forumline th { height: 24px; padding: 2px 4px; }
+.menu-sub iframe.ie-fix-select-overlap { display: none; display/**/: block; position: absolute; z-index: -1; filter: mask(); }
+</style><![endif]-->
+
+<!--[if IE]><style type="text/css">
+.post-hr { margin: 2px auto; }
+</style><![endif]-->
+
+<style type="text/css">
+img.t-spacer { width: 142px; margin-top: -1px; }
+.hidden, .menu-sub, #ajax-loading, #ajax-error, var.ajax-params, #modal-blocker, .sp-title, .q-post { display: none; }
+#adriver-240x120 { width: 240px; height: 120px; padding-bottom: 2px; margin-right: -2px; }
+#adriver-468x60, #pr-468x60  { width: 468px; height: 60px; }
+#latest_news table { width: 100%; }
+#nav-natz img { width: 24px; height: 15px; vertical-align: text-bottom; }
+#sidebar1_wrap { margin-top: -4px; }
+/* temp */
+
+
+
+/* temp end */
+</style>
+
+</head>
+
+<body>
+
+
+
+<!--cse-->
+<script type="text/javascript">
+BB.hl_quick_search_err = function(){
+	$('#search-text').addClass('hl-err-block').focus();
+};
+
+$(function(){
+	$('#cse-search-btn, #cse-search-btn-top').click(function(){
+		var text_match_input_id = $(this).attr('href');
+		var text_match = $('#'+text_match_input_id).val();
+		if (text_match == '') {
+			$('#'+text_match_input_id).addClass('hl-err-block').focus();
+			return false;
+		}
+		$('#cse-text-match').val( text_match );
+		$('#cse-submit-btn').click();
+		return false;
+	});
+
+	$('#search-text').on('mousedown keypress', function(){
+		if ( $(this).hasClass('hl-err-block') ) {
+			$(this).removeClass('hl-err-block');
+		}
+	});
+
+	$('#search-menu').on('change', function(){
+		$('#quick-search').submit();
+	});
+
+	$('#quick-search').submit(function(){
+		var $search_form = $(this);
+		var search_type  = $('#search-menu').val();
+		var search_data  = $('#search-menu option:selected').data();
+		var search_query = $.trim( $('#search-text').val() );
+		var url_params   = [];
+
+		if (search_query == '' && search_type != 'search-tr') {
+			BB.hl_quick_search_err();
+			return false;
+		}
+		var search_query_enc = encURL(search_query);
+
+		switch (search_type)
+		{
+			case 'search-tr':
+			case 'search-all':
+				var search_action = search_data.action;
+				if (search_data.forum_id != null) {
+					url_params.push( 'f='+ search_data.forum_id );
+				}
+				if (search_query_enc != '') {
+					url_params.push( 'nm='+ search_query_enc );
+				}
+				if (url_params.length) {
+					search_action += '?'+ url_params.join('&');
+				}
+				$search_form.attr({ action: search_action });
+				break;
+
+			case 'cse':
+				$('#cse-search-btn-top').click();
+				return false;
+				break;
+
+			case 'wiki':
+				var wiki_url = 'http://wiki.rutracker.org/'+ encURL('Служебная:Search') +'?fulltext=1&search='+ search_query_enc;
+				post2url(wiki_url, {target: '_blank'});
+				return false;
+				break;
+
+			case 'hash':
+				if ( /^[a-fA-F0-9]{40}$/.test(search_query) ) {
+					window.location.href = 'viewtopic.php?h='+ search_query;
+				}
+				else {
+					BB.hl_quick_search_err();
+				}
+				return false;
+				break;
+		}
+		$('#quick-search input[type="submit"]').prop({disabled: true}).css({color: '#585858'});
+	});
+});
+</script>
+<div id="cse-form-holder" style="display: none;">
+<form action="search_cse.php" id="cse-search-box">
+	<input type="hidden" name="cx" value="014434608714260776013:ggcq1kovlga" />
+	<input type="hidden" name="cof" value="FORID:9" />
+	<input type="hidden" name="ie" value="windows-1251" />
+	<input type="text" name="q" size="60" value="" id="cse-text-match" />
+	<input type="submit" name="sa" value="Поиск в Google" id="cse-submit-btn" />
+</form>
+</div>
+<!--/cse-->
+
+<form method="post" action="" id="dl-form" style="display: none;"></form>
+
+
+
+<div id="body_container">
+
+<!--************************************************************************-->
+<!--=COMMON_HEADER==========================================================-->
+
+<script type="text/javascript">
+if (top != self) {
+	allowed_self = /^(translate\.googleusercontent\.com)$/;
+	if (!self.location.hostname.match(allowed_self)) {
+		$(function(){
+			$('body').html('<center><h1><br /><br />Похоже вас пытаются обмануть<br />'+ self.location.hostname +' in frame</h1></center>');
+		});
+	}
+}
+// var clickaider_cid = "2b0f2b47-11885";
+// var clickaider_track_links = "marked";
+
+BB.begun_iframe_domain = 'static2.rutracker.org';
+BB.begun_blocks_cnt    = 0;
+
+function begun_init_block (params)
+{
+	// один блок на страницу
+	if (BB.begun_blocks_cnt > 0) {
+		return;
+	}
+	var iframe_file = 'iframe-begun-user-str-3.html';
+	// приведение location к адресу доступному гостям (начальная страница топика)
+	var loc = (params.location_href != null) ? params.location_href : '';
+	if (loc.indexOf('&') != -1) {
+		loc = loc.substring(0, loc.indexOf('&'));
+	}
+	var append_char = (loc.indexOf('?') == -1) ? '?' : '&';
+	var fix = (params.fix_style != null) ? params.fix_style : '';
+	var begun_query = [
+		'bid='+ params.begun_block_id,
+		'bgc='+ params.bg_color,
+		'ref='+ encodeURIComponent(document.referrer),
+		'loc='+ encodeURIComponent(loc + append_char +'query='),
+		'fix='+ encodeURIComponent(fix),
+		'rnd='+ Math.random()
+	];
+	var frame_width  = params.frame_width  || '100%';
+	var frame_height = params.frame_height || 17;
+	$(function(){
+		$('#'+params.container_id).html('<iframe src="http://'+ BB.begun_iframe_domain +'/'+ iframe_file +'?'+ begun_query.join('&') +'" frameborder=0 width="'+ frame_width +'" height="'+ frame_height +'" marginwidth=0 marginheight=0 scrolling=no></iframe>');
+	});
+	BB.begun_blocks_cnt++;
+}
+
+$(function(){
+	var rnd = Math.round(Math.random()*1000000000);
+	var ref = document.referrer ? escape(document.referrer) : 'unknown';
+	$('#adriver-240x120').html('<iframe src="http://ad.adriver.ru/cgi-bin/erle.cgi?sid=85725&sz=forum240&target=blank&bt=8&pz=0&tail256='+ ref +'&rnd='+ rnd +'" frameborder=0 vspace=0 hspace=0 width=240 height=120 marginwidth=0 marginheight=0 scrolling=no></iframe>');
+	$('#adriver-468x60').html('<iframe src="http://ad.adriver.ru/cgi-bin/erle.cgi?sid=85725&sz=forum468&target=blank&bt=1&pz=0&tail256='+ ref +'&rnd='+ rnd +'" frameborder=0 vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no></iframe>');
+//$('#filepost-guest').html('&nbsp; &middot; &nbsp;<a href="http://filepost.ru/?page=501455" target="_blank" style="color: brown;"><b>Скачать через FilePost и получить CD/DVD по почте</b></a>');
+});
+</script>
+
+<!--page_container-->
+<div id="page_container">
+<a name="top"></a>
+
+<!--page_header-->
+<div id="page_header">
+
+<!--main_nav-->
+<div id="main-nav" style="height: 17px;">
+	<table width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="nowrap">
+			<a href="./index.php"><b>Главная</b></a>&#0183;
+			<a href="tracker.php"><b>Трекер</b></a>&#0183;
+			<a href="search.php"><b>Поиск</b></a>&#0183;
+			<a href="viewtopic.php?t=1045"><b>Правила</b></a>&#0183;
+			<a href="http://wiki.rutracker.org/" target="_blank"><b>FAQ</b></a>&#0183;
+			<a href="groupcp.php"><b>Группы</b></a>&#0183;
+			<a href="info.php?show=copyright_holders" onclick="window.open(this.href, '', InfoWinParams); return false;"><b>Для правообладателей</b></a>
+		</td>
+		<td id="nav-natz" class="nowrap" align="right">
+			<a href="http://kz.rutracker.org/forum/"><img alt="KZ" title="Казахский раздел" src="http://static.rutracker.org/flags/89.gif"></a>
+			<a href="http://ua.rutracker.org/forum/"><img alt="UA" title="Украинский раздел" src="http://static.rutracker.org/flags/180.gif"></a>
+			<a href="http://by.rutracker.org/forum/"><img alt="BY" title="Белорусский раздел" src="http://static.rutracker.org/flags/17.gif"></a>
+		</td>
+	</tr>
+	</table>
+</div>
+<!--/main-nav-->
+
+<!--logo-->
+<div id="logo">
+	<table width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td style="padding: 7px 0 3px 6px;">
+			<a href="./index.php"><img src="http://195.82.146.52/logo/logo.gif" width="320" height="85" alt="logo" /></a>
+		</td>
+		<td width="100%" class="tCenter" style="padding: 0 4px;">
+
+
+			<div class="tCenter bCenter" style="width: 728px; height: 90px; padding: 5px 0 1px;"><iframe src="http://195.82.146.52/iframe-solo-2.html?v=1" width=728 height=90 frameborder=0 vspace=0 hspace=0 marginwidth=0 marginheight=0 scrolling=no></iframe></div>	
+
+		</td>
+	</tr>
+	</table>
+</div>
+<!--/logo-->
+
+<!--topmenu-->
+<div class="topmenu">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	
+		<td class="tCenter pad_2">
+		<a href="profile.php?mode=register"><b>Регистрация</b></a>
+		&nbsp;&#0183;&nbsp;
+		<form method="post" action="http://login.rutracker.org/forum/login.php">
+						Имя: <input type="text" name="login_username" size="12" tabindex="1" accesskey="l" />
+			Пароль: <input type="password" name="login_password" size="12" tabindex="2" />
+			<input type="submit" name="login" value="Вход" tabindex="3" />
+		</form>
+		&nbsp;&#0183;&nbsp;
+		<a href="profile.php?mode=sendpassword">Забыли пароль?</a>
+	</td>
+	
+	</tr>
+</table>
+</div><!--/topmenu-->
+
+<noscript>
+	<style type="text/css">
+	.sp-body, .sp-title { display: block; }
+	</style>
+</noscript>
+
+
+<!--breadcrumb-->
+<!--<div id="breadcrumb"></div>-->
+<!--/breadcrumb-->
+
+
+</div>
+<!--/page_header-->
+<!--bnt-->
+
+
+
+
+<!--page_content-->
+<div id="page_content">
+<table cellspacing="0" cellpadding="0" border="0" style="width: 100%;"><tr>
+
+
+<!--main_content-->
+<td id="main_content">
+<div id="main_content_wrap">
+
+
+<!--========================================================================-->
+<!--************************************************************************-->
+
+
+
+<!-- page_header.tpl END -->
+<!-- module_xx.tpl START -->
+
+
+
+<table cellpadding="2" cellspacing="0" width="100%">
+<tr>
+	<td valign="bottom" width="100%">
+		<h1 class="maintitle"><a href="./viewforum.php?f=1105">Аниме (HD Video)</a></h1>
+				<p class="small" style="margin: 16px 4px 8px;"><b><span class="pg-jump-menu"><a class="menu-root" href="#pg-jump">Страницы</a> :&nbsp;&nbsp;</span> <a class="pg" href="viewforum.php?f=1105&amp;start=50">Пред.</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1105">1</a>, <a class="pg" href="viewforum.php?f=1105&amp;start=50">2</a>, <b>3</b>, <a class="pg" href="viewforum.php?f=1105&amp;start=150">4</a> ... <a class="pg" href="viewforum.php?f=1105&amp;start=3450">70</a>, <a class="pg" href="viewforum.php?f=1105&amp;start=3500">71</a>, <a class="pg" href="viewforum.php?f=1105&amp;start=3550">72</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1105&amp;start=150">След.</a></b></p>
+		
+		<table cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<td><a href="http://post.rutracker.org/forum/posting.php?f=1105&amp;mode=new_rel"><img src="http://static.rutracker.org/templates/default/images/post.gif" alt="Новая тема" /></a></td>
+				<td class="nav nav-top" width="100%">
+					&nbsp;<a href="./index.php">Список форумов rutracker.org</a>
+										<em>&raquo;</em>&nbsp;<a href="./viewforum.php?f=33">Аниме</a>					<em>&raquo;</em>&nbsp;<a href="./viewforum.php?f=1105">Аниме (HD Video)</a>
+				</td>
+			</tr>
+		</table>
+
+	</td>
+	<td>
+	<div id="adriver-240x120"></div>	</td>
+</tr>
+</table>
+
+
+<a name="topics"></a>
+
+
+
+<table class="forumline forum">
+<col class="row1">
+<col class="row1">
+<col class="row1" width="75%">
+<col class="row2" width="5%">
+<col class="row2" width="5%">
+<col class="row2" width="15%">
+<tr>
+	<th colspan="3">Темы</th>
+	<th>Торрент</th>
+	<th>Отв.</th>
+	<th>Посл. сообщение</th>
+</tr>
+<tr id="tr-4216384" class="hl-tr">
+	<td colspan="2" id="4216384" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4216384" class="topictitle tt-text">Психо-пасс / Psycho-pass [TV] [01-22 из 22] [Без хардсаба] [RUS(int), JAP+SUB] [2012 г., приключения,<wbr> HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			8.02&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">46</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 21:47</p>
+		</td>
+</tr>
+<tr id="tr-4224026" class="hl-tr">
+	<td colspan="2" id="4224026" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4224026" class="topictitle tt-text">Психопаспорт<wbr> / Psycho-pass [TV] [22 из 22] [без хардсаба] [RUS(int), JAP+SUB] [2012 г., приключения,<wbr> HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			8.05&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">16</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 21:46</p>
+		</td>
+</tr>
+<tr id="tr-4215052" class="hl-tr">
+	<td colspan="2" id="4215052" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4215052" class="topictitle tt-text">Психопаспорт<wbr> / Psycho-Pass [TV] [01-22 из 22] [Без хардсаба] [RUS(int), JAP+SUB] [2012 г., детектив, приключения,<wbr> триллер, фантастика, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			8.09&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">58</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 21:46</p>
+		</td>
+</tr>
+<tr id="tr-4273916" class="hl-tr">
+	<td colspan="2" id="4273916" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4273916" class="topictitle tt-text">Психопаспорт<wbr> / Психо-Пасс / Psycho-Pass (Сиотани Наоёси) [TV] [без хардсаба] [22 из 22] [JAP+SUB, RUS(ext)] [2012 г., приключения,<wbr> HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			7.24&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">225</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 21:45</p>
+		</td>
+</tr>
+<tr id="tr-4268686" class="hl-tr">
+	<td colspan="2" id="4268686" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4268686" class="topictitle tt-text">Эстетика заблудшего героя / Hagure Yuusha no Aesthetica (Кудзё Рион) [TV] [6 из 12] [без хардсаба] [RUS(ext), JAP+SUB] [2012 г., комедия, мистика, романтика, этти, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			5.59&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">33</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 21:03</p>
+		</td>
+</tr>
+<tr id="tr-4240045" class="hl-tr">
+	<td colspan="2" id="4240045" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4240045" class="topictitle tt-text">Девушки ракугока / Joshiraku (Мидзусима Цутому) [TV] [13 из 13] [без хардсаба] [RUS(ext), JAP+SUB] [2012 г., комедия, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			8.23&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">33</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 20:37</p>
+		</td>
+</tr>
+<tr id="tr-4551180" class="hl-tr">
+	<td colspan="2" id="4551180" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4551180" class="topictitle tt-text">Шизанутая столица / Kyousougiga (Мацумото Риэ) [TV+Special] [01-08+01 из 10+03] [Без хардсаба] [JAP+SUB] [2013 г., приключения,<wbr> HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			4.3&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">14</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:33</p>
+		</td>
+</tr>
+<tr id="tr-4598928" class="hl-tr">
+	<td colspan="2" id="4598928" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4598928" class="topictitle tt-text">Прекрасные деньки / Деревенская глубинка / Глухомань / Non Non Biyori (Кавамо Синъя) [TV] [01-09 из 12] [Без хардсаба] [RUS(int), JAP+SUB] [2013 г., комедия, повседневнос<wbr>ть, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			2.43&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">5</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:32</p>
+		</td>
+</tr>
+<tr id="tr-4598086" class="hl-tr">
+	<td colspan="2" id="4598086" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4598086" class="topictitle tt-text">Праведные ветра!! Канецугу и Кейджи / Gifuu Doudou!! Kanetsugu to Keiji (Сирахата Боб) [TV] [01-23 из 26] [Без хардсаба] [JAP+SUB] [2013 г., приключения,<wbr> WEBRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			7.32&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">4</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:31</p>
+		</td>
+</tr>
+<tr id="tr-4575471" class="hl-tr">
+	<td colspan="2" id="4575471" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4575471" class="topictitle tt-text">Безоблачное завтра / Nagi no Asukara / NagiAsu (Синохара Тосия) [TV] [01-10 из 26] [Без хардсаба] [JAP+SUB] [2013 г., приключения,<wbr> фантастика, романтика, WEBRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			5.36&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">5</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:28</p>
+		</td>
+</tr>
+<tr id="tr-4580040" class="hl-tr">
+	<td colspan="2" id="4580040" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4580040" class="topictitle tt-text">Путь аса / Dia no Ace / Daiya no A / Ace of Diamond / Diamond no Ace (Масухара Мицуюки) [TV] [01-10 из 13] [Без хардсаба] [JAP+SUB] [2013 г., спорт, WEBRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			5.38&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">5</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:22</p>
+		</td>
+</tr>
+<tr id="tr-4554361" class="hl-tr">
+	<td colspan="2" id="4554361" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4554361" class="topictitle tt-text">Сопротивлени<wbr>е крови / Удар крови / Strike the Blood (Ямамото Хидэё) [TV] [01-10 из 24] [Без хардсаба] [JAP+SUB] [2013 г., приключения,<wbr> фэнтези, WEBRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			5.29&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">8</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:21</p>
+		</td>
+</tr>
+<tr id="tr-4348244" class="hl-tr">
+	<td colspan="2" id="4348244" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4348244" class="topictitle tt-text">Хорошенькое лекарство - Сердечные Прикюа / Доки Доки ПуриКюа / DokiDoki Precure! / Pretty Cure [TV] [без хардсаба] [1-24, 26 из &gt;43] [JAP+SUB] &amp; [1-8 из &gt;43] [RUS(ext)] [2013 г., приключения,<wbr> махо-сёдзё, сёдзё, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			9.46&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">77</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:18</p>
+		</td>
+</tr>
+<tr id="tr-3183666" class="hl-tr">
+	<td colspan="2" id="3183666" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3183666" class="topictitle tt-text">Судьба: Ночь Схватки (фильм) / Gekijouban Fate/Stay Night: Unlimited Blade Works (Ямагути Юдзи) [Movie] [без хардсаба] [RUS(ext), JAP+SUB] [2010 г., фэнтези, романтика, драма, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			6.47&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">20</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 19:01</p>
+		</td>
+</tr>
+<tr id="tr-4554521" class="hl-tr">
+	<td colspan="2" id="4554521" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4554521" class="topictitle tt-text">Маги: Королевство Магии / Magi: The Kingdom of Magic / Magi 2 (Масунари Кодзи) [TV] [01-09 из 25] [без хардсаба] [RUS(int), JAP+SUB] [2013 г., приключения,<wbr> комедия, фэнтези, сёнен WEBRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			3.22&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">42</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 17:44</p>
+		</td>
+</tr>
+<tr id="tr-4611509" class="hl-tr">
+	<td colspan="2" id="4611509" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4611509" class="topictitle tt-text">Хеллсинг: Рассвет / Hellsing: The Dawn [Special] [03 из 03] [Без хардсаба] [RUS(int), JAP+SUB] [2012 г., приключения,<wbr> мистика, ужасы, BDRemux] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			6.9&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">0</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 17:32</p>
+		</td>
+</tr>
+<tr id="tr-4365322" class="hl-tr">
+	<td colspan="2" id="4365322" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4365322" class="topictitle tt-text">Гиперпростра<wbr>нственная крепость Макросс / Super Dimensional Fortress Macross (Исигуро Нобуро) [TV][36 из 36][без хардсаба][JAP+SUB][1982 г., меха, драма, фантастика, BDRip][720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			46.86&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">25</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 17:27</p>
+		</td>
+</tr>
+<tr id="tr-3247838" class="hl-tr">
+	<td colspan="2" id="3247838" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3247838" class="topictitle tt-text">Эксперименты<wbr> Лэйн / Serial Experiments Lain RESTORE (Накамура Рютаро) [TV] [13 из 13] [без хардсаба] [RUS(ext),JAP<wbr>,ENG+SUB] [1998 г., мистика, психология, драма, фантастика, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			9.04&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">199</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 16:12</p>
+		</td>
+</tr>
+<tr id="tr-4550745" class="hl-tr">
+	<td colspan="2" id="4550745" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4550745" class="topictitle tt-text">За гранью / За пределами / Kyoukai no Kanata (Исидатэ Тайти) [TV] [10 из &gt;12] [Без хардсаба] [RUS(int), JAP+SUB] [2013 г., приключения,<wbr> комедия, мистика HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			3.2&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">162</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 15:39</p>
+		</td>
+</tr>
+<tr id="tr-4404140" class="hl-tr">
+	<td colspan="2" id="4404140" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4404140" class="topictitle tt-text">Вторжение титанов / Shingeki no Kyojin [TV] (Араки Тэцуро) [TV+Special] [25+1 из 25+1] [Без хардсаба] [JAP+SUB] [2013 г., драма, приключения,<wbr> HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			14.5&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">620</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 13:47</p>
+		</td>
+</tr>
+<tr id="tr-2884868" class="hl-tr">
+	<td colspan="2" id="2884868" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=2884868" class="topictitle tt-text">Истории мечей / Katanagatari<wbr> (Мотонага Кэйтаро) [TV] [12 из 12] [без хардсаба] [RUS(ext),JAP<wbr>+SUB] [2010 г., приключения,<wbr> боевые искусства, романтика, фэнтези, BDRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			52.04&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">50</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 09:36</p>
+		</td>
+</tr>
+<tr id="tr-620043" class="hl-tr">
+	<td colspan="2" id="620043" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=620043" class="topictitle tt-text">.хак//Корни / Dot Hack Roots (Масимо Койти) [TV] [26 из 26] [без хардсаба] [RUS(int),JAP<wbr>+SUB] [2006 г., приключения,<wbr> фэнтези, драма, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			6.76&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">31</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 04:24</p>
+		</td>
+</tr>
+<tr id="tr-4310816" class="hl-tr">
+	<td colspan="2" id="4310816" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4310816" class="topictitle tt-text">Невиданный цветок (ТВ) / Ano Hi Mita Hana no Namae o Boku-tachi wa Mada Shiranai (Нагай Тацуюки) [TV] [без хардсаба] [11 из 11] [RUS(ext), JAP+SUB] [2011 г., драма, повседневнос<wbr>ть, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			6.72&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">23</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 03:28</p>
+		</td>
+</tr>
+<tr id="tr-4338567" class="hl-tr">
+	<td colspan="2" id="4338567" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4338567" class="topictitle tt-text">Маги - волшебный лабиринт (ТВ-1) / Magi: The Labyrinth of Magic (Масунари Кодзи) [TV] [4 из 26] [без хардсаба] [RUS(ext), JAP+SUB] [2012 г., комедия, фэнтези, сёнэн, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			3.34&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">9</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 02:54</p>
+		</td>
+</tr>
+<tr id="tr-4506721" class="hl-tr">
+	<td colspan="2" id="4506721" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4506721" class="topictitle tt-text">Охотник х Охотник (фильм первый) / Gekijouban Hunter x Hunter: Phantom Rouge [Movie][Без хардсаба] [RUS(int), JAP+SUB] [2013 г., приключения,<wbr> сёнэн, фэнтези, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			1.85&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">23</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 02:21</p>
+		</td>
+</tr>
+<tr id="tr-4485268" class="hl-tr">
+	<td colspan="2" id="4485268" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4485268" class="topictitle tt-text">Одному лишь Богу ведомый мир (ТВ-3) / Kami nomi zo Shiru Sekai: Megami Hen [TV] [1-12 из 12] [Без хардсаба] [RUS(int), JAP, SUB] [2013 г., комедия, мистика, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			4.36&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">92</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-10 01:58</p>
+		</td>
+</tr>
+<tr id="tr-4579978" class="hl-tr">
+	<td colspan="2" id="4579978" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4579978" class="topictitle tt-text">Симфогир (ТВ-2): Песня Боевых Принцесс Джи / Senki Zesshou Symphogear G (Оно Кацуми) [TV] [2 из 13] [без хардсаба] [RUS(ext), JAP+SUB] [2013 г., махо-сёдзё, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			2.06&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">5</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-09 23:48</p>
+		</td>
+</tr>
+<tr id="tr-4554437" class="hl-tr">
+	<td colspan="2" id="4554437" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4554437" class="topictitle tt-text">Баскетбол Куроко (ТВ-2) / Kuroko's Basketball / Kuroko no Basuke (Тада Сюнсукэ) [TV] [01-06 из &gt;12] [без хардсаба] [JAP+SUB] [2013 г., спорт, комедия, школа, сёнэн, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			2.06&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">32</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-09 23:41</p>
+		</td>
+</tr>
+<tr id="tr-2997140" class="hl-tr">
+	<td colspan="2" id="2997140" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=2997140" class="topictitle tt-text">Евангелион по-новому (фильм второй) / Евангелион 2.22 Ты [Не] Продвинешься<wbr> / Evangelion: 2.22 You Can [Not] Advance (Масаюки) [Movie][без хардсаба][RUS(ext), JAP+SUB][2009 г., драма, фантастика, меха, BDRip][720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			7.45&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">99</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-03 07:27</p>
+		</td>
+</tr>
+<tr id="tr-2549045" class="hl-tr">
+	<td colspan="2" id="2549045" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=2549045" class="topictitle tt-text">За облаками / Kumo no Mukou, Yakusoku no Basho / The Place Promised in Our Early Days (Синкай Макото) [Movie] [без хардсаба] [JAP+SUB] [2004 г., фантастика, романтика, драма, BDRemux] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			16.45&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">21</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-02-22 10:10</p>
+		</td>
+</tr>
+<tr id="tr-3861844" class="hl-tr">
+	<td colspan="2" id="3861844" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3861844" class="topictitle tt-text">Ловцы забытых голосов / Hoshi wo Ou Kodomo / Children Who Chase Lost Voices from Deep Below [Movie] [Без хардсаба] [RUS(int), JAP, SUB] [2011 г., приключения,<wbr> фэнтези, романтика, BDRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			6.96&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">22</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-03-18 17:07</p>
+		</td>
+</tr>
+<tr id="tr-4430221" class="hl-tr">
+	<td colspan="2" id="4430221" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4430221" class="topictitle tt-text">Евангелион 1.11: Ты (не) один / Evangelion Shin Gekijouban: Jo / Evangelion: 1.11 You Are (Not) Alone (Масаюки) [Movie] [1 из 1] [без хардсаба] [RUS(ext), JAP+SUB] [2007 г., драма, фантастика, меха, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			3.82&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">18</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-07-28 18:52</p>
+		</td>
+</tr>
+<tr id="tr-3327904" class="hl-tr">
+	<td colspan="2" id="3327904" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3327904" class="topictitle tt-text">Ну не может сестренка быть такой милой (ТВ-1) / Ore no Imouto ga Konnani Kawaii Wake ga Nai (Камбэ Хироюки) [TV+Special] [12+4 из 12+4] [без хардсаба] [RUS(ext), JAP+SUB] [2010 г., комедия, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			9.17&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">149</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-10-04 11:53</p>
+		</td>
+</tr>
+<tr id="tr-3684730" class="hl-tr">
+	<td colspan="2" id="3684730" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3684730" class="topictitle tt-text">Прощай, Галактически<wbr>й экспресс 999: Терминал Андромеды / Adieu Galaxy Express 999 / Sayonara Ginga Tetsudo 999: Andromeda Shuchakueki (Ринтаро) [Movie] [без хардсаба] [RUS(int), ENG, JAP+SUB] [1981 г., фантастика, драма, приключения,<wbr> BDRemux] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			32.88&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">1</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2011-11-18 15:15</p>
+		</td>
+</tr>
+<tr id="tr-4292983" class="hl-tr">
+	<td colspan="2" id="4292983" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4292983" class="topictitle tt-text">Ведьмина служба доставки / Kiki's Delivery Service / Majo no Takkyuubin (Миядзаки Хаяо) [Movie] [Без хардсаба] [RUS(ext), ENG, JAP+SUB] [1989 г., приключения,<wbr> комедия, драма, сказка, BDRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			9.17&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">15</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-09-04 18:25</p>
+		</td>
+</tr>
+<tr id="tr-3356708" class="hl-tr">
+	<td colspan="2" id="3356708" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3356708" class="topictitle tt-text">Работа для голоса! / Работаю ртом! / Эроозвучка! / Koe de Oshigoto! The Animation (Хосода Наото) [OVA] [2 из ?] [без хардсаба] [RUS(int), JAP+SUB] [2010 г., комедия, повседневнос<wbr>ть, этти, BDRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			3.46&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">22</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2011-12-18 22:24</p>
+		</td>
+</tr>
+<tr id="tr-4412711" class="hl-tr">
+	<td colspan="2" id="4412711" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4412711" class="topictitle tt-text">Герои забытых времён / Aoi Sekai no Chuushin de (Янагисава Тэцуя) [TV] [3 из 3] [Без хардсаба] [RUS(int), JAP] [2012 г., приключения,<wbr> WEBRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			1.05&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">11</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-09 22:48</p>
+		</td>
+</tr>
+<tr id="tr-4114394" class="hl-tr">
+	<td colspan="2" id="4114394" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4114394" class="topictitle tt-text">История Семьи Аркана / Arcana Famiglia [TV] [01-12 из 12] [Без хардсаба] [RUS(int), JAP + SUB] [2012 г., приключения,<wbr> сёдзё, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			3.9&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">21</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-02-19 00:00</p>
+		</td>
+</tr>
+<tr id="tr-4575531" class="hl-tr">
+	<td colspan="2" id="4575531" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4575531" class="topictitle tt-text">Маги: Королевство Магии / Magi: The Kingdom of Magic (Масунари Кодзи) [TV] [01-09 из 13] [Без хардсаба] [JAP+SUB] [2013 г., приключения,<wbr> комедия, фэнтези, сёнэн, WEBRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			4.92&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">4</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-02 16:49</p>
+		</td>
+</tr>
+<tr id="tr-3924757" class="hl-tr">
+	<td colspan="2" id="3924757" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3924757" class="topictitle tt-text">Чу-Бра!! / Chuu Bra!! / Chu-Bra!! (Хииро Юкина) [TV] [12 из 12] [без хардсаба] [RUS(ext),JAP<wbr>+SUB] [2010 г., комедия, этти, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			6.87&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">10</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-22 23:19</p>
+		</td>
+</tr>
+<tr id="tr-4553390" class="hl-tr">
+	<td colspan="2" id="4553390" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4553390" class="topictitle tt-text">Заморозка (ТВ-2) / Freezing Vibration [TV] [10 из 12] [Без хардсаба] [RUS(int), JAP+SUB] [2013 г., Приключения,<wbr> HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			3.78&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">28</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-07 21:26</p>
+		</td>
+</tr>
+<tr id="tr-4565864" class="hl-tr">
+	<td colspan="2" id="4565864" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4565864" class="topictitle tt-text">Аки и Сора (ОВА-2): Под покровом сна / Aki Sora: Yume no Naka (Такахаси Такэо) [OVA] [2 из 2] [без хардсаба] [RUS(ext), JAP+SUB] [2010 г., романтика, эротика, юри, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			1.12&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">17</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-10-26 01:24</p>
+		</td>
+</tr>
+<tr id="tr-4035756" class="hl-tr">
+	<td colspan="2" id="4035756" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4035756" class="topictitle tt-text">Призрак в доспехах: Синдром одиночки (второй сезон) / Ghost in the Shell: S.A.C. 2nd GIG (Камияма Кэндзи) [TV] [1-26 из 26] [без хардсаба] [RUS(ext),JAP<wbr>+SUB] [2004-2005 гг., приключения,<wbr> фантастика, меха, BDRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			15.38&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">11</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-10-16 01:18</p>
+		</td>
+</tr>
+<tr id="tr-4151158" class="hl-tr">
+	<td colspan="2" id="4151158" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4151158" class="topictitle tt-text">Ловцы забытых голосов / Children Who Chase Lost Voices from Deep Below / Hoshi o Ou Kodomo (Синкай Макото) [Movie] [без хардсаба] [RUS(ext), JAP+SUB] [2011 г., приключения,<wbr> фэнтези, романтика, BDRip] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			14.15&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">8</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-03-12 19:06</p>
+		</td>
+</tr>
+<tr id="tr-3101252" class="hl-tr">
+	<td colspan="2" id="3101252" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3101252" class="topictitle tt-text">Волчица и пряности (первый сезон) / Spice and Wolf / Ookami to Koushinryou (Такахаси Такэо) [TV] [13 из 13] [без хардсаба] [RUS(ext), JAP+SUB] [2008 г., приключения,<wbr> фэнтези, романтика, драма, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			7.68&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">96</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-04 00:56</p>
+		</td>
+</tr>
+<tr id="tr-4556331" class="hl-tr">
+	<td colspan="2" id="4556331" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4556331" class="topictitle tt-text">Вишневый Квартет / Yozakura Quartet: Hana no Uta (Сава Рёсукэ) [TV] [09 из 12] [Без хардсаба] [JAP+SUB] [2013 г., приключения,<wbr> комедия, мистика, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			2.61&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">20</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-04 01:36</p>
+		</td>
+</tr>
+<tr id="tr-4478510" class="hl-tr">
+	<td colspan="2" id="4478510" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4478510" class="topictitle tt-text">Дух в стальной плоти: У истоков / Призрак в доспехах: Возникновени<wbr>е / Koukaku Kidoutai Arise: Ghost in the Shell [OVA] [1 из 4] [Без хардсаба] [JAP+SUB] [2013 г., Киберпанк, фантастика, боевик, BDRemux] [1080p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			17.25&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">596</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-05 09:26</p>
+		</td>
+</tr>
+<tr id="tr-3775475" class="hl-tr">
+	<td colspan="2" id="3775475" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3775475" class="topictitle tt-text">У меня мало друзей / Boku wa Tomodachi ga Sukunai (Сайто Хисаси) [TV] [12 из 12] [без хардсаба] [RUS(int), JAP+SUB] [2011 г., комедия, пародия, этти, школа, HDTVRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			4.49&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">25</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-07-29 21:17</p>
+		</td>
+</tr>
+<tr id="tr-4501350" class="hl-tr">
+	<td colspan="2" id="4501350" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=4501350" class="topictitle tt-text">Призрак в доспехах: У истоков / Призрак в доспехах: Возникновени<wbr>е / Koukaku Kidoutai Arise: Ghost in the Shell (Кисэ Кадзути) [OVA] [1 из 4] [без хардсаба] [RUS(int), JAP+SUB] [2013 г., приключения,<wbr> киберпанк, фантастика, боевик, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			2.15&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">5</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-16 16:30</p>
+		</td>
+</tr>
+<tr id="tr-3805270" class="hl-tr">
+	<td colspan="2" id="3805270" class="topic_id"></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<a href="./viewtopic.php?t=3805270" class="topictitle tt-text">Священная Семерка / Sacred Seven (Охаси Ёсимицу) [TV] [12 из 12] [без хардсаба] [RUS(ext), JAP+SUB] [2011 г., приключения,<wbr> фантастика, BDRip] [720p]</a>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			13.02&nbsp;GB			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">17</span>
+	</p>
+		</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-07-20 14:33</p>
+		</td>
+</tr>
+	<tr>
+	<td colspan="6" class="catBottom med pad_4">
+		&nbsp;
+		</td>
+</tr>
+</table>
+
+
+<script type="text/javascript">$('td.topic_id').html('<img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder.gif" alt="*" />');</script>
+
+<div class="bottom_info">
+
+<div class="nav" id="pagination">
+	<p style="float: left">Страница <b>3</b> из <b>72</b></p>
+	<p style="float: right"><span class="pg-jump-menu"><a class="menu-root" href="#pg-jump">Страницы</a> :&nbsp;&nbsp;</span> <a class="pg" href="viewforum.php?f=1105&amp;start=50">Пред.</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1105">1</a>, <a class="pg" href="viewforum.php?f=1105&amp;start=50">2</a>, <b>3</b>, <a class="pg" href="viewforum.php?f=1105&amp;start=150">4</a> ... <a class="pg" href="viewforum.php?f=1105&amp;start=3450">70</a>, <a class="pg" href="viewforum.php?f=1105&amp;start=3500">71</a>, <a class="pg" href="viewforum.php?f=1105&amp;start=3550">72</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1105&amp;start=150">След.</a></p>
+	<div class="clear"></div>
+</div>
+
+<div class="jumpbox"></div>
+
+</div><!--/bottom_info-->
+
+
+
+	</div><!--/main_content_wrap-->
+	</td><!--/main_content-->
+
+	</tr></table>
+	</div>
+	<!--/page_content-->
+
+	<!--page_footer-->
+	<div id="page_footer">
+
+<div id="bn-bot-wrap">
+
+	
+	<div class="tCenter mrg_12">
+	<table class="bCenter" width="850"><tr>
+	<td><a target="_blank" style="color: darkred;" href="http://www.promoheads.com"><b>PromoHeads.com Pay-Per-Click Affiliate Program. Партнерская программа - оплата за клики.</b></a></td>
+	</tr></table>
+	</div>
+
+<div style="margin: 6px 10px; padding: 8px; border: 1px solid #B7C0C5;">
+			<table style="margin: 6px auto;"><tr>
+			<td></td>
+						<td>&nbsp;</td>
+			<td><div id="to-bot-1" style="width: 468px; height: 60px;"></div>
+<script type="text/javascript">
+$(function(){
+	var b_url = 'http://static.rutracker.org/004/tionline/3/';
+
+	var swf = [];
+	swf.push( '468_2.swf?link1='+encodeURIComponent('http://ti.ggeek.ru/reg06/?ref=6') );
+
+	var so = new SWFObject(b_url+swf[Math.round(Math.random()*(swf.length-1))], 'to-bot-1-swf', '468', '60', '8', '#FFFFFF');
+	so.write('to-bot-1');
+});
+</script></td>
+					</tr></table>
+		<div id="mg-informers" style="width: 98%; margin: 6px auto 0; text-align: center;"></div>
+<script type="text/javascript">
+$(function(){
+	$('#mg-informers').html('<iframe src="http://mg.dt00.net/public/informers/torrents.2ru.html?rnd='+ Math.round(Math.random()*1000000) +'" frameborder=0 vspace=0 hspace=0 width="100%" height=160 marginwidth=0 marginheight=0 scrolling=no></iframe>');
+});
+</script></div>
+</div><!--/bn-bot-wrap-->
+
+		
+		<div class="clear"></div>
+
+		<br />
+
+				<div class="med bold tCenter pad_4">
+			<a href="info.php?show=user_agreement" onclick="window.open(this.href, '', InfoWinParams); return false;">Условия использования</a>
+			&nbsp;&middot;&nbsp;
+			<a href="info.php?show=advert" onclick="window.open(this.href, '', InfoWinParams); return false;">Реклама на сайте</a>
+						&nbsp;&middot;&nbsp;
+			<a href="info.php?show=copyright_holders" onclick="window.open(this.href, '', InfoWinParams); return false;">Для правообладателей</a>
+																		&nbsp;&middot;&nbsp;
+			<a href="info.php?show=press" onclick="window.open(this.href, '', InfoWinParams); return false;">Для прессы</a>
+						&nbsp;&middot;&nbsp;
+			<a href="viewtopic.php?t=2234744" target="_blank">Для провайдеров</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://wiki.rutracker.org" target="_blank">Торрентопедия</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://wiki.rutracker.org/r.php?id=10004" target="_blank">Кому задать вопрос</a>
+		</div>
+		<div class="med bold tCenter pad_4">
+			<a href="http://rutracker.org/forum/viewtopic.php?t=3949538" target="_blank">Rutracker Magazine</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/viewforum.php?f=1538" target="_blank">Авторские раздачи</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/viewforum.php?f=489" target="_blank">Новости в сети</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/viewforum.php?f=2332" target="_blank">Новости &quot;Хранителей&quot; и &quot;Антикваров&quot;</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/index.php?closed=1" target="_blank">Закрытые раздачи</a>
+			&nbsp;&middot;&nbsp;
+			<a href="#" onclick="return post2url('torrent.php', {rand_rel: 1});">Случайная раздача</a>
+		</div>
+		<br />
+		
+		
+<table width="99%" cellpadding="0" cellspacing="0" class="bCenter">
+<tr>
+
+	<td width="50%" class="vBottom">
+		<div class="copyright">
+			<p><a href="groupcp.php?g=104792">Администрация</a> &middot; <a href="groupcp.php?g=104787">Модераторы</a> &middot; <a href="groupcp.php?g=104841">Техническая помощь</a> &middot; <a href="groupcp.php?g=105539">Редакторы Wiki</a></p>
+		</div>
+	</td>
+	<td class="vBottom">
+
+		<table class="bCenter" cellspacing="0" cellpadding="2" border="0" style="padding-top: 4px;">
+	<tr>
+		<td class="vBottom nowrap" style="padding: 0 4px;">
+			<!--LiveInternet counter-->
+			<script type="text/javascript">
+			var LI_title = '';
+			document.write("<a href='http://www.liveinternet.ru/stat/rutracker.org/' "+ "target=_blank><img src='http://counter.yadro.ru/hit?t16.2;r"+escape(document.referrer)+((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+";h"+escape(LI_title.substring(0,80))+";"+Math.random()+"' alt='' "+"border='0' width='88' height='31'><\/a>");
+			</script>
+			<!--/LiveInternet-->
+
+			<!--rambler-->
+			<a href="http://top100.rambler.ru/cgi-bin/stats_top100.cgi?1467197" target='_blank'><img src="http://top100-images.rambler.ru/top100/banner-88x31-rambler-gray2.gif" alt="" width="88" height="31" border="0" /></a>
+			<!-- <script id="top100Counter" type="text/javascript" src="http://counter.rambler.ru/top100.jcn?1467197"></script> -->
+			<script type="text/javascript">
+			new Image().src = "http://counter.rambler.ru/top100.scn?1467197&rn="+Math.random()+"&rf="+escape(document.referrer);
+			</script>
+			<!--/rambler-->
+
+			<!-- SpyLOG MyStat -->
+			<span id="spylog601119"></span>
+			<script type="text/javascript">
+			var spylog = { counter: 601119, image: 5012, next: spylog };
+			$(document).ready(function(){
+				$.ajax({ url: "http://counter.spylog.com/cnt.js", dataType: "script", cache: true, global: false });
+			});
+			</script>
+			<!--/SpyLOG MyStat -->
+		</td>
+	</tr>
+	</table>
+	
+	</td>
+	<td width="50%" class="vBottom tRight">
+		<div class="copyright">
+			<p>&copy; Dreamtorrent Corp. 2005-2013</p>
+		</div>
+	</td>
+
+</tr>
+</table>
+
+	</div>
+	<!--/page_footer-->
+
+	</div>
+	<!--/page_container-->
+
+
+
+
+<div id="ajax-loading"><b>Loading...</b></div>
+<div id="ajax-error"><b>Error</b></div>
+<style>
+#bb-alert-box { width: auto; max-width: 800px; line-height: 18px; display: none; }
+#bb-alert-msg { min-width: 400px; max-height: 400px; margin: 50px 20px; padding: 10px; overflow: auto; text-align: center; }
+.bb-alert-err { color: #7E0000; background: #FFEEEE; box-shadow: 0 0 20px #B85353; font-weight: bold; }
+</style>
+<div id="bb-alert-box"><div id="bb-alert-msg"></div></div>
+<div id="modal-blocker"></div>
+
+
+	</div><!--/body_container-->
+
+</body>
+</html>
