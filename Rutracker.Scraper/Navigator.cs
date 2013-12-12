@@ -27,7 +27,7 @@ namespace Rutracker.Scraper
             return paage;
         }
 
-        public async Task<IEnumerable<string>> GetSeveralForumPagesAsync(int id, int[] pagesNumbers) {
+        public async Task<IEnumerable<string>> GetForumPagesAsync(int id, params int[] pagesNumbers) {
             var pages = new List<string>(pagesNumbers.Length);
             foreach (var pagesNumber in pagesNumbers) {
                 var url = _urlBuilder.GetForumPageUrl(id, TopicsPerPage*pagesNumber);

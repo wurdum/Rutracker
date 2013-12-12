@@ -9,11 +9,15 @@ namespace Rutracker.Scraper
 {
     public class HttpProvider
     {
-        public HttpProvider() {
+        public HttpProvider() : this(Encoding.GetEncoding("windows-1251")) { }
+
+        public HttpProvider(Encoding encoding) {
+            Encoding = encoding;
             Cookies = new CookieContainer();
         }
 
         public bool IsAuthorized { get; private set; }
+        public Encoding Encoding { get; private set; }
         public CookieContainer Cookies { get; private set; }
 
         public virtual async Task<HttpProvider> AuthorizeAsync(string loginUrl, string login, string pass, bool throwOnFail = false) {
@@ -50,17 +54,13 @@ namespace Rutracker.Scraper
             return content;
         }
 
-        private static async Task<string> GetResponseBodyAsync(HttpWebResponse webResponse) {
+        private async Task<string> GetResponseBodyAsync(HttpWebResponse webResponse) {
             var stream = webResponse.GetResponseStream();
             if (stream == null)
                 throw new NullReferenceException("Response stream from '" + webResponse.ResponseUri + "' is null");
 
-            var encoding = string.IsNullOrWhiteSpace(webResponse.CharacterSet) 
-                ? Encoding.UTF8 
-                : Encoding.GetEncoding(webResponse.CharacterSet);
-
             string content;
-            using (var reader = new StreamReader(stream, encoding))
+            using (var reader = new StreamReader(stream, Encoding))
                 content = await reader.ReadToEndAsync();
 
             return content;

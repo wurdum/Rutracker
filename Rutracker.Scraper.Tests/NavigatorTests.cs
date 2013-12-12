@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
@@ -61,6 +64,21 @@ namespace Rutracker.Scraper.Tests
             httpProvider.Verify(h => h.GetPageAsync(Url1), Times.Once());
             urlBuilder.Verify(u => u.GetTopicPageUrl(Id), Times.Once());
             Assert.AreEqual(Page1, actual);
+        }
+
+        //[Test]
+        public async void CollectPages() {
+            var httpProvider = new HttpProvider();
+            var urlBuilder = new UrlBuilder();
+            var navigator = new Navigator(httpProvider, urlBuilder);
+
+            var pages = await navigator.GetForumPagesAsync(1105, 0, 1, 2);
+
+            var counter = 1;
+            foreach (var page in pages) {
+                Console.WriteLine(page);
+                File.WriteAllText("page" + counter++ + ".html", page, Encoding.UTF8);
+            }
         }
     }
 }
