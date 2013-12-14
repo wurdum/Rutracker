@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ParseHtmlException.cs" />
     <Compile Include="ForumPageParser.cs" />
     <Compile Include="HttpProvider.cs" />
     <Compile Include="Navigator.cs" />
