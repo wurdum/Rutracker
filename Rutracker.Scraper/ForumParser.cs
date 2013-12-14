@@ -14,6 +14,8 @@ namespace Rutracker.Scraper
         public ForumParser(string page) {
             Page = page;
             var htmlDocument = new HtmlDocument();
+            htmlDocument.OptionAutoCloseOnEnd = true;
+            htmlDocument.OptionFixNestedTags = true;
             htmlDocument.LoadHtml(Page);
             _root = htmlDocument.DocumentNode;
         }
@@ -41,22 +43,53 @@ namespace Rutracker.Scraper
                 if (tds.Length != 5)
                     throw new ParseHtmlException("TR element contain less than 5 TD", tr.OuterHtml);
 
-                var torrentSize = WebUtility.HtmlDecode(tds[2].InnerText).Trim();
-                if (string.IsNullOrWhiteSpace(torrentSize))
+                if (string.IsNullOrWhiteSpace(tds[2].InnerText))
                     continue;
 
-                var a = tds[1].Element("a");
-                var torrentName = CleanName(WebUtility.HtmlDecode(a.InnerText));
-                var torrentUrl = ToFullUrl(a.Attributes["href"].Value);
-
-                titles.Add(new TopicTitle {
-                    Name = torrentName,
-                    Url = torrentUrl,
-                    Size = torrentSize
-                });
+                var topicTitle = IsAuthenticated() 
+                    ? ParseAuthorized(tds)
+                    : ParseNotAuthorized(tds);
+                titles.Add(topicTitle);
             }
 
             return titles;
+        }
+
+        private TopicTitle ParseAuthorized(HtmlNode[] tds) {
+            var a = tds[1]
+                .Elements("div").First(n => n.Attributes["class"].Value.Equals("torTopic"))
+                .ChildNodes.First(n => n.Name == "a" && n.Id.StartsWith("tt-"));
+            
+            var torrentName = CleanName(WebUtility.HtmlDecode(a.InnerText));
+            var torrentUrl = ToFullUrl(a.Attributes["href"].Value);
+
+            var divs = tds[2].Element("div").Elements("div").ToArray();
+            var spans = divs[0].Elements("span").ToArray();
+            
+            var torrentSize = WebUtility.HtmlDecode(divs[1].InnerText).Trim();
+            var torrentSeeders = GetSeedersLeechers(spans, "seedmed");
+            var torrentLeechers = GetSeedersLeechers(spans, "leechmed");
+
+            return new TopicTitle {
+                Url = torrentUrl,
+                Name = torrentName,
+                Size = torrentSize,
+                SeedMed = torrentSeeders,
+                LeechMed = torrentLeechers
+            };
+        }
+
+        private static int GetSeedersLeechers(HtmlNode[] spans, string name) {
+            return Convert.ToInt32(spans.First(n => n.Attributes["class"].Value.Equals(name)).Element("b").InnerText);
+        }
+
+        private TopicTitle ParseNotAuthorized(HtmlNode[] tds) {
+            var a = tds[1].Element("a");
+            var torrentName = CleanName(WebUtility.HtmlDecode(a.InnerText));
+            var torrentUrl = ToFullUrl(a.Attributes["href"].Value);
+            var torrentSize = WebUtility.HtmlDecode(tds[2].InnerText).Trim();
+
+            return new TopicTitle {Name = torrentName, Url = torrentUrl, Size = torrentSize};
         }
 
         private string CleanName(string name) {
@@ -79,6 +112,9 @@ namespace Rutracker.Scraper
         public string Name { get; set; }
         public string Url { get; set; }
         public string Size { get; set; }
+
+        public int? SeedMed { get; set; }
+        public int? LeechMed { get; set; }
 
         #region equality members
 

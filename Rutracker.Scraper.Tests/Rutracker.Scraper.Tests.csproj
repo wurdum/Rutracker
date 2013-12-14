@@ -60,6 +60,15 @@
     <None Include="Resources\Jsons\Page3.html.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\Jsons\PageAuth1.html.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Jsons\PageAuth2.html.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Jsons\PageAuth3.html.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rutracker.Scraper\Rutracker.Scraper.csproj">

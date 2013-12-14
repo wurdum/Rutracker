@@ -38,6 +38,9 @@ namespace Rutracker.Scraper.Tests
                 yield return new TestCaseData(Resources.GetResponseText("Page1.html"), Resources.GetJsonText("Page1.html.json"));
                 yield return new TestCaseData(Resources.GetResponseText("Page2.html"), Resources.GetJsonText("Page2.html.json"));
                 yield return new TestCaseData(Resources.GetResponseText("Page3.html"), Resources.GetJsonText("Page3.html.json"));
+                yield return new TestCaseData(Resources.GetResponseText("PageAuth1.html"), Resources.GetJsonText("PageAuth1.html.json"));
+                yield return new TestCaseData(Resources.GetResponseText("PageAuth2.html"), Resources.GetJsonText("PageAuth2.html.json"));
+                yield return new TestCaseData(Resources.GetResponseText("PageAuth3.html"), Resources.GetJsonText("PageAuth3.html.json"));
             }
         }
     }
