@@ -7,25 +7,35 @@ using Rutracker.Scraper.Exceptions;
 
 namespace Rutracker.Scraper
 {
-    public class ForumPageParser
+    public class ForumParser
     {
-        public ForumPageParser(string page) {
+        private readonly HtmlNode _root;
+
+        public ForumParser(string page) {
             Page = page;
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(Page);
+            _root = htmlDocument.DocumentNode;
         }
 
         public string Page { get; private set; }
 
+        public bool IsAuthenticated() {
+            var tds = _root.SelectNodes("/html/body/div[@id='body_container']/div[@id='page_container']/" +
+                "div[@id='page_header']/div[@class='topmenu']/table/tr/td").ToArray();
+
+            if (tds.Length != 1 && tds.Length != 3)
+                throw new ParseHtmlException("Can't check if is authenticated", Page);
+
+            return tds.Length == 3;
+        }
+
         public IEnumerable<TopicTitle> GetTitles() {
-            var titles = new List<TopicTitle>(50);
-
-            var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(Page);
-
-            var root = htmlDocument.DocumentNode;
-            var trs = root.SelectNodes("/html/body/div[@id='body_container']/div[@id='page_container']/" +
+            var trs = _root.SelectNodes("/html/body/div[@id='body_container']/div[@id='page_container']/" +
                 "div[@id='page_content']/table/tr/td[@id='main_content']/div[@id='main_content_wrap']/" +
                 "table[@class='forumline forum']/tr[starts-with(@id, 'tr-')]");
 
+            var titles = new List<TopicTitle>(50);
             foreach (var tr in trs) {
                 var tds = tr.Elements("td").ToArray();
                 if (tds.Length != 5)

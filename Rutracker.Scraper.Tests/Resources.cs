@@ -20,7 +20,7 @@ namespace Rutracker.Scraper.Tests
             return File.ReadAllText(filePath);
         }
 
-        private static string GetResponsePath(string fileName) {
+        public static string GetResponsePath(string fileName) {
             return Path.Combine(ResponsesPath, fileName);
         }
 

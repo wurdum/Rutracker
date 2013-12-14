@@ -1,0 +1,2604 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Аниме (основной подраздел) [стр. 3] :: Кино, Видео и ТВ :: RuTracker.org (ex torrents.ru)</title>
+
+<link rel="stylesheet" href="http://static.rutracker.org/templates/default/css/main.css?v=87" type="text/css">
+
+<link rel="shortcut icon" href="http://static.rutracker.org/favicon.ico" type="image/x-icon">
+
+<link rel="search" type="application/opensearchdescription+xml" title="Поиск на rutracker.org" href="http://static.rutracker.org/opensearch.xml">
+
+<script type="text/javascript" src="http://static.rutracker.org/js/jquery.pack.js?v=41"></script>
+
+<script type="text/javascript">
+window.BB = {};
+window.encURL = encodeURIComponent;
+</script>
+<script type="text/javascript" src="http://static.rutracker.org/js/main.js?v=41"></script>
+
+<script type="text/javascript">
+function log (){};
+</script>
+
+
+<script type="text/javascript">
+/**
+ * Wrapper for HTML5 WebStorage
+ *
+ * BB.localStorage.set('foo', {bar:[1,2]});
+ * BB.sessionStorage.get('foo');
+ * BB.localStorage.rm('foo');
+ */
+$.each(['localStorage', 'sessionStorage'], function(i,type){
+	BB[type] = {
+		supported: !!window[type],
+		get: function(key){
+			if (!this.supported) {
+				return null;
+			}
+			var val_str  = window[type].getItem(key);
+			var val_orig = JSON.parse(val_str);
+			return val_orig;
+		},
+		set: function(key, value){
+			if (this.supported) {
+				try {
+					var val_str = JSON.stringify(value);
+					window[type].setItem(key, val_str);
+				} catch(e) {}
+			}
+		},
+		rm: function(key){
+			if (this.supported) {
+				window[type].removeItem(key);
+			}
+		}
+	};
+});
+</script>
+
+<script type="text/javascript">
+var BB_ROOT       = "./";
+var cookieDomain  = ".rutracker.org";
+var cookiePath    = "/forum/";
+var cookieSecure  = 0;
+var cookiePrefix  = "bb_";
+var LOGGED_IN     = 1;
+var InfoWinParams = 'width=780,height=510,resizable=yes';
+
+var user = {
+	opt_js: {"only_new":0,"h_flag":0,"h_av":0,"h_rnk_i":0,"h_post_i":0,"i_aft_l":0,"h_smile":0,"h_sig":0,"sp_op":0,"tr_tm":0,"h_cat":"","h_tsp":0,"hl_brak":1,"div_tag":1,"h_ta":0},
+
+	set: function(opt, val, days, reload) {
+		this.opt_js[opt] = val;
+		setCookie('opt_js', $.toJSON(this.opt_js), days);
+		if (reload) {
+			window.location.reload();
+		}
+	}
+}
+
+$(function(){
+	$('a.dl-stub').each(function(){
+		var $a = $(this);
+		var href = $a.attr('href');
+		var t_id = href.slice( href.lastIndexOf('=')+1 );
+		var event = ($.browser.opera) ? 'mouseover' : 'mousedown';
+		$a.bind(event, function(){
+			setCookie('bb_dl', t_id, 'SESSION')
+		});
+		$a.click(function(){
+			$('#dl-form').attr('action', href);
+			$('#dl-form').submit();
+			return false;
+		});
+	});
+		$('form.tokenized').append('<input type="hidden" name="form_token" value="b9562623b157ac558d88fee9068dec15" />');
+	ajax.form_token = 'b9562623b157ac558d88fee9068dec15';
+			$("div.jumpbox").html('\
+		<span id="jumpbox-container"> \
+		<select id="jumpbox"> \
+			<option id="jumpbox-title" value="-1">&nbsp;&raquo;&raquo; Выберите форум для перехода &nbsp;</option> \
+		</select> \
+		</span> \
+		<input id="jumpbox-submit" type="button" value="Перейти" /> \
+	');
+	$('#jumpbox-container').one('click', function(){
+		$('#jumpbox-title').html('&nbsp;&nbsp; Загружается... &nbsp;');
+		var jumpbox_src = './../html/ajax/' + (1 ? 'jumpbox_user.html' : 'jumpbox_guest.html');
+		$(this).load(jumpbox_src);
+		$('#jumpbox-submit').click(function(){ window.location.href='./viewforum.php?f='+$('#jumpbox').val(); });
+	});
+	});
+
+var ajax = new Ajax("http://rutracker.org/forum/ajax.php", 'POST', 'json');
+
+function getElText (e)
+{
+	var t = '';
+	if (e.textContent !== undefined) {
+		t = e.textContent;
+	}
+	else if (e.innerText !== undefined) {
+		t = e.innerText;
+	}
+	else {
+		t = jQuery(e).text();
+	}
+	return t;
+}
+function escHTML (txt) {
+	return txt.replace(/</g, '&lt;');
+}
+function cfm (txt)
+{
+	return window.confirm(txt);
+}
+function bb_alert (txt, is_error)
+{
+//alert(txt);
+	var html = txt.replace(/\n/g, '<br />');
+	$('#bb-alert-msg').html(html);
+	$('#bb-alert-box').toggleClass('bb-alert-err', is_error == true).modal();
+	return false;
+}
+function post2url (url, params) {
+	params = params || {};
+	params['form_token'] = 'b9562623b157ac558d88fee9068dec15';
+	var f = document.createElement('form');
+	f.setAttribute('action', url);
+	f.setAttribute('method', 'post');
+	f.setAttribute('target', params['target'] || '_self');
+	for (var k in params) {
+		var h = document.createElement('input');
+		h.setAttribute('type', 'hidden');
+		h.setAttribute('name', k);
+		h.setAttribute('value', params[k]);
+		f.appendChild(h);
+	}
+	document.body.appendChild(f);
+	f.submit();
+	return false;
+}
+</script>
+
+<!--[if lte IE 6]><script type="text/javascript">
+$(ie6_make_clickable_labels);
+
+$(function(){
+	$('div.menu-sub').prepend('<iframe class="ie-fix-select-overlap"></iframe>'); // iframe for IE select box z-index issue
+	Menu.iframeFix = true;
+});
+</script><![endif]-->
+
+<!--[if gte IE 7]><style type="text/css">
+</style><![endif]-->
+
+<!--[if lte IE 6]><style type="text/css">
+.forumline th { height: 24px; padding: 2px 4px; }
+.menu-sub iframe.ie-fix-select-overlap { display: none; display/**/: block; position: absolute; z-index: -1; filter: mask(); }
+</style><![endif]-->
+
+<!--[if IE]><style type="text/css">
+.post-hr { margin: 2px auto; }
+</style><![endif]-->
+
+<style type="text/css">
+img.t-spacer { width: 142px; margin-top: -1px; }
+.hidden, .menu-sub, #ajax-loading, #ajax-error, var.ajax-params, #modal-blocker, .sp-title, .q-post { display: none; }
+#adriver-240x120 { width: 240px; height: 120px; padding-bottom: 2px; margin-right: -2px; }
+#adriver-468x60, #pr-468x60  { width: 468px; height: 60px; }
+#latest_news table { width: 100%; }
+#nav-natz img { width: 24px; height: 15px; vertical-align: text-bottom; }
+#sidebar1_wrap { margin-top: -4px; }
+/* temp */
+
+
+
+/* temp end */
+</style>
+
+</head>
+
+<body>
+
+
+
+<!--cse-->
+<script type="text/javascript">
+BB.hl_quick_search_err = function(){
+	$('#search-text').addClass('hl-err-block').focus();
+};
+
+$(function(){
+	$('#cse-search-btn, #cse-search-btn-top').click(function(){
+		var text_match_input_id = $(this).attr('href');
+		var text_match = $('#'+text_match_input_id).val();
+		if (text_match == '') {
+			$('#'+text_match_input_id).addClass('hl-err-block').focus();
+			return false;
+		}
+		$('#cse-text-match').val( text_match );
+		$('#cse-submit-btn').click();
+		return false;
+	});
+
+	$('#search-text').on('mousedown keypress', function(){
+		if ( $(this).hasClass('hl-err-block') ) {
+			$(this).removeClass('hl-err-block');
+		}
+	});
+
+	$('#search-menu').on('change', function(){
+		$('#quick-search').submit();
+	});
+
+	$('#quick-search').submit(function(){
+		var $search_form = $(this);
+		var search_type  = $('#search-menu').val();
+		var search_data  = $('#search-menu option:selected').data();
+		var search_query = $.trim( $('#search-text').val() );
+		var url_params   = [];
+
+		if (search_query == '' && search_type != 'search-tr') {
+			BB.hl_quick_search_err();
+			return false;
+		}
+		var search_query_enc = encURL(search_query);
+
+		switch (search_type)
+		{
+			case 'search-tr':
+			case 'search-all':
+				var search_action = search_data.action;
+				if (search_data.forum_id != null) {
+					url_params.push( 'f='+ search_data.forum_id );
+				}
+				if (search_query_enc != '') {
+					url_params.push( 'nm='+ search_query_enc );
+				}
+				if (url_params.length) {
+					search_action += '?'+ url_params.join('&');
+				}
+				$search_form.attr({ action: search_action });
+				break;
+
+			case 'cse':
+				$('#cse-search-btn-top').click();
+				return false;
+				break;
+
+			case 'wiki':
+				var wiki_url = 'http://wiki.rutracker.org/'+ encURL('Служебная:Search') +'?fulltext=1&search='+ search_query_enc;
+				post2url(wiki_url, {target: '_blank'});
+				return false;
+				break;
+
+			case 'hash':
+				if ( /^[a-fA-F0-9]{40}$/.test(search_query) ) {
+					window.location.href = 'viewtopic.php?h='+ search_query;
+				}
+				else {
+					BB.hl_quick_search_err();
+				}
+				return false;
+				break;
+		}
+		$('#quick-search input[type="submit"]').prop({disabled: true}).css({color: '#585858'});
+	});
+});
+</script>
+<div id="cse-form-holder" style="display: none;">
+<form action="search_cse.php" id="cse-search-box">
+	<input type="hidden" name="cx" value="014434608714260776013:ggcq1kovlga" />
+	<input type="hidden" name="cof" value="FORID:9" />
+	<input type="hidden" name="ie" value="windows-1251" />
+	<input type="text" name="q" size="60" value="" id="cse-text-match" />
+	<input type="submit" name="sa" value="Поиск в Google" id="cse-submit-btn" />
+</form>
+</div>
+<!--/cse-->
+
+<form method="post" action="" id="dl-form" style="display: none;"></form>
+
+
+<div class="menu-sub" id="pg-jump">
+	<table cellspacing="1" cellpadding="4">
+	<tr><th>К странице...</th></tr>
+	<tr><td>
+		<form method="get" onsubmit="return go_to_page();">
+			<input id="pg-page" type="text" size="5" maxlength="4" />
+			<input type="submit" value="Перейти"/>
+		</form>
+	</td></tr>
+	</table>
+</div>
+<script type="text/javascript">
+function go_to_page ()
+{
+	var page_num = (parseInt( $('#pg-page').val() ) > 1) ? $('#pg-page').val() : 1;
+	var pg_start = (page_num - 1) * 50;
+	window.location = 'viewforum.php?f=1389&start=' + pg_start;
+	return false;
+}
+</script>
+
+<div class="menu-sub" id="only-new-options">
+	<table cellspacing="1" cellpadding="4">
+	<tr>
+		<th>Опции показа</th>
+	</tr>
+	<tr>
+		<td>
+			<fieldset id="show-only">
+			<legend>Показывать только</legend>
+			<div class="pad_4">
+				<label>
+					<input id="only_new_posts" type="checkbox" 						onclick="
+							user.set('only_new', ( this.checked ? 1 : 0 ), 365, true);
+							$('#only_new_topics').prop({checked: false});
+						" />только новые сообщения
+				</label>
+				<label>
+					<input id="only_new_topics" type="checkbox" 						onclick="
+							user.set('only_new', ( this.checked ? 2 : 0 ), 365, true);
+							$('#only_new_posts').prop({checked: false});
+						" />только новые темы
+				</label>
+			</div>
+			</fieldset>
+		</td>
+	</tr>
+	</table>
+</div><!--/only-new-options-->
+
+
+
+<div id="body_container">
+
+<!--************************************************************************-->
+<!--=COMMON_HEADER==========================================================-->
+
+<script type="text/javascript">
+if (top != self) {
+	allowed_self = /^(translate\.googleusercontent\.com)$/;
+	if (!self.location.hostname.match(allowed_self)) {
+		$(function(){
+			$('body').html('<center><h1><br /><br />Похоже вас пытаются обмануть<br />'+ self.location.hostname +' in frame</h1></center>');
+		});
+	}
+}
+// var clickaider_cid = "2b0f2b47-11885";
+// var clickaider_track_links = "marked";
+
+BB.begun_iframe_domain = 'static2.rutracker.org';
+BB.begun_blocks_cnt    = 0;
+
+function begun_init_block (params)
+{
+	// один блок на страницу
+	if (BB.begun_blocks_cnt > 0) {
+		return;
+	}
+	var iframe_file = 'iframe-begun-user-str-3.html';
+	// приведение location к адресу доступному гостям (начальная страница топика)
+	var loc = (params.location_href != null) ? params.location_href : '';
+	if (loc.indexOf('&') != -1) {
+		loc = loc.substring(0, loc.indexOf('&'));
+	}
+	var append_char = (loc.indexOf('?') == -1) ? '?' : '&';
+	var fix = (params.fix_style != null) ? params.fix_style : '';
+	var begun_query = [
+		'bid='+ params.begun_block_id,
+		'bgc='+ params.bg_color,
+		'ref='+ encodeURIComponent(document.referrer),
+		'loc='+ encodeURIComponent(loc + append_char +'query='),
+		'fix='+ encodeURIComponent(fix),
+		'rnd='+ Math.random()
+	];
+	var frame_width  = params.frame_width  || '100%';
+	var frame_height = params.frame_height || 17;
+	$(function(){
+		$('#'+params.container_id).html('<iframe src="http://'+ BB.begun_iframe_domain +'/'+ iframe_file +'?'+ begun_query.join('&') +'" frameborder=0 width="'+ frame_width +'" height="'+ frame_height +'" marginwidth=0 marginheight=0 scrolling=no></iframe>');
+	});
+	BB.begun_blocks_cnt++;
+}
+
+$(function(){
+	var rnd = Math.round(Math.random()*1000000000);
+	var ref = document.referrer ? escape(document.referrer) : 'unknown';
+	$('#adriver-240x120').html('<iframe src="http://ad.adriver.ru/cgi-bin/erle.cgi?sid=85725&sz=forum240&target=blank&bt=8&pz=0&tail256='+ ref +'&rnd='+ rnd +'" frameborder=0 vspace=0 hspace=0 width=240 height=120 marginwidth=0 marginheight=0 scrolling=no></iframe>');
+	$('#adriver-468x60').html('<iframe src="http://ad.adriver.ru/cgi-bin/erle.cgi?sid=85725&sz=forum468&target=blank&bt=1&pz=0&tail256='+ ref +'&rnd='+ rnd +'" frameborder=0 vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no></iframe>');
+//$('#filepost-guest').html('&nbsp; &middot; &nbsp;<a href="http://filepost.ru/?page=501455" target="_blank" style="color: brown;"><b>Скачать через FilePost и получить CD/DVD по почте</b></a>');
+});
+</script>
+
+<!--page_container-->
+<div id="page_container">
+<a name="top"></a>
+
+<!--page_header-->
+<div id="page_header">
+
+<!--main_nav-->
+<div id="main-nav" style="height: 17px;">
+	<table width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="nowrap">
+			<a href="./index.php"><b>Главная</b></a>&#0183;
+			<a href="tracker.php"><b>Трекер</b></a> <a href="#tr-menu" class="menu-root menu-alt1"><img src="http://static.rutracker.org/templates/default/images/menu_open_1.gif" class="menu-alt1" alt="\/" /></a> &#0183;
+			<a href="search.php"><b>Поиск</b></a>&#0183;
+			<a href="viewtopic.php?t=1045"><b>Правила</b></a>&#0183;
+			<a href="http://wiki.rutracker.org/" target="_blank"><b>FAQ</b></a>&#0183;
+			<a href="groupcp.php"><b>Группы</b></a>&#0183;
+			<a href="info.php?show=copyright_holders" onclick="window.open(this.href, '', InfoWinParams); return false;"><b>Для правообладателей</b></a>
+		</td>
+		<td id="nav-natz" class="nowrap" align="right">
+			<a href="http://kz.rutracker.org/forum/"><img alt="KZ" title="Казахский раздел" src="http://static.rutracker.org/flags/89.gif"></a>
+			<a href="http://ua.rutracker.org/forum/"><img alt="UA" title="Украинский раздел" src="http://static.rutracker.org/flags/180.gif"></a>
+			<a href="http://by.rutracker.org/forum/"><img alt="BY" title="Белорусский раздел" src="http://static.rutracker.org/flags/17.gif"></a>
+		</td>
+	</tr>
+	</table>
+</div>
+<!--/main-nav-->
+
+<!--logo-->
+<div id="logo">
+	<table width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td style="padding: 7px 0 3px 6px;">
+			<a href="./index.php"><img src="http://195.82.146.52/logo/logo.gif" width="320" height="85" alt="logo" /></a>
+		</td>
+		<td width="100%" class="tCenter" style="padding: 0 4px;">
+
+
+			<div class="tCenter bCenter" style="width: 728px; height: 90px; padding: 5px 0 1px;"><iframe src="http://195.82.146.52/iframe-solo-2.html?v=1" width=728 height=90 frameborder=0 vspace=0 hspace=0 marginwidth=0 marginheight=0 scrolling=no></iframe></div>	
+
+		</td>
+	</tr>
+	</table>
+</div>
+<!--/logo-->
+
+<!--topmenu-->
+<div class="topmenu">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+		<td width="50%">
+		Вы зашли как: &nbsp;<a href="./profile.php?mode=viewprofile&amp;u=17268044"><b class="med">superhomek</b></a>&nbsp; [ <a href="#" onclick="return post2url('http://login.rutracker.org/forum/login.php', {logout: 1});">Выход</a> ]
+	</td>
+	
+		<td style="padding: 2px;">
+<div>
+<form id="quick-search" method="post" action="">
+	<input type="hidden" name="max" value="1" />
+	<input id="search-text" type="text" name="nm" value="" tabindex="1" accesskey="q" style="font-size: 12px;" />
+	<select id="search-menu">
+		<option value="search-tr" data-action="tracker.php" selected="selected"> раздачи </option>
+				<option value="search-tr" data-action="tracker.php" data-forum_id="1389"> |- по разделу </option>
+				<option value="search-all" data-action="search.php"> все темы </option>
+				<option value="search-all" data-action="search.php" data-forum_id="1389"> |- по разделу </option>
+				<option value="cse"> в google </option>
+		<option value="wiki"> в wiki </option>
+		<option value="hash"> по info_hash </option>
+	</select>
+	<input type="submit" class="med" value="поиск" style="width: 55px;" />
+</form>
+<a style="display: none;" id="cse-search-btn-top" href="search-text">&nbsp;</a>
+</div>
+	</td>
+	
+		<td width="50%" class="tRight">
+				<a href="http://pm.rutracker.org/forum/privmsg.php?folder=inbox">ЛС (новых нет)</a>
+				&#0183;
+		<a href="./profile.php?mode=viewprofile&amp;u=17268044">Профиль</a> <a href="#dls-menu" class="menu-root menu-alt1"><img src="http://static.rutracker.org/templates/default/images/menu_open_1.gif" class="menu-alt1" alt="\/" /></a>
+		&#0183;
+		<a href="search.php?uid=17268044">Мои сообщения</a>
+	</td>
+	</tr>
+</table>
+</div><!--/topmenu-->
+
+<noscript>
+	<style type="text/css">
+	.sp-body, .sp-title { display: block; }
+	</style>
+</noscript>
+
+<div class="menu-sub" id="dls-menu">
+	<div class="menu-a bold nowrap">
+		<a class="med" href="profile.php?mode=editprofile">Настройки</a>
+		<a class="med" href="tracker.php?rid=17268044">Мои раздачи</a>
+		<a class="med" href="./profile.php?mode=viewprofile&amp;u=17268044">Текущие закачки</a>
+		<a class="med" href="search.php?dlu=17268044&amp;dlc=1">Прошлые закачки</a>
+		<a class="med" href="search.php?dlu=17268044&amp;dlw=1">Будущие закачки</a>
+	</div>
+</div>
+<div class="menu-sub" id="tr-menu">
+	<div class="menu-a bold nowrap">
+				<a class="med" href="tracker.php?f=33">Аниме</a>
+				<a class="med" href="tracker.php?f=1389">Аниме (основной подраздел)</a>
+	</div>
+</div>
+
+<!--breadcrumb-->
+<!--<div id="breadcrumb"></div>-->
+<!--/breadcrumb-->
+
+
+</div>
+<!--/page_header-->
+<!--bnt-->
+
+
+
+
+<!--page_content-->
+<div id="page_content">
+<table cellspacing="0" cellpadding="0" border="0" style="width: 100%;"><tr>
+
+
+<!--main_content-->
+<td id="main_content">
+<div id="main_content_wrap">
+
+
+<!--========================================================================-->
+<!--************************************************************************-->
+
+
+
+<!-- page_header.tpl END -->
+<!-- module_xx.tpl START -->
+
+<script type="text/javascript">
+ajax.get_forum_mods = function() {
+	ajax.exec({
+		action   : 'get_forum_mods',
+		forum_id : 1389	});
+};
+ajax.callback.get_forum_mods = function(data) {
+	$('#moderators').html(data.html);
+};
+</script>
+
+
+<table cellpadding="2" cellspacing="0" width="100%">
+<tr>
+	<td valign="bottom" width="100%">
+		<h1 class="maintitle"><a href="./viewforum.php?f=1389">Аниме (основной подраздел)</a></h1>
+				<p class="small" style="margin: 16px 4px 8px;"><b><span class="pg-jump-menu"><a class="menu-root" href="#pg-jump">Страницы</a> :&nbsp;&nbsp;</span> <a class="pg" href="viewforum.php?f=1389&amp;start=50">Пред.</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1389">1</a>, <a class="pg" href="viewforum.php?f=1389&amp;start=50">2</a>, <b>3</b>, <a class="pg" href="viewforum.php?f=1389&amp;start=150">4</a> ... <a class="pg" href="viewforum.php?f=1389&amp;start=5350">108</a>, <a class="pg" href="viewforum.php?f=1389&amp;start=5400">109</a>, <a class="pg" href="viewforum.php?f=1389&amp;start=5450">110</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1389&amp;start=150">След.</a></b></p>
+				<p class="small" style="margin: 8px 4px;">
+			<span id="moderators"><a href="#" onclick="ajax.get_forum_mods(); return false;">Модераторы</a></span>&nbsp;
+								</p>
+		
+		<table cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<td><a href="http://post.rutracker.org/forum/posting.php?f=1389&amp;mode=new_rel"><img src="http://static.rutracker.org/templates/default/images/post.gif" alt="Новая тема" /></a></td>
+				<td class="nav nav-top" width="100%">
+					&nbsp;<a href="./index.php">Список форумов rutracker.org</a>
+					<em>&raquo;</em>&nbsp;<a href="index.php?c=2">Кино, Видео и ТВ</a>					<em>&raquo;</em>&nbsp;<a href="./viewforum.php?f=33">Аниме</a>					<em>&raquo;</em>&nbsp;<a href="./viewforum.php?f=1389">Аниме (основной подраздел)</a>
+				</td>
+			</tr>
+		</table>
+
+	</td>
+	<td>
+	<div id="adriver-240x120"></div>	</td>
+</tr>
+</table>
+
+
+<a name="topics"></a>
+
+<table class="forumline">
+<tr>
+	<td class="cat bw_TRL pad_2 tRight small bold">
+		<a class="small" href="#" onclick="return post2url('feed.php', {mode: 'get_feed_url', type: 'f', id: 1389})">Подписка на фиды</a>
+	&nbsp;&middot;&nbsp;
+			<a class="menu-root" href="#only-new-options">Опции показа</a>
+	&nbsp;
+
+	<form id="search-f-form" method="post" action="viewforum.php?f=1389">
+		<input type="hidden" name="fsf" value="33" />
+		<input id="search-f-text" type="text" name="nm" maxlength="60" style="width: 220px;"
+			value=""		/>
+		<input type="submit" class="med" value="по разделу" title="ФИЛЬТР по разделу (max: 50)" style="width: 90px;" />
+		<input type="button" class="med" value="по подразделам" title="ПОИСК по подразделам" style="width: 120px;" onclick="$('#search-f-form').attr({action: 'search.php'}).submit();" />
+	</form>
+	</td>
+</tr>
+</table>
+
+
+<table class="forumline forum">
+<col class="row1">
+<col class="row1">
+<col class="row1" width="75%">
+<col class="row2" width="5%">
+<col class="row2" width="5%">
+<col class="row2" width="15%">
+<tr>
+	<th colspan="3">Темы</th>
+	<th>Торрент</th>
+	<th>Отв.</th>
+	<th>Посл. сообщение</th>
+</tr>
+<tr id="tr-144018" class="hl-tr">
+	<td colspan="2" id="144018" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-need-edit">?</span>&#0183;									<a id="tt-144018" href="./viewtopic.php?t=144018" class="torTopic bold tt-text">Поцелуй во тьме / Papa to: Kiss in the Dark [2005 г., яой, романтика, драма, сёдзё]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=382057" class="topicAuthor">TraceInto</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=144018" class="topicPG">1</a>, <a href="viewtopic.php?t=144018&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>7</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=144018" class="small f-dl dl-stub" style="text-decoration: none">451&nbsp;MB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">46</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>5618</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-11-25 11:42</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=29036338">ynastydy</a>		<a href="./viewtopic.php?p=56507578#56507578"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1539811" class="hl-tr">
+	<td colspan="2" id="1539811" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1539811" href="./viewtopic.php?t=1539811" class="torTopic bold tt-text">Детектив Конан / Detective Conan / Meitantei Conan (Кодама Кэндзи, Ямамото Ясуйтиро) [TV][001-207, 209-300][без хардсаба][JAP+SUB][1996 г., комедия, детектив, романтика, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=1264539" class="topicAuthor">successful hunter</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=1539811" class="topicPG">1</a> .. <a href="viewtopic.php?t=1539811&amp;start=1680" class="topicPG">57</a>, <a href="viewtopic.php?t=1539811&amp;start=1710" class="topicPG">58</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>25</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>19</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1539811" class="small f-dl dl-stub" style="text-decoration: none">98.64&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">1739</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1513</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-19 10:25</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=8117803">akelary</a>		<a href="./viewtopic.php?p=60538699#60538699"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-4408853" class="hl-tr">
+	<td colspan="2" id="4408853" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-4408853" href="./viewtopic.php?t=4408853" class="torTopic bold tt-text">Воин-волшебн<wbr>ик Луи / Louie the Rune Soldier / Mahou Senshi Louie [TV] [1-24 из 24] [Без хардсаба] [RUS(int), JAP, SUB] [2001 г., приключения,<wbr> комедия, фэнтези, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=14731778" class="topicAuthor">dio669</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>16</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>4</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=4408853" class="small f-dl dl-stub" style="text-decoration: none">11.02&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">15</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>445</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-03 07:09</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=9793468">regaliy</a>		<a href="./viewtopic.php?p=61552497#61552497"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-972871" class="hl-tr">
+	<td colspan="2" id="972871" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-972871" href="./viewtopic.php?t=972871" class="torTopic bold tt-text">Ван-Пис 201-251 ТВ /(RAW) [RUS+JAP] One Piece TV 201-251(Уда Коносукэ) [1999 г., приключения,<wbr> комедия, фэнтези, сёнэн]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=227268" class="topicAuthor">dimdimich</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=972871" class="topicPG">1</a> .. <a href="viewtopic.php?t=972871&amp;start=240" class="topicPG">9</a>, <a href="viewtopic.php?t=972871&amp;start=270" class="topicPG">10</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>27</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>6</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=972871" class="small f-dl dl-stub" style="text-decoration: none">13.47&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">288</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>15061</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-02-08 17:09</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=16785994">kruskaner</a>		<a href="./viewtopic.php?p=57799138#57799138"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1351689" class="hl-tr">
+	<td colspan="2" id="1351689" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1351689" href="./viewtopic.php?t=1351689" class="torTopic bold tt-text">Уличный боец Альфа 2 / Street Fighter Alpha: Generation (Кувана Икуоa) [Movie][без хардсаба][RUS(int),JAP<wbr>,ENG][2005 г., боевые искусства, приключения,<wbr> фантастика, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2018561" class="topicAuthor">BeHappy</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>10</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>1</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1351689" class="small f-dl dl-stub" style="text-decoration: none">358&nbsp;MB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">15</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>3159</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2011-07-23 22:09</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=13666454">zulzen</a>		<a href="./viewtopic.php?p=46469802#46469802"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3701232" class="hl-tr">
+	<td colspan="2" id="3701232" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3701232" href="./viewtopic.php?t=3701232" class="torTopic bold tt-text">Fruits Basket / Корзинка Фруктов [TV] [26 из 26] [без хардсаба] [RUS(ext), ENG, JAP+SUB] [2001 г., романтика, комедия, драма, сёдзё, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=4692267" class="topicAuthor">Nоsferatu</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=3701232" class="topicPG">1</a>, <a href="viewtopic.php?t=3701232&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>16</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>20</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3701232" class="small f-dl dl-stub" style="text-decoration: none">11.22&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">36</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1495</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-17 03:08</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=17565552">alexsword1975</a>		<a href="./viewtopic.php?p=60510835#60510835"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3311243" class="hl-tr">
+	<td colspan="2" id="3311243" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3311243" href="./viewtopic.php?t=3311243" class="torTopic bold tt-text">Капета / Capeta [TV] [Без хардсаба] [52 из 52] [RUS(int), JAP+SUB] [2005 г., спорт, сенэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=11081638" class="topicAuthor">mangust93</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=3311243" class="topicPG">1</a>, <a href="viewtopic.php?t=3311243&amp;start=30" class="topicPG">2</a>, <a href="viewtopic.php?t=3311243&amp;start=60" class="topicPG">3</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>21</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>6</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3311243" class="small f-dl dl-stub" style="text-decoration: none">10.25&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">62</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>943</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-10-13 19:59</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=26815426">Did Ivan</a>		<a href="./viewtopic.php?p=61267618#61267618"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3529432" class="hl-tr">
+	<td colspan="2" id="3529432" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3529432" href="./viewtopic.php?t=3529432" class="torTopic bold tt-text">Ублюдок!! Сокрушитель Тьмы / Bastard! Destroyer of Darkness / Bastard!! Ankoku no Hakai Shin [OVA] [1-6 из 6] [Без хардсаба] [RUS(int), JAP, SUB] [1992 г., приключения,<wbr> комедия, фэнтези, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=529" class="topicAuthor">intellect</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>27</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>1</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3529432" class="small f-dl dl-stub" style="text-decoration: none">2.75&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">9</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>2788</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-18 18:54</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=20755420">mastermolot</a>		<a href="./viewtopic.php?p=60533019#60533019"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1193586" class="hl-tr">
+	<td colspan="2" id="1193586" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1193586" href="./viewtopic.php?t=1193586" class="torTopic bold tt-text">Моя любовь 2/ Ginyuu Mokushiroku Meine Liebe Wieder, (Кавадзура Синя)[TV][13 из 13][без хардсаба][RUS(int),JAP<wbr>+SUB][2006, история, драма, сёдзё, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2317126" class="topicAuthor">Rumiko</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>8</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1193586" class="small f-dl dl-stub" style="text-decoration: none">4.37&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">7</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1833</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-16 17:25</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=25009093">ZarkanaZ</a>		<a href="./viewtopic.php?p=60506472#60506472"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1177889" class="hl-tr">
+	<td colspan="2" id="1177889" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1177889" href="./viewtopic.php?t=1177889" class="torTopic bold tt-text">Моя любовь / Ginyuu Mokushiroku Meine Liebe, (Масимо Койти)[TV][13 из 13][без хардсаба][RUS(int),JAP<wbr>+SUB][2004, история, драма, сёдзё, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2317126" class="topicAuthor">Rumiko</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>9</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>1</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1177889" class="small f-dl dl-stub" style="text-decoration: none">4.36&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">15</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>2224</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-28 15:01</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=20061219">nokia6600</a>		<a href="./viewtopic.php?p=61905483#61905483"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1826728" class="hl-tr">
+	<td colspan="2" id="1826728" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1826728" href="./viewtopic.php?t=1826728" class="torTopic bold tt-text">Street Fighter IV: Aratanaru Kizuna / Street Fighter IV: The Ties That Bind (Моримото Кодзи) [OVA][1 из 1][без хардсаба][JAP(int),JAP<wbr>(ext)+SUB(ext)][2009 г., боевые искусства, приключения,<wbr> фантастика, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=7213455" class="topicAuthor">dammitt_</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>3</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1826728" class="small f-dl dl-stub" style="text-decoration: none">806&nbsp;MB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">11</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>868</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2010-05-30 16:53</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=1643328">Jason DinAlt</a>		<a href="./viewtopic.php?p=35500901#35500901"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-4000591" class="hl-tr">
+	<td colspan="2" id="4000591" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-4000591" href="./viewtopic.php?t=4000591" class="torTopic bold tt-text">Ангелы Смерти: Бесконечност<wbr>ь / Burst Angel -Infinity- / Bakuretsu Tenshi: Infinity [OVA] [1 из 1] [SP] [1 из 3] (Охата Койти) [Без Хардсаба] [3 RUS(ext), JAP+SUB] [2007 г., приключения,<wbr> комедия, меха, этти, BDRip] [576p]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=18643512" class="topicAuthor">Asashi mikki13</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>5</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>4</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=4000591" class="small f-dl dl-stub" style="text-decoration: none">1.16&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">8</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>796</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-05-08 22:11</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=18643512">Asashi mikki13</a>		<a href="./viewtopic.php?p=52988935#52988935"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3277435" class="hl-tr">
+	<td colspan="2" id="3277435" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3277435" href="./viewtopic.php?t=3277435" class="torTopic bold tt-text">Морская Невеста / Seto no Hanayome [TV] [1-26 из 26] [Без хардсаба] [RUS(int), JAP+SUB] [2007 г., Комедия, Романтика, Фэнтези, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=18982609" class="topicAuthor">jane_the_rin<wbr>g</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>35</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>4</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3277435" class="small f-dl dl-stub" style="text-decoration: none">7.71&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">29</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>6747</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-23 09:54</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=27703077">RiskBraker</a>		<a href="./viewtopic.php?p=60586287#60586287"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-4000593" class="hl-tr">
+	<td colspan="2" id="4000593" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-4000593" href="./viewtopic.php?t=4000593" class="torTopic bold tt-text">Ангелы Смерти / Burst Angel / Bakuretsu Tenshi [TV] [24 из 24] [SP] [6 из 6] (Охата Койти) [Без Хардсаба] [RUS(ext)] [SUB+JAP] [2004 г., приключения,<wbr> комедия, меха, этти, BDRip] [576p]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=18643512" class="topicAuthor">Asashi mikki13</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>12</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>6</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=4000593" class="small f-dl dl-stub" style="text-decoration: none">18.28&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">18</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>2505</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-09-23 11:41</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=3006797">Archmage</a>		<a href="./viewtopic.php?p=60987587#60987587"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2693638" class="hl-tr">
+	<td colspan="2" id="2693638" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2693638" href="./viewtopic.php?t=2693638" class="torTopic bold tt-text">Унесенные Призраками / Spirited Away / Sen To Chihiro No Kamikakushi (Хаяо Миядзаки) [Movie][без хардсаба][RUS(int),JAP<wbr>+SUB][2001 г., фэнтези, приключения,<wbr> драма, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=14007518" class="topicAuthor">meolite</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=2693638" class="topicPG">1</a> .. <a href="viewtopic.php?t=2693638&amp;start=60" class="topicPG">3</a>, <a href="viewtopic.php?t=2693638&amp;start=90" class="topicPG">4</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>658</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>56</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2693638" class="small f-dl dl-stub" style="text-decoration: none">1.44&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">92</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>79600</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-03 21:43</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=28645901">rona68</a>		<a href="./viewtopic.php?p=61977861#61977861"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-281425" class="hl-tr">
+	<td colspan="2" id="281425" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-281425" href="./viewtopic.php?t=281425" class="torTopic bold tt-text">Инуяша.Пес-д<wbr>емон.01-27 из 27 [сезон-1] (Рус+) / Inuyasha - Sengoku o-Togi Zoushi (Икэда Масаси) [2000 г., фэнтези, приключения,<wbr> история, романтика, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=227268" class="topicAuthor">dimdimich</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=281425" class="topicPG">1</a>, <a href="viewtopic.php?t=281425&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>8</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=281425" class="small f-dl dl-stub" style="text-decoration: none">6.45&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">35</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>3604</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-12-03 13:00</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=32082708">Ledi Нару</a>		<a href="./viewtopic.php?p=61970906#61970906"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2555358" class="hl-tr">
+	<td colspan="2" id="2555358" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2555358" href="./viewtopic.php?t=2555358" class="torTopic bold tt-text">Волчица и пряности (2 сезон) / Spice and Wolf II / Ookami to Koushinryou II (Такахаси Такэо) [TV] [12 из 12] [Без Хардсаба] [2xRUS(int),J<wbr>AP+SUB] [2009 г., Приключения,<wbr> Фэнтези, Романтика, Драма, BDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=13551383" class="topicAuthor">Обик</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=2555358" class="topicPG">1</a> .. <a href="viewtopic.php?t=2555358&amp;start=60" class="topicPG">3</a>, <a href="viewtopic.php?t=2555358&amp;start=90" class="topicPG">4</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>86</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>3</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2555358" class="small f-dl dl-stub" style="text-decoration: none">3.35&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">102</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>16372</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-24 10:10</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=29789646">Timideris</a>		<a href="./viewtopic.php?p=61848670#61848670"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-726643" class="hl-tr">
+	<td colspan="2" id="726643" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-726643" href="./viewtopic.php?t=726643" class="torTopic bold tt-text">Принцесса Мононоке / Princess Mononoke (Хаяо Миядзаки) [Movie][без хардсаба][RUS(int)][1997 г., приключения,<wbr> драма, фэнтези, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=809823" class="topicAuthor">ssupperr</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=726643" class="topicPG">1</a> .. <a href="viewtopic.php?t=726643&amp;start=120" class="topicPG">5</a>, <a href="viewtopic.php?t=726643&amp;start=150" class="topicPG">6</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>334</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>3</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=726643" class="small f-dl dl-stub" style="text-decoration: none">1.99&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">150</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>46514</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-10-19 09:39</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=1121590">yaroma</a>		<a href="./viewtopic.php?p=61340549#61340549"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3026621" class="hl-tr">
+	<td colspan="2" id="3026621" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3026621" href="./viewtopic.php?t=3026621" class="torTopic bold tt-text">Девочка, покорившая время / Toki wo Kakeru Shoujo / The Girl Who Leapt Through Time (Мамору Хосода)[Movie][без хардсаба][RUS(int)][2006 г., приключения,<wbr> фантастика, романтика, драма, BDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=14293006" class="topicAuthor">Оsириs</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=3026621" class="topicPG">1</a>, <a href="viewtopic.php?t=3026621&amp;start=30" class="topicPG">2</a>, <a href="viewtopic.php?t=3026621&amp;start=60" class="topicPG">3</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>234</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>3</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3026621" class="small f-dl dl-stub" style="text-decoration: none">1.46&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">86</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>33479</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-05-17 10:07</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=27774144">мадокамагика</a>		<a href="./viewtopic.php?p=59332953#59332953"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-4190769" class="hl-tr">
+	<td colspan="2" id="4190769" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-4190769" href="./viewtopic.php?t=4190769" class="torTopic bold tt-text">Могила светлячков / Grave of the Fireflies / Hotaru no Haka [Movie] [Без хардсаба] [RUS(int), JAP+SUB] [1988 г., драма, военный, BDRip-AVC]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=23370048" class="topicAuthor">Deep Fusion</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>159</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>21</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=4190769" class="small f-dl dl-stub" style="text-decoration: none">2.96&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">9</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>6391</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-04 13:14</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=23827011">krendo</a>		<a href="./viewtopic.php?p=60356531#60356531"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1925837" class="hl-tr">
+	<td colspan="2" id="1925837" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1925837" href="./viewtopic.php?t=1925837" class="torTopic bold tt-text">Рагнарок / Ragnarok: The Animation (Киси Сэйдзи)[TV][26 из 26][ансаб: с 1 по 12 эпизоды][RUS(int), JAP+SUB][2004, приключения,<wbr> фэнтази, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=7393149" class="topicAuthor">Kiioko</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>8</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>2</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1925837" class="small f-dl dl-stub" style="text-decoration: none">4.96&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">25</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>2353</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-12-04 19:53</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=14196104">lexou38</a>		<a href="./viewtopic.php?p=56668110#56668110"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2752241" class="hl-tr">
+	<td colspan="2" id="2752241" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2752241" href="./viewtopic.php?t=2752241" class="torTopic bold tt-text">Саюки: Реквием / Gekijouban Gensou Maden Saiyuuki: Requiem / Gensoumaden Saiyuki: Requiem - For the One Not Chosen (Датэ Хаято) [Movie][полухардсаб][RUS(int),JAP<wbr>+SUB][2001 г., приключения,<wbr> боевые искусства, фэнтези, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=3279475" class="topicAuthor">diemon1981</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>10</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2752241" class="small f-dl dl-stub" style="text-decoration: none">1.32&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">3</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1502</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-05-09 05:39</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=26892053">mimila1</a>		<a href="./viewtopic.php?p=52990976#52990976"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1835060" class="hl-tr">
+	<td colspan="2" id="1835060" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1835060" href="./viewtopic.php?t=1835060" class="torTopic bold tt-text">Отныне Мао, король демонов! (второй сезон) / Kyou Kara Maoh! / Kyou Kara Maou!(Нисиму<wbr>ра Дзюндзи) [TV][39 из 39][Без хардсаба][RUS(int),JAP<wbr>+SUB][2005 г., приключения,<wbr> комедия, фэнтези, сёнэн, TVRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=1292520" class="topicAuthor">minikaro</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=1835060" class="topicPG">1</a>, <a href="viewtopic.php?t=1835060&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>45</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>4</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1835060" class="small f-dl dl-stub" style="text-decoration: none">11.35&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">53</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>5900</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-06-30 09:08</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=12961338">LaiGuanYing</a>		<a href="./viewtopic.php?p=59911784#59911784"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2896189" class="hl-tr">
+	<td colspan="2" id="2896189" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2896189" href="./viewtopic.php?t=2896189" class="torTopic bold tt-text">Предательств<wbr>о Знает Мое Имя / Uragiri wa Boku no Namae o Shitteiru (Сакураби Кацуси)[TV][без хардсаба][24 из 24][JAP+SUB][2010 г., приключения,<wbr> мистика, седзё, TVRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=10376329" class="topicAuthor">KyttyBry</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=2896189" class="topicPG">1</a> .. <a href="viewtopic.php?t=2896189&amp;start=90" class="topicPG">4</a>, <a href="viewtopic.php?t=2896189&amp;start=120" class="topicPG">5</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>18</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>4</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2896189" class="small f-dl dl-stub" style="text-decoration: none">3.48&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">138</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>6494</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-03-25 01:04</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=8278524">Eilyn</a>		<a href="./viewtopic.php?p=52086145#52086145"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2835656" class="hl-tr">
+	<td colspan="2" id="2835656" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2835656" href="./viewtopic.php?t=2835656" class="torTopic bold tt-text">Воровка-ками<wbr>кадзе Жанна / Kamikaze Kaitou Jeanne (Умэдзава Ацутоси) [TV] [44 из 44] [без хардсаба] [Jap+sub][1999 г., романтика, комедия, махо-сёдзё, сёдзё] [DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=1454282" class="topicAuthor">Kurai_tyan</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>3</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>2</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2835656" class="small f-dl dl-stub" style="text-decoration: none">7.64&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">10</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1254</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-08-20 07:49</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=3559221">Tuts</a>		<a href="./viewtopic.php?p=54777106#54777106"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2475842" class="hl-tr">
+	<td colspan="2" id="2475842" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2475842" href="./viewtopic.php?t=2475842" class="torTopic bold tt-text">Рыцари Зодиака: Воины последней святой войны (фильм четвертый) / Saint Seiya - Saishuu Seisen no Senshitachi (Масаюки Акехи) [Movie] [без хардсаба] [JAP+SUB] [1989 г., фэнтези, приключения,<wbr> фантастика, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2115800" class="topicAuthor">Nuriko34</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>4</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2475842" class="small f-dl dl-stub" style="text-decoration: none">1.12&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">5</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>449</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-12-25 11:59</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=22695913">Amura666</a>		<a href="./viewtopic.php?p=57010898#57010898"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3134922" class="hl-tr">
+	<td colspan="2" id="3134922" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3134922" href="./viewtopic.php?t=3134922" class="torTopic bold tt-text">Базука Ханаппэ / Hanappe Bazooka (Икэгами Такамаса) [OVA][1 из 1] [без хардсаба] [RUS(int), JAP, SUB] [1992 г., комедия, фэнтези, эротика, школа, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=4596306" class="topicAuthor">bat1</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>5</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3134922" class="small f-dl dl-stub" style="text-decoration: none">524&nbsp;MB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">0</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>702</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2010-08-31 22:44</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=4596306">bat1</a>		<a href="./viewtopic.php?p=37747197#37747197"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2475470" class="hl-tr">
+	<td colspan="2" id="2475470" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2475470" href="./viewtopic.php?t=2475470" class="torTopic bold tt-text">Рыцари Зодиака: Жестокая Битва Богов (фильм второй) / Saint Seiya - Kamigami no Atsuki Tatakai (Морисита Кодзо) [Movie] [без хардсаба] [JAP+SUB] [1988 г., фэнтези, приключения,<wbr> фантастика, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2115800" class="topicAuthor">Nuriko34</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>4</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2475470" class="small f-dl dl-stub" style="text-decoration: none">1.05&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">4</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>584</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2011-06-14 13:29</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=2115800">Nuriko34</a>		<a href="./viewtopic.php?p=45633916#45633916"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2472562" class="hl-tr">
+	<td colspan="2" id="2472562" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2472562" href="./viewtopic.php?t=2472562" class="torTopic bold tt-text">Рыцари Зодиака: Легенда о Золотом Яблоке (фильм первый) / Saint Seiya - Gekijoban (Морисита Кодзо) [Movie] [без хардсаба] [JAP+SUB] [1987 г., фэнтези, приключения,<wbr> фантастика, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2115800" class="topicAuthor">Nuriko34</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>3</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2472562" class="small f-dl dl-stub" style="text-decoration: none">1.11&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">10</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>609</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-07-30 09:28</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=16516872">Ay_16r</a>		<a href="./viewtopic.php?p=60291147#60291147"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2607694" class="hl-tr">
+	<td colspan="2" id="2607694" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">#</span>&#0183;									<a id="tt-2607694" href="./viewtopic.php?t=2607694" class="torTopic bold tt-text">Моя богиня! (второй сезон) / Aa Megami-sama:<wbr> Sorezore no Tsubasa / Ah! My Goddess: Everyone Has Wings (Года Хироаки) [TV] [22 из 22] + [special] [2 из 2] [без хардсаба] [Rus(ext), JAP+SUB] [2006 г., приключения,<wbr> романтика, фэнтези, драма, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=13079445" class="topicAuthor">Srgs</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>11</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>3</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2607694" class="small f-dl dl-stub" style="text-decoration: none">7.81&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">20</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>3033</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2011-04-22 12:00</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=13079445">Srgs</a>		<a href="./viewtopic.php?p=44376253#44376253"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2391470" class="hl-tr">
+	<td colspan="2" id="2391470" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2391470" href="./viewtopic.php?t=2391470" class="torTopic bold tt-text">Самурай Чамплу / Samurai Champloo (Shinichiro Watanabe)[TV][26 из 26][без хардсаба][RUS(int.); JAP][2004 г., приключения,<wbr> комедия, история, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=6779223" class="topicAuthor">mult928</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=2391470" class="topicPG">1</a>, <a href="viewtopic.php?t=2391470&amp;start=30" class="topicPG">2</a>, <a href="viewtopic.php?t=2391470&amp;start=60" class="topicPG">3</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>40</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>7</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2391470" class="small f-dl dl-stub" style="text-decoration: none">5.92&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">62</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>14431</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-07-26 15:25</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=14053423">Takuya-kun</a>		<a href="./viewtopic.php?p=54370024#54370024"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3415153" class="hl-tr">
+	<td colspan="2" id="3415153" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-dup">T</span>&#0183;									<a id="tt-3415153" href="./viewtopic.php?t=3415153" class="torTopic bold tt-text">Тока Гэттан / Touka Gettan [TV] [1-26] [Без хардсаба] [RUS(ext), JAP+SUB] [2007 г., комедия, романтика, драма, мистика, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=10109249" class="topicAuthor">Date Masamune</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>7</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>6</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3415153" class="small f-dl dl-stub" style="text-decoration: none">6.67&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">16</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>982</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-02-06 21:52</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=5841440">Ich Lauf</a>		<a href="./viewtopic.php?p=57767227#57767227"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3261968" class="hl-tr">
+	<td colspan="2" id="3261968" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3261968" href="./viewtopic.php?t=3261968" class="torTopic bold tt-text">Клеймор / Claymore (Танака Хироюки) [TV] [26 из 26] [без хардсаба] [RUS(ext), JAP+SUB] [2007 г., приключения,<wbr> фэнтези, драма, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=9775433" class="topicAuthor">Aglenn</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=3261968" class="topicPG">1</a>, <a href="viewtopic.php?t=3261968&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>20</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>24</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3261968" class="small f-dl dl-stub" style="text-decoration: none">12.55&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">51</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>6263</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-10-31 20:19</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=13741941">shinkiroo</a>		<a href="./viewtopic.php?p=61521163#61521163"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3614948" class="hl-tr">
+	<td colspan="2" id="3614948" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3614948" href="./viewtopic.php?t=3614948" class="torTopic bold tt-text">Черная Лагуна: Кровавый Путь Роберты / Black Lagoon: Roberta's Blood Trail [OVA] [1-5 из 5] [Без хардсаба] [RUS(int), JAP, SUB] [2010 г., приключения,<wbr> драма, боевик, BDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=7443127" class="topicAuthor">wirruss</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>29</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3614948" class="small f-dl dl-stub" style="text-decoration: none">1.81&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">15</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1991</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-04-22 10:31</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=25911661">Пупочёк</a>		<a href="./viewtopic.php?p=58974558#58974558"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-340357" class="hl-tr">
+	<td colspan="2" id="340357" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-340357" href="./viewtopic.php?t=340357" class="torTopic bold tt-text">Фури-кури / FLCL / Furi Kuri (Цурумаки Кадзуя) [OVA][6 из 6][без хардсаба][RUS(int),JAP<wbr>,ENG+SUB][2000 г., комедия, фантастика, психология, пародия, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=135469" class="topicAuthor">nonsens112</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=340357" class="topicPG">1</a> .. <a href="viewtopic.php?t=340357&amp;start=270" class="topicPG">10</a>, <a href="viewtopic.php?t=340357&amp;start=300" class="topicPG">11</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>108</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>11</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=340357" class="small f-dl dl-stub" style="text-decoration: none">2.19&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">328</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>27209</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-25 10:18</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=4220562">Alivio</a>		<a href="./viewtopic.php?p=61862955#61862955"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3275838" class="hl-tr">
+	<td colspan="2" id="3275838" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3275838" href="./viewtopic.php?t=3275838" class="torTopic bold tt-text">Заградители / Kekkaishi [TV] [52 из 52] [без хардсаба][RUS(int),JAP<wbr>+SUB][2006 г., приключения,<wbr> фэнтези, история, сёнэн, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2848327" class="topicAuthor">MERDOK</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=3275838" class="topicPG">1</a>, <a href="viewtopic.php?t=3275838&amp;start=30" class="topicPG">2</a>, <a href="viewtopic.php?t=3275838&amp;start=60" class="topicPG">3</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>48</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>13</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3275838" class="small f-dl dl-stub" style="text-decoration: none">14.65&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">76</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>5991</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-09-05 10:19</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=22169722">Adaru</a>		<a href="./viewtopic.php?p=55048640#55048640"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1984166" class="hl-tr">
+	<td colspan="2" id="1984166" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1984166" href="./viewtopic.php?t=1984166" class="torTopic bold tt-text">Фигурный Калейдоскоп / Ginban Kaleidoscope<wbr> / Skating Ring Kaleidoscope<wbr> [1-12 из 12] [TV][без хардсаба][RUS(int),JAP<wbr>+SUB][2005, комедия, романтика, спорт, фэнтези, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=289103" class="topicAuthor">bubuzavr</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=1984166" class="topicPG">1</a>, <a href="viewtopic.php?t=1984166&amp;start=30" class="topicPG">2</a>, <a href="viewtopic.php?t=1984166&amp;start=60" class="topicPG">3</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>15</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1984166" class="small f-dl dl-stub" style="text-decoration: none">4.5&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">73</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>3321</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2012-11-15 06:10</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=13323234">Гонсчег</a>		<a href="./viewtopic.php?p=56329127#56329127"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1849338" class="hl-tr">
+	<td colspan="2" id="1849338" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1849338" href="./viewtopic.php?t=1849338" class="torTopic bold tt-text">Спецкласс «А» / Special A (Мияо Ёсикадзу) [TV][24 из 24][без хардсаба][JAP+SUB][2008 г., комедия, романтика, драма, сёдзё, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=84107" class="topicAuthor">cool_mike</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=1849338" class="topicPG">1</a>, <a href="viewtopic.php?t=1849338&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>28</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>9</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1849338" class="small f-dl dl-stub" style="text-decoration: none">6.01&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">48</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>9387</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-06-08 20:25</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=334329">Nash Bridges</a>		<a href="./viewtopic.php?p=59634609#59634609"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1903152" class="hl-tr">
+	<td colspan="2" id="1903152" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1903152" href="./viewtopic.php?t=1903152" class="torTopic bold tt-text">H2O: Следы на песке / H2O: Footprints in the Sand (Татибана Хидэки) [TV][12 из 12][без хардсаба][RUS(ext),JAP<wbr>+SUB][2008 г., драма, романтика, школа, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=3824999" class="topicAuthor">sergey366815<wbr></a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=1903152" class="topicPG">1</a>, <a href="viewtopic.php?t=1903152&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>22</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>8</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1903152" class="small f-dl dl-stub" style="text-decoration: none">4.49&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">55</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>4559</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-24 17:53</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=21332045">Riata</a>		<a href="./viewtopic.php?p=61854699#61854699"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1389229" class="hl-tr">
+	<td colspan="2" id="1389229" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1389229" href="./viewtopic.php?t=1389229" class="torTopic bold tt-text">Гильгамеш(Ги<wbr>лгамеш) / Gilgamesh (Масахико Мурата) [TV] [26 из 26] [без хардсаба] [RUS (ext),JAP+SUB] [2003 г., драма, фэнтези, фантастика, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=2033698" class="topicAuthor">luciferRND</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=1389229" class="topicPG">1</a>, <a href="viewtopic.php?t=1389229&amp;start=30" class="topicPG">2</a>, <a href="viewtopic.php?t=1389229&amp;start=60" class="topicPG">3</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>32</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>12</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1389229" class="small f-dl dl-stub" style="text-decoration: none">4.8&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">60</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>7221</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-06-26 06:04</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=18260901">1dada1</a>		<a href="./viewtopic.php?p=59859818#59859818"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2130712" class="hl-tr">
+	<td colspan="2" id="2130712" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2130712" href="./viewtopic.php?t=2130712" class="torTopic bold tt-text">Ведьмина служба доставки (Служба доставки Кики) / Majo no Takkyuubin (Kiki's Delivery Service) (Миядзаки Хаяо) [Movie] [без хардсаба] [RUS(int),JAP<wbr>+SUB] [1989 г., приключения,<wbr> комедия, драма, махо-сёдзё, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=9355019" class="topicAuthor">Eivind</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=2130712" class="topicPG">1</a>, <a href="viewtopic.php?t=2130712&amp;start=30" class="topicPG">2</a>, <a href="viewtopic.php?t=2130712&amp;start=60" class="topicPG">3</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>121</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>1</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2130712" class="small f-dl dl-stub" style="text-decoration: none">2.05&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">79</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>11235</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-05-28 10:03</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=15800516">Николай МС</a>		<a href="./viewtopic.php?p=59482380#59482380"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-1091632" class="hl-tr">
+	<td colspan="2" id="1091632" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-1091632" href="./viewtopic.php?t=1091632" class="torTopic bold tt-text">Аллисон и Лилия / Allison to Lillia / Allison &amp; Lillia / Allison and Lillia (Нисида Масаёси) [TV][26 из 26][без хардсаба][RUS (ext),JAP+SUB][2008 г., приключения,<wbr> комедия, романтика, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=3650398" class="topicAuthor">Shiko_Hikiko<wbr>moriKyokai</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=1091632" class="topicPG">1</a>, <a href="viewtopic.php?t=1091632&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>20</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>12</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=1091632" class="small f-dl dl-stub" style="text-decoration: none">7.09&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">50</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>4708</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-01-04 17:45</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=10065157">spirits</a>		<a href="./viewtopic.php?p=57172621#57172621"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3498367" class="hl-tr">
+	<td colspan="2" id="3498367" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3498367" href="./viewtopic.php?t=3498367" class="torTopic bold tt-text">Голос далёкой звезды / Hoshi no Koe / Voices of a Distant Star (Синкай Макото / Shinkai Makoto) [OVA] [1 из 1] [без хардсаба] [RUS(ext), JAP+SUB] [2002 г., фантастика, меха, романтика, драма, BDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=5227271" class="topicAuthor">Yurasyk</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=3498367" class="topicPG">1</a>, <a href="viewtopic.php?t=3498367&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>102</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>22</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3498367" class="small f-dl dl-stub" style="text-decoration: none">1.22&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">40</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>6186</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-12 19:00</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=26030721">Aлex68</a>		<a href="./viewtopic.php?p=60457726#60457726"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3509622" class="hl-tr">
+	<td colspan="2" id="3509622" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3509622" href="./viewtopic.php?t=3509622" class="torTopic bold tt-text">Ван-Пис: Романтическа<wbr>я Фантазия / One Piece: Romance Dawn Story (Токоро Кацуми) [special][Без хардсаба][RUS(Int),JAP<wbr>+SUB][2008 г., приключения,<wbr> комедия, фэнтези, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=227268" class="topicAuthor">dimdimich</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>15</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3509622" class="small f-dl dl-stub" style="text-decoration: none">759&nbsp;MB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">0</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1805</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2011-04-03 12:59</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=227268">dimdimich</a>		<a href="./viewtopic.php?p=43867486#43867486"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3929562" class="hl-tr">
+	<td colspan="2" id="3929562" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3929562" href="./viewtopic.php?t=3929562" class="torTopic bold tt-text">Волчий дождь / Wolf's Rain TV [TV + Special] [26+4 из 26+4] [Без хардсаба] [RUS(int), JAP+SUB] [2003 г., приключения,<wbr> мистика, драма, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=15128721" class="topicAuthor">CHESNOK-sama<wbr></a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=3929562" class="topicPG">1</a>, <a href="viewtopic.php?t=3929562&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>80</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>12</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3929562" class="small f-dl dl-stub" style="text-decoration: none">10.1&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">57</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>6056</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-08-30 18:59</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=1088167">Murkrut</a>		<a href="./viewtopic.php?p=60683199#60683199"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-262458" class="hl-tr">
+	<td colspan="2" id="262458" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-262458" href="./viewtopic.php?t=262458" class="torTopic bold tt-text">Подручный бездарной Луизы / Zero s Familiar (Iwasaki Yoshiaki) [TV] [13 из 13] [Без хардсаба] [RUS(int), JAP, SUB] [2006 г., приключения,<wbr> комедия, фэнтези, романтика, TVRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=1015189" class="topicAuthor">a-oz</a>
+				<span class="topicPG">&nbsp;[<img src="http://static.rutracker.org/templates/default/images/icon_minipost.gif" class="icon1" alt="" />Стр. <a href="viewtopic.php?t=262458" class="topicPG">1</a>, <a href="viewtopic.php?t=262458&amp;start=30" class="topicPG">2</a> ]</span>		</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>2</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>1</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=262458" class="small f-dl dl-stub" style="text-decoration: none">4.35&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">37</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>1758</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2011-11-29 14:56</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=19146432">Mr. Green Ray</a>		<a href="./viewtopic.php?p=49467648#49467648"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-2468504" class="hl-tr">
+	<td colspan="2" id="2468504" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-2468504" href="./viewtopic.php?t=2468504" class="torTopic bold tt-text">Инициал «Ди» - Стадия четвёртая / Initial D Fourth Stage / Initial D 4th stage [TV] [24 из 24] [без хардсаба] [RUS(ext),JAP<wbr>+SUB] [2004 г., спорт, драма, повседневнос<wbr>ть, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=816656" class="topicAuthor">Dez-u</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>30</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>31</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=2468504" class="small f-dl dl-stub" style="text-decoration: none">12&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">25</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>5651</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-05-18 18:04</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=196566">stas274</a>		<a href="./viewtopic.php?p=59352168#59352168"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-4216660" class="hl-tr">
+	<td colspan="2" id="4216660" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-4216660" href="./viewtopic.php?t=4216660" class="torTopic bold tt-text">Инициал «Ди» - Стадия первая / Initial D: First Stage [TV] [26 из 26] [Без хардсаба] [RUS(ext), JAP+SUB] [1998 г., спорт, романтика, драма, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=11081638" class="topicAuthor">mangust93</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>35</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>16</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=4216660" class="small f-dl dl-stub" style="text-decoration: none">13.39&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">14</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>2683</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-10-24 05:12</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=13423698">xlesax</a>		<a href="./viewtopic.php?p=61410823#61410823"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-4062413" class="hl-tr">
+	<td colspan="2" id="4062413" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-4062413" href="./viewtopic.php?t=4062413" class="torTopic bold tt-text">Голубая капля: Мистерия Ангелов / Blue Drop: Tenshi-tachi<wbr> no Gikyoku (Окура Масахико) [TV] [13 из 13] [без хардсаба] [RUS(int),JAP<wbr>+SUB][2007 г., фантастика, драма, романтика, DVDRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=7774751" class="topicAuthor">dgry</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>13</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>0</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=4062413" class="small f-dl dl-stub" style="text-decoration: none">4.29&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">13</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>163</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-11-28 08:09</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=17561">bot</a>		<a href="./viewtopic.php?p=61900771#61900771"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+<tr id="tr-3635431" class="hl-tr">
+	<td colspan="2" id="3635431" class="topic_id"><img class="topic_icon" src="http://static.rutracker.org/templates/default/images/folder_dl.gif" alt="" /></td>
+
+	<td style="padding: 3px 5px 3px 3px;" class="tt">
+		<div class="torTopic">
+		<span class="tor-icon tor-approved">&radic;</span>&#0183;									<a id="tt-3635431" href="./viewtopic.php?t=3635431" class="torTopic bold tt-text">Европейская кондитерская<wbr> «Антиква» / Antique Bakery [TV] [12 из 12] [Без хардсаба] [RUS(int), JAP+SUB] [2008 г., сёнэн-ай, комедия, повседневнос<wbr>ть, DTVRip]</a>
+			</div>
+	<div class="topicAuthor" style="padding-top: 2px;">
+					<a href="./profile.php?mode=viewprofile&amp;u=22041399" class="topicAuthor">Ханами Рицуко</a>
+						</div>
+		</td>
+
+	<td class="tCenter med nowrap" style="padding: 2px 4px;">
+			<div>
+		<div><span class="seedmed" title="Seeders"><b>7</b></span><span class="med"> | </span><span class="leechmed" title="Leechers"><b>4</b></span></div>
+		<div style="padding-top: 2px" class="small"><a href="http://dl.rutracker.org/forum/dl.php?t=3635431" class="small f-dl dl-stub" style="text-decoration: none">3.29&nbsp;GB</a></div>
+	</div>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 4px 2px;">
+	<p>
+		<span title="Ответов">10</span>
+	</p>
+			<p style="padding-top: 2px" class="med" title="Торрент скачан">
+		<b>2036</b>
+	</p>
+			</td>
+
+	<td class="tCenter small nowrap" style="padding: 3px 6px 2px;">
+	<p>2013-06-09 21:04</p>
+		<p style="padding-top: 2px">
+		<a href="./profile.php?mode=viewprofile&amp;u=12963426">Ledi Elizabet</a>		<a href="./viewtopic.php?p=59648895#59648895"><img src="http://static.rutracker.org/templates/default/images/icon_latest_reply.gif" class="icon2" alt="&raquo;" /></a>
+	</p>
+		</td>
+</tr>
+	<tr>
+	<td colspan="6" class="catBottom med pad_4">
+		<form method="post" action="viewforum.php?f=1389">
+		&nbsp;Упорядочить по:&nbsp;
+<select  name="sort" id="sort">
+		<option selected="selected"  value="0">&nbsp;Посл. сообщение&nbsp;</option>
+		<option value="1">&nbsp;Название темы&nbsp;</option>
+		<option value="2">&nbsp;Время размещения&nbsp;</option>
+</select>
+
+<select  name="order" id="order">
+		<option selected="selected"  value="0">&nbsp;по убыванию&nbsp;</option>
+		<option value="1">&nbsp;по возрастанию&nbsp;</option>
+</select>
+&nbsp;		<input type="submit" value="Перейти" />
+	</form>
+		</td>
+</tr>
+</table>
+
+
+<table width="100%">
+	<tr>
+		<td><a href="http://post.rutracker.org/forum/posting.php?f=1389&amp;mode=new_rel"><img src="http://static.rutracker.org/templates/default/images/post.gif" alt="Новая тема" /></a></td>
+		<td class="nav" width="100%">
+			&nbsp;<a href="./index.php">Список форумов rutracker.org</a>
+			<em>&raquo;</em>&nbsp;<a href="index.php?c=2">Кино, Видео и ТВ</a>			<em>&raquo;</em>&nbsp;<a href="./viewforum.php?f=33">Аниме</a>			<em>&raquo;</em>&nbsp;<a href="./viewforum.php?f=1389">Аниме (основной подраздел)</a>
+		</td>
+	</tr>
+</table>
+
+<div class="bottom_info">
+
+<div class="nav" id="pagination">
+	<p style="float: left">Страница <b>3</b> из <b>110</b></p>
+	<p style="float: right"><span class="pg-jump-menu"><a class="menu-root" href="#pg-jump">Страницы</a> :&nbsp;&nbsp;</span> <a class="pg" href="viewforum.php?f=1389&amp;start=50">Пред.</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1389">1</a>, <a class="pg" href="viewforum.php?f=1389&amp;start=50">2</a>, <b>3</b>, <a class="pg" href="viewforum.php?f=1389&amp;start=150">4</a> ... <a class="pg" href="viewforum.php?f=1389&amp;start=5350">108</a>, <a class="pg" href="viewforum.php?f=1389&amp;start=5400">109</a>, <a class="pg" href="viewforum.php?f=1389&amp;start=5450">110</a>&nbsp;&nbsp;<a class="pg" href="viewforum.php?f=1389&amp;start=150">След.</a></p>
+	<div class="clear"></div>
+</div>
+
+<div class="jumpbox"></div>
+
+<p class="mrg_2 bold"><a href="./viewforum.php?f=1389&amp;mark=topics">Отметить все темы как прочитанные</a></p>
+
+
+</div><!--/bottom_info-->
+
+
+
+	</div><!--/main_content_wrap-->
+	</td><!--/main_content-->
+
+	</tr></table>
+	</div>
+	<!--/page_content-->
+
+	<!--page_footer-->
+	<div id="page_footer">
+
+<div id="bn-bot-wrap">
+
+	
+	<div class="tCenter mrg_12">
+	<table class="bCenter" width="850"><tr>
+	<td><a target="_blank" style="color: darkred;" href="http://www.promoheads.com"><b>PromoHeads.com Pay-Per-Click Affiliate Program. Партнерская программа - оплата за клики.</b></a></td>
+	</tr></table>
+	</div>
+
+<div style="margin: 6px 10px; padding: 8px; border: 1px solid #B7C0C5;">
+			<table style="margin: 6px auto;"><tr>
+			<td></td>
+						<td>&nbsp;</td>
+			<td><div id="to-bot-1" style="width: 468px; height: 60px;"></div>
+<script type="text/javascript">
+$(function(){
+	var b_url = 'http://static.rutracker.org/004/tionline/3/';
+
+	var swf = [];
+	swf.push( '468_2.swf?link1='+encodeURIComponent('http://ti.ggeek.ru/reg06/?ref=6') );
+
+	var so = new SWFObject(b_url+swf[Math.round(Math.random()*(swf.length-1))], 'to-bot-1-swf', '468', '60', '8', '#FFFFFF');
+	so.write('to-bot-1');
+});
+</script></td>
+					</tr></table>
+		<div id="mg-informers" style="width: 98%; margin: 6px auto 0; text-align: center;"></div>
+<script type="text/javascript">
+$(function(){
+	$('#mg-informers').html('<iframe src="http://mg.dt00.net/public/informers/torrents.2ru.html?rnd='+ Math.round(Math.random()*1000000) +'" frameborder=0 vspace=0 hspace=0 width="100%" height=160 marginwidth=0 marginheight=0 scrolling=no></iframe>');
+});
+</script></div>
+</div><!--/bn-bot-wrap-->
+
+		
+		<div class="clear"></div>
+
+		<br />
+
+				<div class="med bold tCenter pad_4">
+			<a href="info.php?show=user_agreement" onclick="window.open(this.href, '', InfoWinParams); return false;">Условия использования</a>
+			&nbsp;&middot;&nbsp;
+			<a href="info.php?show=advert" onclick="window.open(this.href, '', InfoWinParams); return false;">Реклама на сайте</a>
+						&nbsp;&middot;&nbsp;
+			<a href="info.php?show=copyright_holders" onclick="window.open(this.href, '', InfoWinParams); return false;">Для правообладателей</a>
+																		&nbsp;&middot;&nbsp;
+			<a href="info.php?show=press" onclick="window.open(this.href, '', InfoWinParams); return false;">Для прессы</a>
+						&nbsp;&middot;&nbsp;
+			<a href="viewtopic.php?t=2234744" target="_blank">Для провайдеров</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://wiki.rutracker.org" target="_blank">Торрентопедия</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://wiki.rutracker.org/r.php?id=10004" target="_blank">Кому задать вопрос</a>
+		</div>
+		<div class="med bold tCenter pad_4">
+			<a href="http://rutracker.org/forum/viewtopic.php?t=3949538" target="_blank">Rutracker Magazine</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/viewforum.php?f=1538" target="_blank">Авторские раздачи</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/viewforum.php?f=489" target="_blank">Новости в сети</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/viewforum.php?f=2332" target="_blank">Новости &quot;Хранителей&quot; и &quot;Антикваров&quot;</a>
+			&nbsp;&middot;&nbsp;
+			<a href="http://rutracker.org/forum/index.php?closed=1" target="_blank">Закрытые раздачи</a>
+			&nbsp;&middot;&nbsp;
+			<a href="#" onclick="return post2url('torrent.php', {rand_rel: 1});">Случайная раздача</a>
+		</div>
+		<br />
+		
+		
+<table width="99%" cellpadding="0" cellspacing="0" class="bCenter">
+<tr>
+
+	<td width="50%" class="vBottom">
+		<div class="copyright">
+			<p><a href="groupcp.php?g=104792">Администрация</a> &middot; <a href="groupcp.php?g=104787">Модераторы</a> &middot; <a href="groupcp.php?g=104841">Техническая помощь</a> &middot; <a href="groupcp.php?g=105539">Редакторы Wiki</a></p>
+		</div>
+	</td>
+	<td class="vBottom">
+
+		<table class="bCenter" cellspacing="0" cellpadding="2" border="0" style="padding-top: 4px;">
+	<tr>
+		<td class="vBottom nowrap" style="padding: 0 4px;">
+			<!--LiveInternet counter-->
+			<script type="text/javascript">
+			var LI_title = '';
+			document.write("<a href='http://www.liveinternet.ru/stat/rutracker.org/' "+ "target=_blank><img src='http://counter.yadro.ru/hit?t16.2;r"+escape(document.referrer)+((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+";h"+escape(LI_title.substring(0,80))+";"+Math.random()+"' alt='' "+"border='0' width='88' height='31'><\/a>");
+			</script>
+			<!--/LiveInternet-->
+
+			<!--rambler-->
+			<a href="http://top100.rambler.ru/cgi-bin/stats_top100.cgi?1467197" target='_blank'><img src="http://top100-images.rambler.ru/top100/banner-88x31-rambler-gray2.gif" alt="" width="88" height="31" border="0" /></a>
+			<!-- <script id="top100Counter" type="text/javascript" src="http://counter.rambler.ru/top100.jcn?1467197"></script> -->
+			<script type="text/javascript">
+			new Image().src = "http://counter.rambler.ru/top100.scn?1467197&rn="+Math.random()+"&rf="+escape(document.referrer);
+			</script>
+			<!--/rambler-->
+
+			<!-- SpyLOG MyStat -->
+			<span id="spylog601119"></span>
+			<script type="text/javascript">
+			var spylog = { counter: 601119, image: 5012, next: spylog };
+			$(document).ready(function(){
+				$.ajax({ url: "http://counter.spylog.com/cnt.js", dataType: "script", cache: true, global: false });
+			});
+			</script>
+			<!--/SpyLOG MyStat -->
+		</td>
+	</tr>
+	</table>
+	
+	</td>
+	<td width="50%" class="vBottom tRight">
+		<div class="copyright">
+			<p>&copy; Dreamtorrent Corp. 2005-2013</p>
+		</div>
+	</td>
+
+</tr>
+</table>
+
+	</div>
+	<!--/page_footer-->
+
+	</div>
+	<!--/page_container-->
+
+
+
+
+<div id="ajax-loading"><b>Loading...</b></div>
+<div id="ajax-error"><b>Error</b></div>
+<style>
+#bb-alert-box { width: auto; max-width: 800px; line-height: 18px; display: none; }
+#bb-alert-msg { min-width: 400px; max-height: 400px; margin: 50px 20px; padding: 10px; overflow: auto; text-align: center; }
+.bb-alert-err { color: #7E0000; background: #FFEEEE; box-shadow: 0 0 20px #B85353; font-weight: bold; }
+</style>
+<div id="bb-alert-box"><div id="bb-alert-msg"></div></div>
+<div id="modal-blocker"></div>
+
+<script type="text/javascript">
+$(function(){
+	BB.navbar.init();
+});
+</script>
+<div id="nav-panel" class="nav-hidden-arrow">
+	<div id="nav-up" class="nav-btn" title="Вверх">
+		<span class="nav-icon"></span>
+	</div>
+	<div id="nav-settings" class="nav-btn">
+		<span class="nav-icon" title="Настройки"></span>
+		<ul id="nav-opt-menu">
+			<li class="nav-event" data-event="click">Показывать по клику</li>
+			<li class="nav-event" data-event="mouseenter">Показывать по наведению</li>
+		</ul>
+	</div>
+	<div id="nav-down" class="nav-btn" title="Вниз">
+		<span class="nav-icon"></span>
+	</div>
+	<div class="nav-hidden-overlay"></div>
+</div>
+
+	</div><!--/body_container-->
+
+</body>
+</html>
