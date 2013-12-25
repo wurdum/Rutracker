@@ -1,31 +1,28 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using Rutracker.Anime.Models;
 
 namespace Rutracker.Anime.Parser.Parts
 {
     public class SeriesParser
     {
-        private static readonly List<string> RangeSeparators = new List<string> {"из", "of"};
-        private static readonly List<string> NumbersSeparators = new List<string> {"-", "+"};
+        private static readonly string[] RangeSeparators = new[] {"из", "of"};
+        private static readonly string[] NumbersSeparators = new[] {"-", "+"};
 
-        public static Series GetSeries(String value) {
-            var parts = new String[0];
+        public Series GetSeries(String value) {
+            var rangeSeparator = RangeSeparators.FirstOrDefault(value.Contains);
+            if (rangeSeparator == null)
+                return null;
 
-            foreach (var separator in RangeSeparators)
-                if (value.Contains(separator)) {
-                    parts = value.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
-                    break;
-                }
-
+            var parts = value.Split(new[] {rangeSeparator}, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
                 return null;
 
-            int? from = null, number = null, total = null;
             var leftPart = parts[0].Trim();
             var rightPart = parts[1].Trim();
 
-            if (AllAreDigits(leftPart)) {
+            int? from = null, number = null, total = null;
+            if (leftPart.All(Char.IsDigit)) {
                 number = int.Parse(leftPart);
             } else {
                 var leftParts = SplitIntoNumbers(leftPart);
@@ -39,7 +36,7 @@ namespace Rutracker.Anime.Parser.Parts
             if (number == null)
                 return null;
 
-            if (AllAreDigits(rightPart)) {
+            if (rightPart.All(Char.IsDigit)) {
                 total = int.Parse(rightPart);
             } else {
                 var rightParts = SplitIntoNumbers(rightPart);
@@ -47,10 +44,10 @@ namespace Rutracker.Anime.Parser.Parts
                     total = rightParts[0] ?? rightParts[1];
             }
 
-            return from == null ? new Series(number, total) : new Series(from, number, total);
+            return from == null ? new Series(number.Value, total) : new Series(from, number, total);
         }
 
-        private static int?[] SplitIntoNumbers(String part) {
+        private int?[] SplitIntoNumbers(String part) {
             foreach (var ns in NumbersSeparators) {
                 if (!part.Contains(ns))
                     continue;
@@ -61,25 +58,15 @@ namespace Rutracker.Anime.Parser.Parts
 
                 var stPart1 = startingParts[0].Trim();
                 var stPart2 = startingParts[1].Trim();
-                if (!AllAreDigits(stPart1) || !AllAreDigits(stPart2))
+                if (!stPart1.All(Char.IsDigit) || !stPart2.All(Char.IsDigit))
                     return null;
 
-                if (ns.Equals("+"))
-                    return new int?[] {null, int.Parse(stPart1)};
-
-                return new int?[] {int.Parse(stPart1), int.Parse(stPart2)};
+                return ns.Equals("+") 
+                    ? new int?[] {null, int.Parse(stPart1)} 
+                    : new int?[] {int.Parse(stPart1), int.Parse(stPart2)};
             }
 
             return null;
-        }
-
-        private static bool AllAreDigits(String value) {
-            var length = value.Length;
-            for (var i = 0; i < length; i++)
-                if (!Char.IsDigit(value[i]))
-                    return false;
-
-            return true;
         }
     }
 }
