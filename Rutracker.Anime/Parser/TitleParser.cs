@@ -87,7 +87,7 @@ namespace Rutracker.Anime.Parser
                     animeTitle.Tracks = _tracksParser.Parse(value);
                     break;
                 case PartTypePattern.PartType.Series:
-                    animeTitle.Series = _seriesParser.GetSeries(value);
+                    animeTitle.Series = _seriesParser.Parse(value);
                     break;
                 case PartTypePattern.PartType.Traits:
                     animeTitle.Traits = TraitsParser.GetTraits(value);

@@ -8,11 +8,11 @@ namespace Rutracker.Anime.Tests
     [TestFixture]
     public class SeriesParserTests
     {
-        private readonly SeriesParser _parser = new SeriesParser();
+        private readonly SeriesParser _seriesParser = new SeriesParser();
 
         [Test, TestCaseSource("MainTestCases")]
         public void MainTest(string part, Series expected) {
-            var actual = _parser.GetSeries(part);
+            var actual = _seriesParser.Parse(part);
 
             Assert.AreEqual(expected, actual);
         }
