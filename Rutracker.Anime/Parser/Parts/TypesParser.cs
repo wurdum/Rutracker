@@ -6,11 +6,13 @@ namespace Rutracker.Anime.Parser.Parts
 {
     public class TypesParser
     {
-        public static List<AnimeType> GetType(String value) {
+        private static readonly string[] EnumNames = Enum.GetNames(typeof (AnimeType));
+
+        public IEnumerable<AnimeType> Parse(string value) {
             var types = new List<AnimeType>();
             var valueLower = value.ToLower();
 
-            foreach (var typeName in Enum.GetNames(typeof(AnimeType))) {
+            foreach (var typeName in EnumNames) {
                 if (valueLower.Contains(typeName.ToLower()))            
                     types.Add((AnimeType)Enum.Parse(typeof(AnimeType), typeName));
             }

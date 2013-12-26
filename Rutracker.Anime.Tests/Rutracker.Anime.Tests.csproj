@@ -47,6 +47,7 @@
     <Compile Include="TitleParserTests.cs" />
     <Compile Include="TracksParserTests.cs" />
     <Compile Include="TraitsParserTests.cs" />
+    <Compile Include="TypeParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rutracker.Anime\Rutracker.Anime.csproj">
