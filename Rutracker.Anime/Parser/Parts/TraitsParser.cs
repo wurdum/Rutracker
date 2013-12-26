@@ -7,13 +7,14 @@ namespace Rutracker.Anime.Parser.Parts
 {
     public class TraitsParser
     {
-        public static Traits GetTraits(String value) {
+        public Traits Parse(String value) {
             var year = GetFirstYear(value);
             if (year == null)
                 return null;
 
             var commaSeparated = value.Replace('.', ',').Replace(",,", ",");
-            var blocks = TrimEach(commaSeparated.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries));
+            var blocks = commaSeparated.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim()).ToArray();
 
             var genres = GetGenres(blocks);
             if (genres == null)
@@ -24,31 +25,22 @@ namespace Rutracker.Anime.Parser.Parts
             return new Traits(year, genres, format);
         }
 
-        private static List<string> GetGenres(IList<string> blocks) {
+        private IEnumerable<string> GetGenres(string[] blocks) {
             var genres = new List<string>();
-            if (blocks.Count < 3)
+            if (blocks.Length < 3)
                 return null;
 
-            if (blocks.Count == 3)
+            if (blocks.Length == 3)
                 genres.Add(blocks[1]);
             else
-                genres.AddRange(blocks.Skip(1));
+                genres.AddRange(blocks.Skip(1).Take(blocks.Length - 2));
 
             return genres;
         }
 
-        private static string[] TrimEach(IList<string> blocks) {
-            var result = new string[blocks.Count];
-            for (var i = 0; i < blocks.Count; i++)
-                result[i] = blocks[i].Trim();
-
-            return result;
-        }
-
-        private static int? GetFirstYear(string value) {
-            for (var i = 0; i < 4; i++)
-                if (!Char.IsDigit(value[i]))
-                    return null;
+        private int? GetFirstYear(string value) {
+            if (!value.Take(4).All(Char.IsDigit))
+                return null;
 
             var strYear = value.Substring(0, 4);
             return int.Parse(strYear);

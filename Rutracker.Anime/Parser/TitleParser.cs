@@ -10,6 +10,7 @@ namespace Rutracker.Anime.Parser
         private readonly PartTypeResolver _typeResolver;
         private readonly SeriesParser _seriesParser = new SeriesParser();
         private readonly TracksParser _tracksParser = new TracksParser();
+        private readonly TraitsParser _traitsParser = new TraitsParser();
 
         public TitleParser(PartTypeResolver typeResolver) {
             _typeResolver = typeResolver;
@@ -90,7 +91,7 @@ namespace Rutracker.Anime.Parser
                     animeTitle.Series = _seriesParser.Parse(value);
                     break;
                 case PartTypePattern.PartType.Traits:
-                    animeTitle.Traits = TraitsParser.GetTraits(value);
+                    animeTitle.Traits = _traitsParser.Parse(value);
                     break;
                 case PartTypePattern.PartType.Type:
                     animeTitle.Types = TypesParser.GetType(value);
