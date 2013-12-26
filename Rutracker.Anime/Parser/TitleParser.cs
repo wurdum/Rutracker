@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser.Parts;
 
 namespace Rutracker.Anime.Parser
@@ -17,8 +16,8 @@ namespace Rutracker.Anime.Parser
             _typeResolver = typeResolver;
         }
 
-        public AnimeTitle Parse(string title) {
-            var animeTitle = new AnimeTitle();
+        public Models.Anime Parse(string title) {
+            var animeTitle = new Models.Anime();
 
             var end = ParseNames(title, animeTitle);
             ParseParts(title, animeTitle, end);
@@ -26,7 +25,7 @@ namespace Rutracker.Anime.Parser
             return animeTitle;
         }
 
-        private int ParseNames(string title, AnimeTitle animeTitle) {
+        private int ParseNames(string title, Models.Anime anime) {
             var startSearch = title.LastIndexOf('/');
             if (startSearch == -1)
                 startSearch = 0;
@@ -38,7 +37,7 @@ namespace Rutracker.Anime.Parser
                 return (bp == -1 ? s : s.Substring(0, bp)).Trim();
             }).ToArray();
 
-            animeTitle.Names = names;
+            anime.Names = names;
             return bracketPos;
         }
 
@@ -55,7 +54,7 @@ namespace Rutracker.Anime.Parser
             return end;
         }
 
-        private void ParseParts(string title, AnimeTitle animeTitle, int start) {
+        private void ParseParts(string title, Models.Anime anime, int start) {
             var partStartIndex = start;
             var parenthesesHandler = new ParenthesesHandler(title);
 
@@ -69,7 +68,7 @@ namespace Rutracker.Anime.Parser
 
                 if (parenthesesHandler.IsAtEndBound()) {
                     var value = title.Substring(partStartIndex, i + 1 - partStartIndex).Trim();
-                    if (!ReadBlock(animeTitle, value))
+                    if (!ReadBlock(anime, value))
                         continue;
 
                     partStartIndex = i + 1;
@@ -77,7 +76,7 @@ namespace Rutracker.Anime.Parser
             }
         }
 
-        private bool ReadBlock(AnimeTitle animeTitle, string value) {
+        private bool ReadBlock(Models.Anime anime, string value) {
             value = RemoveParentheses(value);
             if (string.IsNullOrWhiteSpace(value))
                 return false;
@@ -86,19 +85,19 @@ namespace Rutracker.Anime.Parser
 
             switch (partType) {
                 case PartTypePattern.PartType.AvailTracks:
-                    animeTitle.Tracks = _tracksParser.Parse(value);
+                    anime.Tracks = _tracksParser.Parse(value);
                     break;
                 case PartTypePattern.PartType.Series:
-                    animeTitle.Series = _seriesParser.Parse(value);
+                    anime.Series = _seriesParser.Parse(value);
                     break;
                 case PartTypePattern.PartType.Traits:
-                    animeTitle.Traits = _traitsParser.Parse(value);
+                    anime.Traits = _traitsParser.Parse(value);
                     break;
                 case PartTypePattern.PartType.Type:
-                    animeTitle.Types = _typesParser.Parse(value);
+                    anime.Types = _typesParser.Parse(value);
                     break;
                 default:
-                    animeTitle.OtherInfo.Add(value);
+                    anime.OtherInfo.Add(value);
                     break;
             }
 
