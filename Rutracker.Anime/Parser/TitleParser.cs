@@ -7,13 +7,17 @@ namespace Rutracker.Anime.Parser
     public class TitleParser
     {
         private readonly PartTypeResolver _typeResolver;
-        private readonly SeriesParser _seriesParser = new SeriesParser();
-        private readonly TracksParser _tracksParser = new TracksParser();
-        private readonly TraitsParser _traitsParser = new TraitsParser();
-        private readonly TypesParser _typesParser = new TypesParser();
+        private readonly SeriesParser _seriesParser;
+        private readonly TracksParser _tracksParser;
+        private readonly TraitsParser _traitsParser;
+        private readonly TypesParser _typesParser;
 
-        public TitleParser(PartTypeResolver typeResolver) {
+        public TitleParser(PartTypeResolver typeResolver, PartParsers partParsers) {
             _typeResolver = typeResolver;
+            _seriesParser = partParsers.SeriesParser;
+            _tracksParser = partParsers.TracksParser;
+            _traitsParser = partParsers.TraitsParser;
+            _typesParser = partParsers.TypesParser;
         }
 
         public Models.Anime Parse(string title) {

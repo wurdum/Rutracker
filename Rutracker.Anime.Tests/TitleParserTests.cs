@@ -1,22 +1,30 @@
 ﻿using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
+using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser;
+using Rutracker.Anime.Parser.Parts;
 
 namespace Rutracker.Anime.Tests
 {
     [TestFixture]
     public class TitleParserTests
     {
-        [Test, TestCaseSource("ParseNamesCases")]
-        public void ParseNamesTest(string title, IEnumerable<string> names) {
-            var titleParser = new TitleParser(PartTypeResolver.Default);
+        [Test, TestCaseSource("MainTestCases")]
+        public void MainTest(string title, IEnumerable<string> names) {
+            var titleParser = new TitleParser(PartTypeResolver.Default, new PartParsers {
+                SeriesParser = Mock.Of<SeriesParser>(sp => sp.Parse(It.IsAny<string>()) == new Series(null, null, null)),
+                TracksParser = Mock.Of<TracksParser>(tp => tp.Parse(It.IsAny<string>()) == new string[0]),
+                TraitsParser = Mock.Of<TraitsParser>(tp => tp.Parse(It.IsAny<string>()) == new Traits(null, null, null)),
+                TypesParser = Mock.Of<TypesParser>(tp => tp.Parse(It.IsAny<string>()) == new Models.Anime.Type[0])
+            });
 
             var animeTitle = titleParser.Parse(title);
 
             CollectionAssert.AreEquivalent(names, animeTitle.Names);
         }
 
-        public static IEnumerable<TestCaseData> ParseNamesCases {
+        public static IEnumerable<TestCaseData> MainTestCases {
             get {
                 yield return new TestCaseData("Трусливый Велосипедист / Yowamushi Pedal (Набэсима Осаму) [TV] [01-09 из 12] [Без хардсаба] [RUS(int), JAP+SUB] [2013 г., спорт, HDTVRip] [720p]",
                     new[] { "Трусливый Велосипедист", "Yowamushi Pedal" });

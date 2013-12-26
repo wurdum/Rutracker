@@ -42,6 +42,7 @@
     <Compile Include="Models\Anime.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="Models\Traits.cs" />
+    <Compile Include="Parser\PartParsers.cs" />
     <Compile Include="Parser\Parts\SeriesParser.cs" />
     <Compile Include="Parser\Parts\TracksParser.cs" />
     <Compile Include="Parser\Parts\TraitsParser.cs" />

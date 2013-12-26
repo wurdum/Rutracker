@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Rutracker.Anime.Parser.Parts;
+using AnimeType = Rutracker.Anime.Models.Anime.Type;
 
 namespace Rutracker.Anime.Tests
 {
@@ -10,7 +11,7 @@ namespace Rutracker.Anime.Tests
         private readonly TypesParser _typesParser = new TypesParser();
 
         [Test, TestCaseSource("MainTestCases")]
-        public void MainTest(string part, IEnumerable<Models.Anime.Type> expected) {
+        public void MainTest(string part, IEnumerable<AnimeType> expected) {
             var actual = _typesParser.Parse(part);
 
             CollectionAssert.AreEquivalent(actual, expected);
@@ -18,14 +19,14 @@ namespace Rutracker.Anime.Tests
 
         private static IEnumerable<TestCaseData> MainTestCases {
             get {
-                yield return new TestCaseData("TV", new[] { Models.Anime.Type.TV });
-                yield return new TestCaseData("tv", new[] { Models.Anime.Type.TV });
-                yield return new TestCaseData("Movie", new[] { Models.Anime.Type.Movie });
-                yield return new TestCaseData("Special", new[] { Models.Anime.Type.Special });
-                yield return new TestCaseData("Specials", new[] { Models.Anime.Type.Special });
-                yield return new TestCaseData("TV+Specials", new[] { Models.Anime.Type.TV, Models.Anime.Type.Special });
-                yield return new TestCaseData("TV+movie", new[] { Models.Anime.Type.TV, Models.Anime.Type.Movie });
-                yield return new TestCaseData("ova+tv+movie", new[] { Models.Anime.Type.TV, Models.Anime.Type.Movie, Models.Anime.Type.OVA });
+                yield return new TestCaseData("TV", new[] { AnimeType.TV });
+                yield return new TestCaseData("tv", new[] { AnimeType.TV });
+                yield return new TestCaseData("Movie", new[] { AnimeType.Movie });
+                yield return new TestCaseData("Special", new[] { AnimeType.Special });
+                yield return new TestCaseData("Specials", new[] { AnimeType.Special });
+                yield return new TestCaseData("TV+Specials", new[] { AnimeType.TV, AnimeType.Special });
+                yield return new TestCaseData("TV+movie", new[] { AnimeType.TV, AnimeType.Movie });
+                yield return new TestCaseData("ova+tv+movie", new[] { AnimeType.TV, AnimeType.Movie, AnimeType.OVA });
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Rutracker.Anime.Parser.Parts
         private static readonly string[] RangeSeparators = new[] {"из", "of"};
         private static readonly string[] NumbersSeparators = new[] {"-", "+"};
 
-        public Series Parse(String part) {
+        public virtual Series Parse(String part) {
             var rangeSeparator = RangeSeparators.FirstOrDefault(part.Contains);
             if (rangeSeparator == null)
                 return null;

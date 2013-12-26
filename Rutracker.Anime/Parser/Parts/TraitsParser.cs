@@ -7,7 +7,7 @@ namespace Rutracker.Anime.Parser.Parts
 {
     public class TraitsParser
     {
-        public Traits Parse(String value) {
+        public virtual Traits Parse(String value) {
             var year = GetFirstYear(value);
             if (year == null)
                 return null;
