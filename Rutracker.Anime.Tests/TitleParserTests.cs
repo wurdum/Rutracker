@@ -32,6 +32,8 @@ namespace Rutracker.Anime.Tests
                     new[] { "Клинок Маню: Тайна сисечного свитка", "Manyuu Hiken-chou" });
                 yield return new TestCaseData("Баскетбол Куроко (ТВ-2) / Kuroko's Basketball / Kuroko no Basuke [TV] [1-9 из 25] [Без хардсаба] [RUS(int), JAP, SUB] [2013 г., баскетбол, спорт, сёнен, HDTVRip] [720p]",
                     new[] { "Баскетбол Куроко", "Kuroko's Basketball", "Kuroko no Basuke" });
+                yield return new TestCaseData("Чудесные дни; Удивительные дни; Фантастические дни / Wonderful Days; Sky Blue (Moon-saeng Kim) [Movie][без хардсаба][RUS(ext),KOR(int)+SUB][2003 г., Фантастика, DVDRip] Режиссерская версия / Director's Cut",
+                    new[] { "Чудесные дни; Удивительные дни; Фантастические дни", "Wonderful Days; Sky Blue", "Чудесные дни", "Удивительные дни", "Фантастические дни", "Wonderful Days", "Sky Blue" });
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Rutracker.Anime.Parser.Parts;
 
@@ -30,19 +31,34 @@ namespace Rutracker.Anime.Parser
         }
 
         private int ParseNames(string title, Models.Anime anime) {
-            var startSearch = title.LastIndexOf('/');
+            var startSearch = GetStartSearchPos(title);
             if (startSearch == -1)
                 startSearch = 0;
 
             var bracketPos = IndexOfBracket(title, startSearch);
             var namesPart = title.Substring(0, bracketPos);
-            var names = namesPart.Split(new[] {"/"}, StringSplitOptions.RemoveEmptyEntries).Select(s => {
+
+            var splittedByDash = namesPart.Split(new[] {"/"}, StringSplitOptions.RemoveEmptyEntries).Select(s => {
                 var bp = IndexOfBracket(s);
                 return (bp == -1 ? s : s.Substring(0, bp)).Trim();
             }).ToArray();
 
+            var names = new HashSet<string>(splittedByDash);
+            var splittedBySemicolon = splittedByDash
+                .SelectMany(n => n.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                .Select(n => n.Trim())
+                .ToList();
+
+            if (splittedBySemicolon.Count > 0)
+                splittedBySemicolon.ForEach(n => names.Add(n));
+
             anime.Names = names;
             return bracketPos;
+        }
+
+        private static int GetStartSearchPos(string title) {
+            var firstBracket = title.IndexOf('[');
+            return title.Substring(0, firstBracket).LastIndexOf('/');
         }
 
         private int IndexOfBracket(string str, int searchFrom = 0) {
