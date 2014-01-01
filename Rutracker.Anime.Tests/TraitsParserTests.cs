@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser.Parts;
 
@@ -8,11 +9,14 @@ namespace Rutracker.Anime.Tests
     [TestFixture]
     public class TraitsParserTests
     {
-        private readonly TraitsParser _traitsParser = new TraitsParser();
+        private readonly TraitsTokenizer _traitsTokenizer = new TraitsTokenizer();
 
         [Test, TestCaseSource("MainTestCases")]
-        public void MainTest(string part, Traits expected) {
-            var actual = _traitsParser.Parse(part);
+        public void MainTest(string lexeme, Traits expected) {
+            if (!_traitsTokenizer.IsSatisfy(lexeme))
+                throw new TokenizerException("Lexeme not satisfy tokenizer");
+
+            var actual = (Traits)_traitsTokenizer.Tokenize(lexeme);
 
             Assert.AreEqual(expected, actual);
         }
@@ -25,7 +29,7 @@ namespace Rutracker.Anime.Tests
                 yield return new TestCaseData("[1992-1998 гг., приключения, фантастика, меха, BDRip]", new Traits(1992, new[] { "приключения", "фантастика", "меха" }, "BDRip"));
                 yield return new TestCaseData("[2009 г, комедия, HDTVRip]", new Traits(2009, new[] { "комедия" }, "HDTVRip"));
                 yield return new TestCaseData("[2009, вампиры, ужасы, триллер, BDRemux]", new Traits(2009, new[] { "вампиры", "ужасы", "триллер" }, "BDRemux"));
-                yield return new TestCaseData("[2009 г, комедия]", null);
+                yield return new TestCaseData("[2009 г, комедия]", null).Throws(typeof(TokenizerException));
             }
         }
     }

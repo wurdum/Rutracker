@@ -1,24 +1,44 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Models;
 
 namespace Rutracker.Anime.Parser.Parts
 {
-    public class TraitsParser
+    public class TraitsTokenizer : TokenizerBase
     {
-        public virtual Traits Parse(String value) {
-            var year = GetFirstYear(value);
-            if (year == null)
-                return null;
+        public TraitsTokenizer() {
+            TokenRx = new Regex(ConfigurationManager.AppSettings[TokenType.ToString()]);
+        }
 
-            var commaSeparated = value.Replace('.', ',').Replace(",,", ",");
+        public TraitsTokenizer(string rxString) {
+            TokenRx = new Regex(rxString);
+        }
+
+        public override PartTypePattern.PartType TokenType {
+            get { return PartTypePattern.PartType.Traits; }
+        }
+
+        public override object Tokenize(string lexeme) {
+            if (string.IsNullOrWhiteSpace(lexeme))
+                throw new ArgumentNullException("lexeme", "Traits lexeme is epmty");
+
+            lexeme = RemoveBracketsIfExists(lexeme);
+
+            var year = GetFirstYear(lexeme);
+            if (year == null)
+                throw new TokenizerException("Year was not found in lexeme", lexeme, TokenType);
+
+            var commaSeparated = lexeme.Replace('.', ',').Replace(",,", ",");
             var blocks = commaSeparated.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToArray();
 
             var genres = GetGenres(blocks);
             if (genres == null)
-                return null;
+                throw new TokenizerException("Genres was not found in lexeme", lexeme, TokenType);
 
             var format = blocks[blocks.Length - 1];
 
