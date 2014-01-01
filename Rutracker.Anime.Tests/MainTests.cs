@@ -14,7 +14,7 @@ namespace Rutracker.Anime.Tests
         [Test]
         public void MainTest() {
             var titleParser = new TitleParser(PartTypeResolver.Default, new PartParsers {
-                SeriesParser = new SeriesParser(),
+                SeriesTokenizer = new SeriesTokenizer(),
                 TracksParser = new TracksParser(),
                 TraitsParser = new TraitsParser(),
                 TypesParser = new TypesParser()

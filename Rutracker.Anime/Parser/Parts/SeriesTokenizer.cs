@@ -1,22 +1,28 @@
 using System;
 using System.Linq;
+using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Models;
 
 namespace Rutracker.Anime.Parser.Parts
 {
-    public class SeriesParser
+    public class SeriesTokenizer : TokenizerBase
     {
         private static readonly string[] RangeSeparators = new[] {"из", "of"};
         private static readonly string[] NumbersSeparators = new[] {"-", "+"};
 
-        public virtual Series Parse(String part) {
-            var rangeSeparator = RangeSeparators.FirstOrDefault(part.Contains);
-            if (rangeSeparator == null)
-                return null;
+        public override object Tokenize(String lexeme) {
+            if (string.IsNullOrWhiteSpace(lexeme))
+                throw new ArgumentNullException("lexeme", "Series lexem is empty");
 
-            var parts = part.Split(new[] {rangeSeparator}, StringSplitOptions.RemoveEmptyEntries);
+            lexeme = RemoveBracketsIfExists(lexeme);
+
+            var rangeSeparator = RangeSeparators.FirstOrDefault(lexeme.Contains);
+            if (rangeSeparator == null)
+                throw new TokenizerException("No range separator", lexeme, TokenType);
+
+            var parts = lexeme.Split(new[] {rangeSeparator}, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
-                return null;
+                throw new TokenizerException("No 2 parts in lexeme", lexeme, TokenType);
 
             var leftPart = parts[0].Trim();
             var rightPart = parts[1].Trim();
@@ -27,14 +33,14 @@ namespace Rutracker.Anime.Parser.Parts
             } else {
                 var leftParts = SplitIntoNumbers(leftPart);
                 if (leftParts == null || leftParts.Length != 2)
-                    return null;
+                    throw new TokenizerException("Left part of lexeme is unrecognizable", lexeme, TokenType);
 
                 from = leftParts[0];
                 number = leftParts[1];
             }
 
             if (number == null)
-                return null;
+                throw new TokenizerException("Number of series not found", lexeme, TokenType);
 
             if (rightPart.All(Char.IsDigit)) {
                 total = int.Parse(rightPart);
@@ -67,6 +73,10 @@ namespace Rutracker.Anime.Parser.Parts
             }
 
             return null;
+        }
+
+        public override PartTypePattern.PartType TokenType {
+            get { return PartTypePattern.PartType.Series; }
         }
     }
 }

@@ -39,11 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\TokenizerException.cs" />
     <Compile Include="Models\Anime.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="Models\Traits.cs" />
     <Compile Include="Parser\PartParsers.cs" />
-    <Compile Include="Parser\Parts\SeriesParser.cs" />
+    <Compile Include="Parser\Parts\SeriesTokenizer.cs" />
+    <Compile Include="Parser\Parts\TokenizerBase.cs" />
     <Compile Include="Parser\Parts\TracksParser.cs" />
     <Compile Include="Parser\Parts\TraitsParser.cs" />
     <Compile Include="Parser\Parts\TypesParser.cs" />

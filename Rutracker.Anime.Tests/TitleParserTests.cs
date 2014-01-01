@@ -13,7 +13,7 @@ namespace Rutracker.Anime.Tests
         [Test, TestCaseSource("MainTestCases")]
         public void MainTest(string title, IEnumerable<string> names) {
             var titleParser = new TitleParser(PartTypeResolver.Default, new PartParsers {
-                SeriesParser = Mock.Of<SeriesParser>(sp => sp.Parse(It.IsAny<string>()) == new Series(null, null, null)),
+                SeriesTokenizer = Mock.Of<SeriesTokenizer>(sp => sp.Tokenize(It.IsAny<string>()) == new Series(null, null, null)),
                 TracksParser = Mock.Of<TracksParser>(tp => tp.Parse(It.IsAny<string>()) == new string[0]),
                 TraitsParser = Mock.Of<TraitsParser>(tp => tp.Parse(It.IsAny<string>()) == new Traits(null, null, null)),
                 TypesParser = Mock.Of<TypesParser>(tp => tp.Parse(It.IsAny<string>()) == new Models.Anime.Type[0])
