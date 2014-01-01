@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser.Parts;
 
@@ -11,8 +12,11 @@ namespace Rutracker.Anime.Tests
         private readonly SeriesTokenizer _seriesTokenizer = new SeriesTokenizer();
 
         [Test, TestCaseSource("MainTestCases")]
-        public void MainTest(string part, Series expected) {
-            var actual = (Series)_seriesTokenizer.Tokenize(part);
+        public void MainTest(string lexeme, Series expected) {
+            if (!_seriesTokenizer.IsSatisfy(lexeme))
+                throw new TokenizerException("Lexeme not satisfy tokenizer", lexeme, _seriesTokenizer.TokenType);
+
+            var actual = (Series)_seriesTokenizer.Tokenize(lexeme);
 
             Assert.AreEqual(expected, actual);
         }

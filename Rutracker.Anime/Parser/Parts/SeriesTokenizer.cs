@@ -1,5 +1,7 @@
 using System;
+using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Models;
 
@@ -9,6 +11,18 @@ namespace Rutracker.Anime.Parser.Parts
     {
         private static readonly string[] RangeSeparators = new[] {"из", "of"};
         private static readonly string[] NumbersSeparators = new[] {"-", "+"};
+
+        public SeriesTokenizer() {
+            TokenRx = new Regex(ConfigurationManager.AppSettings[TokenType.ToString()]);
+        }
+
+        public SeriesTokenizer(string rxString) {
+            TokenRx = new Regex(rxString);
+        }
+
+        public override PartTypePattern.PartType TokenType {
+            get { return PartTypePattern.PartType.Series; }
+        }
 
         public override object Tokenize(String lexeme) {
             if (string.IsNullOrWhiteSpace(lexeme))
@@ -73,10 +87,6 @@ namespace Rutracker.Anime.Parser.Parts
             }
 
             return null;
-        }
-
-        public override PartTypePattern.PartType TokenType {
-            get { return PartTypePattern.PartType.Series; }
         }
     }
 }
