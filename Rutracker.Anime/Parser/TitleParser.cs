@@ -22,12 +22,12 @@ namespace Rutracker.Anime.Parser
         }
 
         public Models.Anime Parse(string title) {
-            var animeTitle = new Models.Anime();
+            var anime = new Models.Anime {Title = title};
 
-            var end = ParseNames(title, animeTitle);
-            ParseParts(title, animeTitle, end);
+            var end = ParseNames(title, anime);
+            ParseParts(title, anime, end);
 
-            return animeTitle;
+            return anime;
         }
 
         private int ParseNames(string title, Models.Anime anime) {

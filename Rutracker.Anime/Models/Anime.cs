@@ -8,6 +8,7 @@ namespace Rutracker.Anime.Models
             OtherInfo = new List<string>();
         }
 
+        public string Title { get; set; }
         public IEnumerable<string> Names { get; set; }
         public Series Series { get; set; }
         public Traits Traits { get; set; }
