@@ -22,9 +22,9 @@ namespace Rutracker.Anime.Tests.Tokenizers
 
         private static IEnumerable<TestCaseData> MainTestCases {
             get {
-                yield return new TestCaseData("[JAP+SUB]", new[] { "JAP", "SUB" });
-                yield return new TestCaseData("[RUS(int), JAP+SUB]", new[] { "RUS(int)", "JAP", "SUB" });
-                yield return new TestCaseData("[RUS(ext),JAP+SUB]", new[] { "RUS(ext)", "JAP", "SUB" });
+                yield return new TestCaseData("[JAP+SUB]", new[] { "JAP+SUB" });
+                yield return new TestCaseData("[RUS(int), JAP+SUB]", new[] { "RUS(int)", "JAP+SUB" });
+                yield return new TestCaseData("[RUS(ext),JAP+SUB]", new[] { "RUS(ext)", "JAP+SUB" });
                 yield return new TestCaseData("[RUS, JAP]", new[] { "RUS", "JAP" });
                 yield return new TestCaseData("[RUS JAP]", new[] { "RUS", "JAP" });
             }

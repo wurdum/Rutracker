@@ -40,5 +40,9 @@ namespace Rutracker.Anime.Models
         }
 
         #endregion
+
+        public override string ToString() {
+            return string.Format("From: {0}, Number: {1}, Total: {2}", From, Number, Total);
+        }
     }
 }

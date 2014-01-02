@@ -1,43 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Newtonsoft.Json;
+using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser;
 using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Tests
 {
-    [TestFixture(Category = "slow", Ignore = true)]
+    [TestFixture(Category = "slow", Ignore = false)]
     public class MainTests
     {
-        [Test]
-        public void MainTest() {
-            var titleParser = new TitleParser(PartTypeResolver.Default, new PartParsers {
-                SeriesTokenizer = new SeriesTokenizer(),
-                TracksTokenizer = new TracksTokenizer(),
-                TraitsTokenizer = new TraitsTokenizer(),
-                TypesTokenizer = new TypesTokenizer()
-            });
+        private readonly TitleParser _titleParser = new TitleParser(PartTypeResolver.Default, new PartParsers {
+            SeriesTokenizer = new SeriesTokenizer(),
+            TracksTokenizer = new TracksTokenizer(),
+            TraitsTokenizer = new TraitsTokenizer(),
+            TypesTokenizer = new TypesTokenizer()
+        });
 
-            var list = new List<Models.Anime>();
-            foreach (var title in Resources.GetRawTitles()) {
-                Models.Anime anime = null;
-                try {
-                    anime = titleParser.Parse(title);
-                } catch (Exception ex) {
-                    Console.WriteLine(title);
-                    Console.WriteLine(ex.StackTrace);
-                }
+        [Test, TestCaseSource("MainTestCases")]
+        public void MainTest(string title, Models.Anime expected) {
+            var actual = _titleParser.Parse(title);
 
-                if (anime == null)
-                    continue;
+            Assert.AreEqual(expected, actual);
+        }
 
-                list.Add(anime);
+        private static IEnumerable<TestCaseData> MainTestCases {
+            get {
+                yield return new TestCaseData(
+                    "Трусливый Велосипедист / Yowamushi Pedal (Набэсима Осаму) [TV] [01-09 из 12] [Без хардсаба] [RUS(int), JAP+SUB] [2013 г., спорт, HDTVRip] [720p]",
+                    new Models.Anime {
+                        Names = new[] { "Трусливый Велосипедист", "Yowamushi Pedal" },
+                        Types = new[] {Models.Anime.Type.TV },
+                        Series = new Series(1, 9, 12),
+                        Tracks = new[] { "RUS(int)", "JAP+SUB" },
+                        Traits = new Traits(2013, new[] { "спорт" }, "HDTVRip")
+                    });
             }
-
-            var json = JsonConvert.SerializeObject(list, Formatting.Indented);
-            File.WriteAllText(Path.Combine(Resources.ResourcesPath, "result.json"), json);
         }
     }
 }

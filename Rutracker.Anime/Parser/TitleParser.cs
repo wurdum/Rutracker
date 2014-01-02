@@ -103,26 +103,27 @@ namespace Rutracker.Anime.Parser
             if (string.IsNullOrWhiteSpace(value))
                 return false;
 
-            var partType = _typeResolver.getType(value);
-
-            switch (partType) {
-                case TokenType.Tracks:
-                    anime.Tracks = (IEnumerable<string>)_tracksTokenizer.Tokenize(value);
-                    break;
-                case TokenType.Series:
-                    anime.Series = (Series)_seriesTokenizer.Tokenize(value);
-                    break;
-                case TokenType.Traits:
-                    anime.Traits = (Traits)_traitsTokenizer.Tokenize(value);
-                    break;
-                case TokenType.AnimeType:
-                    anime.Types = (IEnumerable<AnimeType>)_typesTokenizer.Tokenize(value);
-                    break;
-                default:
-                    anime.OtherInfo.Add(value);
-                    break;
+            if (_tracksTokenizer.IsSatisfy(value)) {
+                anime.Tracks = (IEnumerable<string>)_tracksTokenizer.Tokenize(value);
+                return true;
             }
 
+            if (_seriesTokenizer.IsSatisfy(value)) {
+                anime.Series = (Series)_seriesTokenizer.Tokenize(value);
+                return true;
+            }
+
+            if (_traitsTokenizer.IsSatisfy(value)) {
+                anime.Traits = (Traits)_traitsTokenizer.Tokenize(value);
+                return true;
+            }
+
+            if (_typesTokenizer.IsSatisfy(value)) {
+                anime.Types = (IEnumerable<AnimeType>)_typesTokenizer.Tokenize(value);
+                return true;
+            }
+
+            anime.OtherInfo.Add(value);
             return true;
         }
 

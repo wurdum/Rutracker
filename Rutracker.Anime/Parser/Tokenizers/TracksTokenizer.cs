@@ -18,7 +18,7 @@ namespace Rutracker.Anime.Parser.Tokenizers
 
             lexeme = RemoveBracketsIfExists(lexeme);
 
-            return lexeme.Split(new[] { ",", "+", " " }, StringSplitOptions.RemoveEmptyEntries);
+            return lexeme.Split(new[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }
