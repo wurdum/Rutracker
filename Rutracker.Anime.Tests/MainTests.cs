@@ -4,7 +4,7 @@ using System.IO;
 using NUnit.Framework;
 using Newtonsoft.Json;
 using Rutracker.Anime.Parser;
-using Rutracker.Anime.Parser.Parts;
+using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Tests
 {

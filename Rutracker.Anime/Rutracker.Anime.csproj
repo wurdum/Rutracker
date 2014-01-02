@@ -45,11 +45,12 @@
     <Compile Include="Models\Series.cs" />
     <Compile Include="Models\Traits.cs" />
     <Compile Include="Parser\PartParsers.cs" />
-    <Compile Include="Parser\Parts\SeriesTokenizer.cs" />
-    <Compile Include="Parser\Parts\TokenizerBase.cs" />
-    <Compile Include="Parser\Parts\TracksTokenizer.cs" />
-    <Compile Include="Parser\Parts\TraitsTokenizer.cs" />
-    <Compile Include="Parser\Parts\TypesTokenizer.cs" />
+    <Compile Include="Parser\Tokenizers\TokenType.cs" />
+    <Compile Include="Parser\Tokenizers\SeriesTokenizer.cs" />
+    <Compile Include="Parser\Tokenizers\TokenizerBase.cs" />
+    <Compile Include="Parser\Tokenizers\TracksTokenizer.cs" />
+    <Compile Include="Parser\Tokenizers\TraitsTokenizer.cs" />
+    <Compile Include="Parser\Tokenizers\TypesTokenizer.cs" />
     <Compile Include="Parser\PartTypePattern.cs" />
     <Compile Include="Parser\PartTypeResolver.cs" />
     <Compile Include="Parser\TitleParser.cs" />

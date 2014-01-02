@@ -1,25 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Models;
 
-namespace Rutracker.Anime.Parser.Parts
+namespace Rutracker.Anime.Parser.Tokenizers
 {
     public class TraitsTokenizer : TokenizerBase
     {
-        public TraitsTokenizer() {
-            TokenRx = new Regex(ConfigurationManager.AppSettings[TokenType.ToString()]);
-        }
+        public TraitsTokenizer() {}
 
-        public TraitsTokenizer(string rxString) {
-            TokenRx = new Regex(rxString);
-        }
+        public TraitsTokenizer(string rx) : base(rx) {}
 
-        public override PartTypePattern.PartType TokenType {
-            get { return PartTypePattern.PartType.Traits; }
+        public override TokenType TokenType {
+            get { return TokenType.Traits; }
         }
 
         public override object Tokenize(string lexeme) {

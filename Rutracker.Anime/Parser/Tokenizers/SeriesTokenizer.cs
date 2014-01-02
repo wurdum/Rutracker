@@ -1,27 +1,21 @@
 using System;
-using System.Configuration;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Models;
 
-namespace Rutracker.Anime.Parser.Parts
+namespace Rutracker.Anime.Parser.Tokenizers
 {
     public class SeriesTokenizer : TokenizerBase
     {
         private static readonly string[] RangeSeparators = new[] {"из", "of"};
         private static readonly string[] NumbersSeparators = new[] {"-", "+"};
 
-        public SeriesTokenizer() {
-            TokenRx = new Regex(ConfigurationManager.AppSettings[TokenType.ToString()]);
-        }
+        public SeriesTokenizer() {}
 
-        public SeriesTokenizer(string rxString) {
-            TokenRx = new Regex(rxString);
-        }
+        public SeriesTokenizer(string rx) : base(rx) {}
 
-        public override PartTypePattern.PartType TokenType {
-            get { return PartTypePattern.PartType.Series; }
+        public override TokenType TokenType {
+            get { return TokenType.Series; }
         }
 
         public override object Tokenize(String lexeme) {

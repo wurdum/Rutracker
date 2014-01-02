@@ -1,17 +1,21 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
-using Rutracker.Anime.Parser.Parts;
+using Rutracker.Anime.Exceptions;
+using Rutracker.Anime.Parser.Tokenizers;
 
-namespace Rutracker.Anime.Tests
+namespace Rutracker.Anime.Tests.Tokenizers
 {
     [TestFixture]
-    public class TracksParserTests
+    public class TracksTokenizerTests
     {
         private readonly TracksTokenizer _tracksTokenizer = new TracksTokenizer();
 
         [Test, TestCaseSource("MainTestCases")]
-        public void MainTest(string part, IEnumerable<string> expected) {
-            var actual = (IEnumerable<string>)_tracksTokenizer.Tokenize(part);
+        public void MainTest(string lexeme, IEnumerable<string> expected) {
+            if (!_tracksTokenizer.IsSatisfy(lexeme))
+                throw new TokenizerException("Lexeme not satisfies tokenizer", lexeme, _tracksTokenizer.TokenType);
+
+            var actual = (IEnumerable<string>)_tracksTokenizer.Tokenize(lexeme);
 
             CollectionAssert.AreEquivalent(expected, actual);
         }

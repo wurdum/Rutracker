@@ -3,7 +3,7 @@ using Moq;
 using NUnit.Framework;
 using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser;
-using Rutracker.Anime.Parser.Parts;
+using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Tests
 {

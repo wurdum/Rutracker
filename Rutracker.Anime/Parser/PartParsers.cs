@@ -1,4 +1,4 @@
-﻿using Rutracker.Anime.Parser.Parts;
+﻿using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Parser
 {

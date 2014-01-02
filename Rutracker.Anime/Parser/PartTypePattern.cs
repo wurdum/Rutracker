@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Parser
 {
     public class PartTypePattern
     {
         private readonly Regex _regex;
-        private readonly PartType _partType;
+        private readonly TokenType _tokenType;
 
-        public PartTypePattern(String regex, PartType partType) {
-            _partType = partType;
+        public PartTypePattern(String regex, TokenType tokenType) {
+            _tokenType = tokenType;
             _regex = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
-        public PartType getPartType() {
-            return _partType;
+        public TokenType getPartType() {
+            return _tokenType;
         }
 
         public bool isSatisfy(String value) {
             return _regex.IsMatch(value);
-        }
-
-        public enum PartType
-        {
-            Traits,
-            Series,
-            AvailTracks,
-            Type,
-            Info
         }
     }
 }

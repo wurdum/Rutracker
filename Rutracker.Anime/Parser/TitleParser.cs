@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Rutracker.Anime.Models;
-using Rutracker.Anime.Parser.Parts;
+using Rutracker.Anime.Parser.Tokenizers;
 using AnimeType = Rutracker.Anime.Models.Anime.Type;
 
 namespace Rutracker.Anime.Parser
@@ -106,16 +106,16 @@ namespace Rutracker.Anime.Parser
             var partType = _typeResolver.getType(value);
 
             switch (partType) {
-                case PartTypePattern.PartType.AvailTracks:
+                case TokenType.Tracks:
                     anime.Tracks = (IEnumerable<string>)_tracksTokenizer.Tokenize(value);
                     break;
-                case PartTypePattern.PartType.Series:
+                case TokenType.Series:
                     anime.Series = (Series)_seriesTokenizer.Tokenize(value);
                     break;
-                case PartTypePattern.PartType.Traits:
+                case TokenType.Traits:
                     anime.Traits = (Traits)_traitsTokenizer.Tokenize(value);
                     break;
-                case PartTypePattern.PartType.Type:
+                case TokenType.AnimeType:
                     anime.Types = (IEnumerable<AnimeType>)_typesTokenizer.Tokenize(value);
                     break;
                 default:

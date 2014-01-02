@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Parser
 {
@@ -12,11 +13,11 @@ namespace Rutracker.Anime.Parser
             _patterns = patterns;
         }
 
-        public PartTypePattern.PartType getType(String part) {
+        public TokenType getType(String part) {
             foreach (var pattern in _patterns.Where(pattern => pattern.isSatisfy(part)))
                 return pattern.getPartType();
 
-            return PartTypePattern.PartType.Info;
+            return TokenType.Info;
         }
 
         public static PartTypeResolver Default {
@@ -28,7 +29,7 @@ namespace Rutracker.Anime.Parser
                     { "Type", "(([\\-\\+\\s+\\d]+)?(movie|specials?|ova|tv|oav|sp|ona)([\\-\\+\\s+\\d]+)?)+" }
                 };
 
-                return new PartTypeResolver(partsRxs.Select(p => new PartTypePattern(p.Value, (PartTypePattern.PartType)Enum.Parse(typeof(PartTypePattern.PartType), p.Key))));
+                return new PartTypeResolver(partsRxs.Select(p => new PartTypePattern(p.Value, (TokenType)Enum.Parse(typeof(TokenType), p.Key))));
             }
         }
     }
