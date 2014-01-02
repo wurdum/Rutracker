@@ -17,7 +17,7 @@ namespace Rutracker.Anime.Tests
                 SeriesTokenizer = new SeriesTokenizer(),
                 TracksTokenizer = new TracksTokenizer(),
                 TraitsTokenizer = new TraitsTokenizer(),
-                TypesParser = new TypesParser()
+                TypesTokenizer = new TypesTokenizer()
             });
 
             var list = new List<Models.Anime>();

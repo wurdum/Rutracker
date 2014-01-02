@@ -16,7 +16,7 @@ namespace Rutracker.Anime.Tests
                 SeriesTokenizer = Mock.Of<SeriesTokenizer>(sp => sp.Tokenize(It.IsAny<string>()) == new Series(null, null, null)),
                 TracksTokenizer = Mock.Of<TracksTokenizer>(tp => tp.Tokenize(It.IsAny<string>()) == new string[0]),
                 TraitsTokenizer = Mock.Of<TraitsTokenizer>(tp => tp.Tokenize(It.IsAny<string>()) == new Traits(null, null, null)),
-                TypesParser = Mock.Of<TypesParser>(tp => tp.Parse(It.IsAny<string>()) == new Models.Anime.Type[0])
+                TypesTokenizer = Mock.Of<TypesTokenizer>(tp => tp.Tokenize(It.IsAny<string>()) == new Models.Anime.Type[0])
             });
 
             var animeTitle = titleParser.Parse(title);

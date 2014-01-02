@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser.Parts;
+using AnimeType = Rutracker.Anime.Models.Anime.Type;
 
 namespace Rutracker.Anime.Parser
 {
@@ -12,14 +13,14 @@ namespace Rutracker.Anime.Parser
         private readonly SeriesTokenizer _seriesTokenizer;
         private readonly TracksTokenizer _tracksTokenizer;
         private readonly TraitsTokenizer _traitsTokenizer;
-        private readonly TypesParser _typesParser;
+        private readonly TypesTokenizer _typesTokenizer;
 
         public TitleParser(PartTypeResolver typeResolver, PartParsers partParsers) {
             _typeResolver = typeResolver;
             _seriesTokenizer = partParsers.SeriesTokenizer;
             _tracksTokenizer = partParsers.TracksTokenizer;
             _traitsTokenizer = partParsers.TraitsTokenizer;
-            _typesParser = partParsers.TypesParser;
+            _typesTokenizer = partParsers.TypesTokenizer;
         }
 
         public Models.Anime Parse(string title) {
@@ -115,7 +116,7 @@ namespace Rutracker.Anime.Parser
                     anime.Traits = (Traits)_traitsTokenizer.Tokenize(value);
                     break;
                 case PartTypePattern.PartType.Type:
-                    anime.Types = _typesParser.Parse(value);
+                    anime.Types = (IEnumerable<AnimeType>)_typesTokenizer.Tokenize(value);
                     break;
                 default:
                     anime.OtherInfo.Add(value);

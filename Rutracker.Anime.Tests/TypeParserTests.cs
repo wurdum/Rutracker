@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Rutracker.Anime.Exceptions;
 using Rutracker.Anime.Parser.Parts;
 using AnimeType = Rutracker.Anime.Models.Anime.Type;
 
@@ -8,11 +9,14 @@ namespace Rutracker.Anime.Tests
     [TestFixture]
     public class TypeParserTests
     {
-        private readonly TypesParser _typesParser = new TypesParser();
+        private readonly TypesTokenizer _typesTokenizer = new TypesTokenizer();
 
         [Test, TestCaseSource("MainTestCases")]
-        public void MainTest(string part, IEnumerable<AnimeType> expected) {
-            var actual = _typesParser.Parse(part);
+        public void MainTest(string lexeme, IEnumerable<AnimeType> expected) {
+            if (!_typesTokenizer.IsSatisfy(lexeme))
+                throw new TokenizerException("Lexeme not satisfy tokenizer", lexeme, _typesTokenizer.TokenType);
+
+            var actual = (IEnumerable<AnimeType>)_typesTokenizer.Tokenize(lexeme);
 
             CollectionAssert.AreEquivalent(actual, expected);
         }
