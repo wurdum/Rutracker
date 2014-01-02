@@ -14,7 +14,7 @@ namespace Rutracker.Anime.Tests
         public void MainTest(string title, IEnumerable<string> names) {
             var titleParser = new TitleParser(PartTypeResolver.Default, new PartParsers {
                 SeriesTokenizer = Mock.Of<SeriesTokenizer>(sp => sp.Tokenize(It.IsAny<string>()) == new Series(null, null, null)),
-                TracksParser = Mock.Of<TracksParser>(tp => tp.Parse(It.IsAny<string>()) == new string[0]),
+                TracksTokenizer = Mock.Of<TracksTokenizer>(tp => tp.Tokenize(It.IsAny<string>()) == new string[0]),
                 TraitsTokenizer = Mock.Of<TraitsTokenizer>(tp => tp.Tokenize(It.IsAny<string>()) == new Traits(null, null, null)),
                 TypesParser = Mock.Of<TypesParser>(tp => tp.Parse(It.IsAny<string>()) == new Models.Anime.Type[0])
             });

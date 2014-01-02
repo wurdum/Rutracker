@@ -47,7 +47,7 @@
     <Compile Include="Parser\PartParsers.cs" />
     <Compile Include="Parser\Parts\SeriesTokenizer.cs" />
     <Compile Include="Parser\Parts\TokenizerBase.cs" />
-    <Compile Include="Parser\Parts\TracksParser.cs" />
+    <Compile Include="Parser\Parts\TracksTokenizer.cs" />
     <Compile Include="Parser\Parts\TraitsTokenizer.cs" />
     <Compile Include="Parser\Parts\TypesParser.cs" />
     <Compile Include="Parser\PartTypePattern.cs" />

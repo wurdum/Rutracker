@@ -10,14 +10,14 @@ namespace Rutracker.Anime.Parser
     {
         private readonly PartTypeResolver _typeResolver;
         private readonly SeriesTokenizer _seriesTokenizer;
-        private readonly TracksParser _tracksParser;
+        private readonly TracksTokenizer _tracksTokenizer;
         private readonly TraitsTokenizer _traitsTokenizer;
         private readonly TypesParser _typesParser;
 
         public TitleParser(PartTypeResolver typeResolver, PartParsers partParsers) {
             _typeResolver = typeResolver;
             _seriesTokenizer = partParsers.SeriesTokenizer;
-            _tracksParser = partParsers.TracksParser;
+            _tracksTokenizer = partParsers.TracksTokenizer;
             _traitsTokenizer = partParsers.TraitsTokenizer;
             _typesParser = partParsers.TypesParser;
         }
@@ -106,7 +106,7 @@ namespace Rutracker.Anime.Parser
 
             switch (partType) {
                 case PartTypePattern.PartType.AvailTracks:
-                    anime.Tracks = _tracksParser.Parse(value);
+                    anime.Tracks = (IEnumerable<string>)_tracksTokenizer.Tokenize(value);
                     break;
                 case PartTypePattern.PartType.Series:
                     anime.Series = (Series)_seriesTokenizer.Tokenize(value);

@@ -8,14 +8,14 @@ using Rutracker.Anime.Parser.Parts;
 
 namespace Rutracker.Anime.Tests
 {
-    [TestFixture(Category = "slow", Ignore = false)]
+    [TestFixture(Category = "slow", Ignore = true)]
     public class MainTests
     {
         [Test]
         public void MainTest() {
             var titleParser = new TitleParser(PartTypeResolver.Default, new PartParsers {
                 SeriesTokenizer = new SeriesTokenizer(),
-                TracksParser = new TracksParser(),
+                TracksTokenizer = new TracksTokenizer(),
                 TraitsTokenizer = new TraitsTokenizer(),
                 TypesParser = new TypesParser()
             });

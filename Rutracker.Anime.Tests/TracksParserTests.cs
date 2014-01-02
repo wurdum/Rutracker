@@ -7,11 +7,11 @@ namespace Rutracker.Anime.Tests
     [TestFixture]
     public class TracksParserTests
     {
-        private readonly TracksParser _tracksParser = new TracksParser();
+        private readonly TracksTokenizer _tracksTokenizer = new TracksTokenizer();
 
         [Test, TestCaseSource("MainTestCases")]
         public void MainTest(string part, IEnumerable<string> expected) {
-            var actual = _tracksParser.Parse(part);
+            var actual = (IEnumerable<string>)_tracksTokenizer.Tokenize(part);
 
             CollectionAssert.AreEquivalent(expected, actual);
         }
