@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Rutracker.Anime.Parser.Tokenizers
 {
-    public abstract class TokenizerBase
+    public abstract class TokenizerBase : ILexemeEvaluator, ITokenizer
     {
         protected TokenizerBase() {
             TokenRx = new Regex(ConfigurationManager.AppSettings[TokenType.ToString()], RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -13,8 +13,8 @@ namespace Rutracker.Anime.Parser.Tokenizers
             TokenRx = new Regex(rx, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
+        protected Regex TokenRx { get; set; }
         public abstract TokenType TokenType { get; }
-        public Regex TokenRx { get; protected set; }
 
         public abstract object Tokenize(string lexeme);
 

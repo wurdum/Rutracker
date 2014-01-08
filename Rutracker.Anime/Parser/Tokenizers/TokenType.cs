@@ -2,6 +2,7 @@
 {
     public enum TokenType
     {
+        Names,
         Traits,
         Series,
         Tracks,
