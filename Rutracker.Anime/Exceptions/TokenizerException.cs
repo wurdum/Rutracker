@@ -1,5 +1,4 @@
 ﻿using System;
-using Rutracker.Anime.Parser;
 using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Exceptions

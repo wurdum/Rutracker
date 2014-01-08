@@ -26,5 +26,9 @@ namespace Rutracker.Anime.Parser.Tokenizers
 
             return types;
         }
+
+        public override void UpdateModel(Models.Anime model, string lexeme) {
+            model.Types = (IEnumerable<Models.Anime.Type>)Tokenize(lexeme);
+        }
     }
 }

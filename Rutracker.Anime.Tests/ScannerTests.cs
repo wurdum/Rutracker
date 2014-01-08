@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser;
 using Rutracker.Anime.Parser.Tokenizers;
 

@@ -39,6 +39,10 @@ namespace Rutracker.Anime.Parser.Tokenizers
             return new Traits(year, genres, format);
         }
 
+        public override void UpdateModel(Models.Anime model, string lexeme) {
+            model.Traits = (Traits)Tokenize(lexeme);
+        }
+
         private IEnumerable<string> GetGenres(string[] blocks) {
             var genres = new List<string>();
             if (blocks.Length < 3)

@@ -61,6 +61,10 @@ namespace Rutracker.Anime.Parser.Tokenizers
             return from == null ? new Series(number.Value, total) : new Series(from, number, total);
         }
 
+        public override void UpdateModel(Models.Anime model, string lexeme) {
+            model.Series = (Series)Tokenize(lexeme);
+        }
+
         private int?[] SplitIntoNumbers(String part) {
             foreach (var ns in NumbersSeparators) {
                 if (!part.Contains(ns))

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Rutracker.Anime.Parser.Tokenizers
 {
@@ -19,6 +20,10 @@ namespace Rutracker.Anime.Parser.Tokenizers
             lexeme = RemoveBracketsIfExists(lexeme);
 
             return lexeme.Split(new[] { ",", ".", " " }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        public override void UpdateModel(Models.Anime model, string lexeme) {
+            model.Tracks = (IEnumerable<string>)Tokenize(lexeme);
         }
     }
 }

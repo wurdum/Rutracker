@@ -17,6 +17,7 @@ namespace Rutracker.Anime.Parser.Tokenizers
         public abstract TokenType TokenType { get; }
 
         public abstract object Tokenize(string lexeme);
+        public abstract void UpdateModel(Models.Anime model, string lexeme);
 
         public virtual bool IsSatisfy(string lexeme) {
             return TokenRx.IsMatch(lexeme);

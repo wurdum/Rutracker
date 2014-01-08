@@ -12,5 +12,9 @@
         public override object Tokenize(string lexeme) {
             return lexeme;
         }
+
+        public override void UpdateModel(Models.Anime model, string lexeme) {
+            model.OtherInfo.Add((string)Tokenize(lexeme));
+        }
     }
 }

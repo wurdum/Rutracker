@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Rutracker.Anime.Exceptions;
+using Rutracker.Anime.Models;
 using Rutracker.Anime.Parser.Tokenizers;
 
 namespace Rutracker.Anime.Parser
@@ -26,7 +27,7 @@ namespace Rutracker.Anime.Parser
             _evaluators = evaluators;
         }
 
-        public IEnumerable<Lexeme> Scan(string title) {
+        public virtual IEnumerable<Lexeme> Scan(string title) {
             var groups = _scannerRx.Matches(title);
             if (groups.Count == 0)
                 throw new ScannerException("No lexems found in title", title);
@@ -47,37 +48,6 @@ namespace Rutracker.Anime.Parser
             }
 
             return lexemes;
-        }
-    }
-
-    public struct Lexeme
-    {
-        public readonly TokenType Type;
-        public readonly string String;
-
-        public Lexeme(TokenType type, string s) {
-            Type = type;
-            String = s;
-        }
-
-        public bool Equals(Lexeme other) {
-            return Type == other.Type && string.Equals(String, other.String);
-        }
-
-        public override bool Equals(object obj) {
-            if (ReferenceEquals(null, obj))
-                return false;
-            return obj is Lexeme && Equals((Lexeme) obj);
-        }
-
-        public override int GetHashCode() {
-            unchecked {
-                return ((int) Type*397) ^ (String != null ? String.GetHashCode() : 0);
-            }
-        }
-
-        public override string ToString() {
-            return string.Format("Type: {0}, S: {1}", Type, String);
         }
     }
 }

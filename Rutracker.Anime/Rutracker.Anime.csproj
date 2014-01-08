@@ -43,6 +43,7 @@
     <Compile Include="Exceptions\ScannerException.cs" />
     <Compile Include="Exceptions\TokenizerException.cs" />
     <Compile Include="Models\Anime.cs" />
+    <Compile Include="Models\Lexeme.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="Models\Traits.cs" />
     <Compile Include="Parser\PartParsers.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="Parser\Tokenizers\TypesTokenizer.cs" />
     <Compile Include="Parser\PartTypePattern.cs" />
     <Compile Include="Parser\PartTypeResolver.cs" />
-    <Compile Include="Parser\TitleParser.cs" />
+    <Compile Include="Parser\Lexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

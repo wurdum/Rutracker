@@ -40,5 +40,9 @@ namespace Rutracker.Anime.Parser.Tokenizers
             
             return names;
         }
+
+        public override void UpdateModel(Models.Anime model, string lexeme) {
+            model.Names = (IEnumerable<string>)Tokenize(lexeme);
+        }
     }
 }
