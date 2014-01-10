@@ -8,9 +8,9 @@ namespace Rutracker.Anime.Parser
     public class Lexer
     {
         private readonly Scanner _scanner;
-        private readonly IEnumerable<ITokenizer> _tokenizers;
+        private readonly IEnumerable<TokenizerBase> _tokenizers;
 
-        public Lexer(Scanner scanner, IEnumerable<ITokenizer> tokenizers) {
+        public Lexer(Scanner scanner, IEnumerable<TokenizerBase> tokenizers) {
             _scanner = scanner;
             _tokenizers = tokenizers;
         }

@@ -48,9 +48,7 @@
     <Compile Include="Models\Traits.cs" />
     <Compile Include="Parser\PartParsers.cs" />
     <Compile Include="Parser\Scanner.cs" />
-    <Compile Include="Parser\Tokenizers\ILexemeEvaluator.cs" />
     <Compile Include="Parser\Tokenizers\InfoTokenizer.cs" />
-    <Compile Include="Parser\Tokenizers\ITokenizer.cs" />
     <Compile Include="Parser\Tokenizers\NamesTokenizer.cs" />
     <Compile Include="Parser\Tokenizers\TokenType.cs" />
     <Compile Include="Parser\Tokenizers\SeriesTokenizer.cs" />
