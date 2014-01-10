@@ -78,6 +78,19 @@ namespace Rutracker.Anime.Tests
                         new Lexeme(TokenType.Traits, "[2003 г., Фантастика, DVDRip]"),
                         new Lexeme(TokenType.Info, "Режиссерская версия / Director's Cut"),
                     });
+                yield return new TestCaseData(
+                    "Аниматрица / The Animatrix (Энди Джонс / Махиро Маеда / Ёсиаки Кавадзири) [OVA] [9 из 9] [без хардсаба] " +
+                    "[RUS(int),JAP,ENG+SUB] [2003, киберпанк, фантастика, BDRip] [720p]",
+                    new[] {
+                        new Lexeme(TokenType.Names, "Аниматрица / The Animatrix"),
+                        new Lexeme(TokenType.Info, "(Энди Джонс / Махиро Маеда / Ёсиаки Кавадзири)"),
+                        new Lexeme(TokenType.AnimeType, "[OVA]"),
+                        new Lexeme(TokenType.Series, "[9 из 9]"),
+                        new Lexeme(TokenType.Info, "[без хардсаба]"),
+                        new Lexeme(TokenType.Tracks, "[RUS(int),JAP,ENG+SUB]"),
+                        new Lexeme(TokenType.Traits, "[2003, киберпанк, фантастика, BDRip]"),
+                        new Lexeme(TokenType.Info, "[720p]"),
+                    });
             }
         }
     }
