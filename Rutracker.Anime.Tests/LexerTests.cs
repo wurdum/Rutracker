@@ -12,7 +12,7 @@ namespace Rutracker.Anime.Tests
         private static readonly IEnumerable<TokenizerBase> Tokenizers = new List<TokenizerBase> {
             new NamesTokenizer(), 
             new SeriesTokenizer(),
-            new TracksTokenizer(),
+            new AudioAndSubsTokenizer(),
             new TraitsTokenizer(), 
             new TypesTokenizer(), 
             new InfoTokenizer() 
@@ -33,9 +33,11 @@ namespace Rutracker.Anime.Tests
                     "Трусливый Велосипедист / Yowamushi Pedal (Набэсима Осаму) [TV] [01-09 из 12] [Без хардсаба] [RUS(int), JAP+SUB] [2013 г., спорт, HDTVRip] [720p]",
                     new Models.Anime {
                         Names = new[] { "Трусливый Велосипедист", "Yowamushi Pedal" },
+                        Video = new[] {new VideoContent {
+                            Series = new Series(1, 9, 12),
+                            AudioAndSubs = new[] { "RUS(int)", "JAP+SUB" }
+                        }},
                         Types = new[] { Models.Anime.Type.TV },
-                        Series = new Series(1, 9, 12),
-                        Tracks = new[] { "RUS(int)", "JAP+SUB" },
                         Traits = new Traits(2013, new[] { "спорт" }, "HDTVRip")
                     });
                 yield return new TestCaseData(
@@ -43,8 +45,10 @@ namespace Rutracker.Anime.Tests
                     new Models.Anime {
                         Names = new[] { "Прекрасные деньки", "Деревенская глубинка", "Глухомань", "Non Non Biyori" },
                         Types = new[] { Models.Anime.Type.TV },
-                        Series = new Series(1, 10, 12),
-                        Tracks = new[] { "RUS(int)", "JAP+SUB" },
+                        Video = new[] {new VideoContent {
+                            Series = new Series(1, 10, 12),
+                            AudioAndSubs = new[] { "RUS(int)", "JAP+SUB" }
+                        }},
                         Traits = new Traits(2013, new[] { "комедия", "повседневность" }, "HDTVRip")
                     });
                 yield return new TestCaseData(
@@ -52,9 +56,26 @@ namespace Rutracker.Anime.Tests
                     new Models.Anime {
                         Names = new[] { "Кейон!!", "Кей-Он", "K-On!!" },
                         Types = new[] { Models.Anime.Type.TV, Models.Anime.Type.Special },
-                        Series = new Series(24, 24),
-                        Tracks = new[] { "RUS(ext)", "JAP+SUB" },
+                        Video = new[] { new VideoContent {
+                            Series = new Series(24, 24),
+                            AudioAndSubs = new[] { "RUS(ext)", "JAP+SUB" }
+                        }},
                         Traits = new Traits(2010, new[] { "комедия", "музыкальный", "школа" }, "BDRip")
+                    });
+                yield return new TestCaseData(
+                    "Сопротивление крови / Strike the Blood [TV] [без хардсаба] [11 из 24] [JAP+SUB] & [9 из 24] [RUS(ext)] [2013 г., приключения, HDTVRip] [720p]",
+                    new Models.Anime {
+                        Names = new[] { "Сопротивление крови", "Strike the Blood" },
+                        Types = new[] { Models.Anime.Type.TV },
+                        Video = new[] { new VideoContent {
+                            Series = new Series(1, 11, 24),
+                            AudioAndSubs = new[] { "JAP+SUB" }
+                        }, new VideoContent {
+                            Series = new Series(1, 9, 24),
+                            AudioAndSubs = new[] { "RUS(ext)" }
+                        }},
+                        Traits = new Traits(2013, new[] {"приключения"}, "HDTVRip"),
+                        OtherInfo = new[] { "720p" }
                     });
             }
         }

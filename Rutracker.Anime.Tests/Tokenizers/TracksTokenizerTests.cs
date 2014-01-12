@@ -8,14 +8,14 @@ namespace Rutracker.Anime.Tests.Tokenizers
     [TestFixture]
     public class TracksTokenizerTests
     {
-        private readonly TracksTokenizer _tracksTokenizer = new TracksTokenizer();
+        private readonly AudioAndSubsTokenizer _audioAndSubsTokenizer = new AudioAndSubsTokenizer();
 
         [Test, TestCaseSource("MainTestCases")]
         public void MainTest(string lexeme, IEnumerable<string> expected) {
-            if (!_tracksTokenizer.IsSatisfy(lexeme))
-                throw new TokenizerException("Lexeme not satisfies tokenizer", lexeme, _tracksTokenizer.TokenType);
+            if (!_audioAndSubsTokenizer.IsSatisfy(lexeme))
+                throw new TokenizerException("Lexeme not satisfies tokenizer", lexeme, _audioAndSubsTokenizer.TokenType);
 
-            var actual = (IEnumerable<string>)_tracksTokenizer.Tokenize(lexeme);
+            var actual = (IEnumerable<string>)_audioAndSubsTokenizer.Tokenize(lexeme);
 
             CollectionAssert.AreEquivalent(expected, actual);
         }

@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Rutracker.Anime.Models;
 
 namespace Rutracker.Anime.Parser.Tokenizers
 {
-    public class TracksTokenizer : TokenizerBase
+    public class AudioAndSubsTokenizer : TokenizerBase
     {
-        public TracksTokenizer() {}
+        public AudioAndSubsTokenizer() {}
 
-        public TracksTokenizer(string rx) : base(rx) {}
+        public AudioAndSubsTokenizer(string rx) : base(rx) {}
 
         public override TokenType TokenType {
             get { return TokenType.Tracks; }
@@ -23,7 +25,13 @@ namespace Rutracker.Anime.Parser.Tokenizers
         }
 
         public override void UpdateModel(Models.Anime model, string lexeme) {
-            model.Tracks = (IEnumerable<string>)Tokenize(lexeme);
+            var audioAndSubs = (IEnumerable<string>)Tokenize(lexeme);
+
+            var lastUpdated = model.Video.LastOrDefault(v => v.AudioAndSubs == null);
+            if (lastUpdated == null)
+                model.Video.Add(new VideoContent { AudioAndSubs = audioAndSubs });
+            else
+                lastUpdated.AudioAndSubs = audioAndSubs;
         }
     }
 }

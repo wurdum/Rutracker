@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\ScannerException.cs" />
     <Compile Include="Exceptions\TokenizerException.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Models\Anime.cs" />
     <Compile Include="Models\Lexeme.cs" />
     <Compile Include="Models\Series.cs" />
@@ -53,7 +55,7 @@
     <Compile Include="Parser\Tokenizers\TokenType.cs" />
     <Compile Include="Parser\Tokenizers\SeriesTokenizer.cs" />
     <Compile Include="Parser\Tokenizers\TokenizerBase.cs" />
-    <Compile Include="Parser\Tokenizers\TracksTokenizer.cs" />
+    <Compile Include="Parser\Tokenizers\AudioAndSubsTokenizer.cs" />
     <Compile Include="Parser\Tokenizers\TraitsTokenizer.cs" />
     <Compile Include="Parser\Tokenizers\TypesTokenizer.cs" />
     <Compile Include="Parser\PartTypePattern.cs" />

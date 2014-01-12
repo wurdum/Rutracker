@@ -62,7 +62,13 @@ namespace Rutracker.Anime.Parser.Tokenizers
         }
 
         public override void UpdateModel(Models.Anime model, string lexeme) {
-            model.Series = (Series)Tokenize(lexeme);
+            var series = (Series) Tokenize(lexeme);
+
+            var lastUpdated = model.Video.LastOrDefault(v => v.Series == null);
+            if (lastUpdated == null)
+                model.Video.Add(new VideoContent {Series = series});
+            else
+                lastUpdated.Series = series;
         }
 
         private int?[] SplitIntoNumbers(String part) {

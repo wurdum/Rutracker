@@ -12,7 +12,7 @@ namespace Rutracker.Anime.Tests
         private readonly Scanner _scanner = new Scanner(new TokenizerBase[] {
             new NamesTokenizer(), 
             new SeriesTokenizer(),
-            new TracksTokenizer(),
+            new AudioAndSubsTokenizer(),
             new TraitsTokenizer(), 
             new TypesTokenizer(), 
             new InfoTokenizer() 
