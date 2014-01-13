@@ -21,9 +21,9 @@ namespace Rutracker.Anime.Parser
                 \[[^\]]+\]|                             # any block in square bracket
                 \([^\(]+\)                              # any block in parenthetical 
         )", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-        private readonly IEnumerable<TokenizerBase> _evaluators;
+        private readonly IEnumerable<ITokenEvaluator> _evaluators;
 
-        public Scanner(IEnumerable<TokenizerBase> evaluators) {
+        public Scanner(IEnumerable<ITokenEvaluator> evaluators) {
             _evaluators = evaluators;
         }
 

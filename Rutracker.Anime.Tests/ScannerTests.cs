@@ -9,7 +9,7 @@ namespace Rutracker.Anime.Tests
     [TestFixture]
     public class ScannerTests
     {
-        private readonly Scanner _scanner = new Scanner(new TokenizerBase[] {
+        private readonly Scanner _scanner = new Scanner(new ITokenEvaluator[] {
             new NamesTokenizer(), 
             new SeriesTokenizer(),
             new AudioAndSubsTokenizer(),

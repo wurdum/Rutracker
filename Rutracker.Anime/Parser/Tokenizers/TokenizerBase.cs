@@ -4,7 +4,33 @@ using System.Text.RegularExpressions;
 
 namespace Rutracker.Anime.Parser.Tokenizers
 {
-    public abstract class TokenizerBase
+    public interface ITokenHandler
+    {
+        TokenType TokenType { get; }
+    }
+
+    public interface ITokenEvaluator : ITokenHandler
+    {
+        bool IsSatisfy(string lexeme);
+    }
+
+    public interface ITokenizer : ITokenHandler
+    {
+        object Tokenize(string lexeme);
+        void UpdateModel(Models.Anime model, string lexeme);
+    }
+
+    public enum TokenType
+    {
+        Names = 1,
+        Traits,
+        Series,
+        Tracks,
+        AnimeType,
+        Info
+    }
+
+    public abstract class TokenizerBase : ITokenEvaluator, ITokenizer
     {
         private static readonly char[] Brackets = new[] {'[', '(', ']', ')'};
 

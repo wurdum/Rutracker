@@ -52,7 +52,6 @@
     <Compile Include="Parser\Scanner.cs" />
     <Compile Include="Parser\Tokenizers\InfoTokenizer.cs" />
     <Compile Include="Parser\Tokenizers\NamesTokenizer.cs" />
-    <Compile Include="Parser\Tokenizers\TokenType.cs" />
     <Compile Include="Parser\Tokenizers\SeriesTokenizer.cs" />
     <Compile Include="Parser\Tokenizers\TokenizerBase.cs" />
     <Compile Include="Parser\Tokenizers\AudioAndSubsTokenizer.cs" />
