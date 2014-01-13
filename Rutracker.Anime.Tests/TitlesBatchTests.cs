@@ -18,9 +18,23 @@ namespace Rutracker.Anime.Tests
         public object _consoleLock = new object();
 
         [Test]
-        public void MainTest() {
+        public void CompareResultingJsons() {
             var titlesList = Resources.GetRawTitles();
+            var jsonModelsFromLexer = ParseTitles(titlesList);
+            var jsonModelsFromFile = Resources.GetRawJson();
 
+            CollectionAssert.AreEquivalent(jsonModelsFromFile, jsonModelsFromLexer);
+        }
+
+        //[Test]
+        public void RewriteJson() {
+            var titlesList = Resources.GetRawTitles();
+            var jsonModelsFromParser = ParseTitles(titlesList);
+
+            File.WriteAllLines(Path.Combine(Resources.ResourcesPath, "titles.json"), jsonModelsFromParser);
+        }
+
+        private IEnumerable<string> ParseTitles(IEnumerable<string> titlesList) {
             var inputTitles = new BlockingCollection<string>();
             var animeModels = new BlockingCollection<Models.Anime>();
             var jsonModels = new BlockingCollection<string>();
@@ -55,9 +69,7 @@ namespace Rutracker.Anime.Tests
                                 try {
                                     stopwatch.Start();
                                     var titleUnc = title;
-                                    Task.Factory
-                                        .StartNew(() => animeModels.Add(lexer.Parse(titleUnc)))
-                                        .Wait(TimeSpan.FromSeconds(1));
+                                    Task.Factory.StartNew(() => animeModels.Add(lexer.Parse(titleUnc))).Wait(TimeSpan.FromSeconds(1));
 
                                     lock (_consoleLock) {
                                         stopwatch.Stop();
@@ -96,17 +108,15 @@ namespace Rutracker.Anime.Tests
                                     }
                                 }
                             }
-
-
                         }, TaskCreationOptions.AttachedToParent);
                     }
-                } catch { }
+                } catch {}
             }).ContinueWith(t => animeModels.CompleteAdding());
 
             var serializeProcessor = Task.Factory.StartNew(() => {
                 try {
                     foreach (var model in animeModels.GetConsumingEnumerable()) {
-                        jsonModels.Add(JsonConvert.SerializeObject(model/*, Formatting.Indented*/));
+                        jsonModels.Add(JsonConvert.SerializeObject(model));
                     }
                 } finally {
                     jsonModels.CompleteAdding();
@@ -114,8 +124,7 @@ namespace Rutracker.Anime.Tests
             });
 
             Task.WaitAll(readLinesProcessor, titleProcessor, serializeProcessor);
-
-            File.WriteAllLines(Path.Combine(Resources.ResourcesPath, "out.json"), jsonModels);
+            return jsonModels;
         }
     }
 }

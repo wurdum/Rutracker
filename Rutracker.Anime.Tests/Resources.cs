@@ -9,9 +9,14 @@ namespace Rutracker.Anime.Tests
         public static string AppRoot = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
         public static string ResourcesPath = Path.Combine(AppRoot, "Resources");
         public static string RawTitlesPath = Path.Combine(ResourcesPath, "titles.txt");
+        public static string RawJsonPath = Path.Combine(ResourcesPath, "titles.json");
 
         public static string[] GetRawTitles() {
             return File.ReadAllLines(RawTitlesPath);
+        }
+
+        public static string[] GetRawJson() {
+            return File.ReadAllLines(RawJsonPath);
         }
     }
 }
