@@ -8,7 +8,7 @@ namespace Rutracker.Anime.Parser.Tokenizers
     public class SeriesTokenizer : TokenizerBase
     {
         private static readonly string[] RangeSeparators = new[] {"из", "of"};
-        private static readonly string[] NumbersSeparators = new[] {"-", "+"};
+        private static readonly string[] NumbersSeparators = new[] {"-", "Ц", "+"};
 
         public SeriesTokenizer() {}
 

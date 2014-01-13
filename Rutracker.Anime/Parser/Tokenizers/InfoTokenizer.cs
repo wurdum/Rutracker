@@ -10,7 +10,7 @@
         }
 
         public override object Tokenize(string lexeme) {
-            return lexeme;
+            return RemoveBracketsIfExists(lexeme);
         }
 
         public override void UpdateModel(Models.Anime model, string lexeme) {

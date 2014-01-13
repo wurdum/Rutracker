@@ -17,29 +17,10 @@ namespace Rutracker.Anime.Parser.Tokenizers
         public override object Tokenize(string lexeme) {
             var names = new List<string>();
 
+            lexeme = RemoveTextInBrackets(lexeme);
             var splittedByDash = lexeme
                 .Split(new[] {"/"}, StringSplitOptions.RemoveEmptyEntries)
-                .Select(n => {
-                    var name = n.Trim();
-                    var firstBracketIndex = -1;
-                    var firstBracketIndexes = new[] {name.IndexOf('('), name.IndexOf('[')}
-                        .Where(i => i != -1).ToArray();
-                    if (firstBracketIndexes.Any())
-                        firstBracketIndex = firstBracketIndexes.Min();
-
-                    var lastBracketIndex = new[] {name.LastIndexOf(')'), name.LastIndexOf(']')}.Max();
-
-                    if (firstBracketIndex != -1 && Char.IsWhiteSpace(name[firstBracketIndex - 1]))
-                        firstBracketIndex -= 1;
-
-                    if (firstBracketIndex == -1 && lastBracketIndex == -1)
-                        return name;
-
-                    var nameWithoutBrackets = name.Substring(0, firstBracketIndex) +
-                        name.Substring(lastBracketIndex + 1, name.Length - lastBracketIndex - 1);
-
-                    return nameWithoutBrackets;
-                }).Select(n => n.Trim())
+                .Select(n => n.Trim())
                 .ToArray();
 
             names.AddRange(splittedByDash);
@@ -52,6 +33,25 @@ namespace Rutracker.Anime.Parser.Tokenizers
             names.AddRange(splittedBySemicolon);
             
             return names;
+        }
+
+        private string RemoveTextInBrackets(string str) {
+            int open = -1, close = -1;
+            while (((open = str.IndexOf('(')) != -1 && (close = str.IndexOf(')', open)) != -1) ||
+                   ((open = str.IndexOf('[')) != -1 && (close = str.IndexOf(']', open)) != -1)) {
+
+                if (open == 0) {
+                    str = str.Substring(close + 1);
+                    continue;
+                }
+
+                if (Char.IsWhiteSpace(str[open - 1]))
+                    open -= 1;
+
+                str = str.Substring(0, open) + str.Substring(close + 1, str.Length - close - 1);
+            }
+
+            return str;
         }
 
         public override void UpdateModel(Models.Anime model, string lexeme) {

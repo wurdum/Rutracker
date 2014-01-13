@@ -25,7 +25,7 @@ namespace Rutracker.Anime.Parser.Tokenizers
         Names = 1,
         Traits,
         Series,
-        Tracks,
+        AudioAndSubs,
         AnimeType,
         Info
     }

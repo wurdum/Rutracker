@@ -23,6 +23,10 @@ namespace Rutracker.Anime.Tests.Tokenizers
 
         private static IEnumerable<TestCaseData> MainTestCases {
             get {
+                yield return new TestCaseData("[2012 г., экшн, сёнэн, боевые искусства, комедия, драма, этти, гарем, DVDRip]",
+                    new Traits(2012, new[] { "экшн", "сёнэн", "боевые искусства", "комедия", "драма", "этти", "гарем" }, "DVDRip"));
+                // TODO : fix regex
+                yield return new TestCaseData("[1985 г., приключения, драма, история, сёнэн, DVDRip ]", new Traits(1985, new[] { "приключения", "драма", "история", "сёнэн" }, "DVDRip"));
                 yield return new TestCaseData("[2011 г., Комедия, Повседневность, Школа, BDRip]", new Traits(2011, new[] { "Комедия", "Повседневность", "Школа" }, "BDRip"));
                 yield return new TestCaseData("[2009 г., вампиры, ужасы, триллер, BDRemux]", new Traits(2009, new[] { "вампиры", "ужасы", "триллер" }, "BDRemux"));
                 yield return new TestCaseData("[2009 г., самурайский боевик, BDRip]", new Traits(2009, new[] { "самурайский боевик" }, "BDRip"));
@@ -30,6 +34,7 @@ namespace Rutracker.Anime.Tests.Tokenizers
                 yield return new TestCaseData("[2009 г, комедия, HDTVRip]", new Traits(2009, new[] { "комедия" }, "HDTVRip"));
                 yield return new TestCaseData("[2009, вампиры, ужасы, триллер, BDRemux]", new Traits(2009, new[] { "вампиры", "ужасы", "триллер" }, "BDRemux"));
                 yield return new TestCaseData("[2009 г, комедия]", null).Throws(typeof(TokenizerException));
+                yield return new TestCaseData("(2013)", null).Throws(typeof(TokenizerException));
             }
         }
     }

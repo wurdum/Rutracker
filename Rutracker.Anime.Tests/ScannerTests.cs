@@ -35,7 +35,7 @@ namespace Rutracker.Anime.Tests
                         new Lexeme(TokenType.AnimeType, "[OVA]"),
                         new Lexeme(TokenType.Series, "[6 из 6]"),
                         new Lexeme(TokenType.Info, "[Без хардсаба]"),
-                        new Lexeme(TokenType.Tracks, "[JAP, SUB]"),
+                        new Lexeme(TokenType.AudioAndSubs, "[JAP, SUB]"),
                         new Lexeme(TokenType.Traits, "[2009 г., комедия, романтика, фантастика, этти, BDRip]"),
                         new Lexeme(TokenType.Info, "[1080p]"),
                     });
@@ -48,7 +48,7 @@ namespace Rutracker.Anime.Tests
                         new Lexeme(TokenType.AnimeType, "[TV + Special]"),
                         new Lexeme(TokenType.Series, "[12+6 из 12+6]"),
                         new Lexeme(TokenType.Info, "[без хардсаба]"),
-                        new Lexeme(TokenType.Tracks, "[JAP+SUB]"),
+                        new Lexeme(TokenType.AudioAndSubs, "[JAP+SUB]"),
                         new Lexeme(TokenType.Traits, "[2012 г., боевые искусства, фэнтези, этти, BDRemux]"),
                         new Lexeme(TokenType.Info, "[1080p]"),
                     });
@@ -60,10 +60,10 @@ namespace Rutracker.Anime.Tests
                         new Lexeme(TokenType.AnimeType, "[OVA + Special]"),
                         new Lexeme(TokenType.Info, "[без хардсаба]"),
                         new Lexeme(TokenType.Series, "[5+1 из 7+1]"),
-                        new Lexeme(TokenType.Tracks, "[JAP+SUB]"),
+                        new Lexeme(TokenType.AudioAndSubs, "[JAP+SUB]"),
                         new Lexeme(TokenType.Info, "&"),
                         new Lexeme(TokenType.Series, "[5+0 из 7+1]"),
-                        new Lexeme(TokenType.Tracks, "[RUS(ext)]"),
+                        new Lexeme(TokenType.AudioAndSubs, "[RUS(ext)]"),
                         new Lexeme(TokenType.Traits, "[2012 г., экшн, сёнэн, боевые искусства, комедия, драма, этти, гарем, DVDRip]"),
                     });
                 yield return new TestCaseData(
@@ -74,7 +74,7 @@ namespace Rutracker.Anime.Tests
                         new Lexeme(TokenType.Info, "(Moon-saeng Kim)"),
                         new Lexeme(TokenType.AnimeType, "[Movie]"),
                         new Lexeme(TokenType.Info, "[без хардсаба]"),
-                        new Lexeme(TokenType.Tracks, "[RUS(ext),KOR(int)+SUB]"),
+                        new Lexeme(TokenType.AudioAndSubs, "[RUS(ext),KOR(int)+SUB]"),
                         new Lexeme(TokenType.Traits, "[2003 г., Фантастика, DVDRip]"),
                         new Lexeme(TokenType.Info, "Режиссерская версия / Director's Cut"),
                     });
@@ -87,9 +87,21 @@ namespace Rutracker.Anime.Tests
                         new Lexeme(TokenType.AnimeType, "[OVA]"),
                         new Lexeme(TokenType.Series, "[9 из 9]"),
                         new Lexeme(TokenType.Info, "[без хардсаба]"),
-                        new Lexeme(TokenType.Tracks, "[RUS(int),JAP,ENG+SUB]"),
+                        new Lexeme(TokenType.AudioAndSubs, "[RUS(int),JAP,ENG+SUB]"),
                         new Lexeme(TokenType.Traits, "[2003, киберпанк, фантастика, BDRip]"),
                         new Lexeme(TokenType.Info, "[720p]"),
+                    });
+                yield return new TestCaseData(
+                    "Розен мейден (2013) / Rozen Maiden (2013) [TV] [13 из >13] [Без хардсаба] [JAP, SUB] [2013 г., приключения, HDTVRip] [720p]",
+                    new[] {
+                        new Lexeme(TokenType.Names, "Розен мейден (2013) / Rozen Maiden"),
+                        new Lexeme(TokenType.Info, "(2013)"),
+                        new Lexeme(TokenType.AnimeType, "[TV]"),
+                        new Lexeme(TokenType.Series, "[13 из >13]"),
+                        new Lexeme(TokenType.Info, "[Без хардсаба]"),
+                        new Lexeme(TokenType.AudioAndSubs, "[JAP, SUB]"),
+                        new Lexeme(TokenType.Traits, "[2013 г., приключения, HDTVRip]"),
+                        new Lexeme(TokenType.Info, "[720p]")
                     });
             }
         }

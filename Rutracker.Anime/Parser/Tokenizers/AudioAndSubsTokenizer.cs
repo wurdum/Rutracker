@@ -12,7 +12,7 @@ namespace Rutracker.Anime.Parser.Tokenizers
         public AudioAndSubsTokenizer(string rx) : base(rx) {}
 
         public override TokenType TokenType {
-            get { return TokenType.Tracks; }
+            get { return TokenType.AudioAndSubs; }
         }
 
         public override object Tokenize(string lexeme) {

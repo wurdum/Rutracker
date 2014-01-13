@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Rutracker.Anime.Exceptions;
@@ -36,6 +37,7 @@ namespace Rutracker.Anime.Parser
             var lexemes = new List<Lexeme>(succeded.Length);
             foreach (var g in succeded) {
                 var lexeme = g.Value.Trim();
+                Debug.WriteLine(lexeme);
                 var evaluator = _evaluators.FirstOrDefault(e => e.IsSatisfy(lexeme));
                 if (evaluator == null)
                     throw new ScannerException("No one evaluator succeded on lexeme", lexeme);

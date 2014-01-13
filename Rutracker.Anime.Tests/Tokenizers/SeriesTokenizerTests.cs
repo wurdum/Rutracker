@@ -27,6 +27,7 @@ namespace Rutracker.Anime.Tests.Tokenizers
                 yield return new TestCaseData("[51 из 51]", new Series(51, 51));
                 yield return new TestCaseData("[08 из 24]", new Series(8, 24));
                 yield return new TestCaseData("[01-12 из 12]", new Series(1, 12, 12));
+                yield return new TestCaseData("[1Ц3 из 3]", new Series(1, 3, 3));
                 yield return new TestCaseData("[10-12 из 12]", new Series(10, 12, 12));
                 yield return new TestCaseData("[13+3 из 13+3]", new Series(1, 13, 13));
                 yield return new TestCaseData("[1 из >1]", new Series(1, 1, null));

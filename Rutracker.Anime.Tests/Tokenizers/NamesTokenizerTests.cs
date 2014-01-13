@@ -23,11 +23,15 @@ namespace Rutracker.Anime.Tests.Tokenizers
         private static IEnumerable<TestCaseData> MainTestCases {
             get {
                 yield return new TestCaseData("Ююшики: Няняшики / Yuyushiki: Nyanyashiki", new[] { "Ююшики: Няняшики", "Yuyushiki: Nyanyashiki" });
-                yield return new TestCaseData("Одному лишь Богу ведомый мир (ТВ-3) / Kami nomi zo Shiru Sekai: Megami Hen", new[] { "Одному лишь Богу ведомый мир", "Kami nomi zo Shiru Sekai: Megami Hen" });
+                yield return new TestCaseData("Одному лишь Богу ведомый мир (ТВ-3) / Kami nomi zo Shiru Sekai: Megami Hen", 
+                    new[] { "Одному лишь Богу ведомый мир", "Kami nomi zo Shiru Sekai: Megami Hen" });
                 yield return new TestCaseData("КсамД: Позабывший невзгоды / Xam'd: Lost Memories", new[] { "КсамД: Позабывший невзгоды", "Xam'd: Lost Memories" });
                 yield return new TestCaseData("Кланнад [ТВ-2]. Продолжение истории / Clannad After Story", new[] { "Кланнад. Продолжение истории", "Clannad After Story" });
                 yield return new TestCaseData("Аниматрица / The Animatrix", new[] { "Аниматрица", "The Animatrix" });
                 yield return new TestCaseData("Кэйон! (фильм) / Eiga K-On! / K-ON! Movie", new[] { "Кэйон!", "Eiga K-On!", "K-ON! Movie" });
+                yield return new TestCaseData("Сильнейший в истории ученик Кеничи (Кэнити / Кэнъити) / Shijou Saikyou no Deshi Kenichi",
+                    new[] { "Сильнейший в истории ученик Кеничи", "Shijou Saikyou no Deshi Kenichi" });
+                yield return new TestCaseData("[TV] Кисс Дум / Kiss Dum: Engage Planet", new[] { "Кисс Дум", "Kiss Dum: Engage Planet" });
                 yield return new TestCaseData("Some name (with) 1 / Some name 2", new[] { "Some name 1", "Some name 2" });
             }
         }
