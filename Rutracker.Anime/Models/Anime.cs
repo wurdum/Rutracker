@@ -20,7 +20,7 @@ namespace Rutracker.Anime.Models
         #region equality members
 
         protected bool Equals(Anime other) {
-            return Equals(Names, other.Names) && Video.SequenceEqual(other.Video) && Equals(Traits, other.Traits) && 
+            return Names.SequenceEqual(other.Names) && Video.SequenceEqual(other.Video) && Equals(Traits, other.Traits) && 
                 Types.SequenceEqual(other.Types) && OtherInfo.SequenceEqual(other.OtherInfo);
         }
 

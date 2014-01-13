@@ -1,10 +1,13 @@
 ﻿using System.Configuration;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Rutracker.Anime.Parser.Tokenizers
 {
     public abstract class TokenizerBase
     {
+        private static readonly char[] Brackets = new[] {'[', '(', ']', ')'};
+
         protected TokenizerBase() {
             TokenRx = new Regex(ConfigurationManager.AppSettings[TokenType.ToString()], RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
@@ -24,7 +27,10 @@ namespace Rutracker.Anime.Parser.Tokenizers
         }
 
         protected virtual string RemoveBracketsIfExists(string lexeme) {
-            return lexeme.Trim('[', '(', ']', ')');
+            if (Brackets.Contains(lexeme[0]) && Brackets.Contains(lexeme[lexeme.Length - 1]))
+                return lexeme.Substring(1, lexeme.Length - 2);
+
+            return lexeme;
         }
     }
 }
